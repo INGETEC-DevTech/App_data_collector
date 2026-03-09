@@ -3,7 +3,7 @@ import os
 import json
 
 # --- Paramètres ---
-ASSETS_DIR = "assets"
+ASSETS_DIR = "../assets"
 FILES_TO_PROCESS = {
     "communes.geojson": {
         "output": "communes_simplifie.geojson",
