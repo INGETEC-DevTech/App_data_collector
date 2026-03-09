@@ -22,7 +22,6 @@ data_sources/__pycache__
 # PyInstaller
 build/
 dist/
-*.spec
 
 # Données locales 
 MOBILITE/
