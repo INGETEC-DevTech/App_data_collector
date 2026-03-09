@@ -1,0 +1,32 @@
+# requirements.txt
+
+# Framework de l'interface graphique
+PyQt6
+PyQt6-WebEngine
+
+# Bibliothèques pour la carte interactive
+folium
+
+# Bibliothèques pour les données et requêtes web
+requests
+pandas
+
+# Bibliothèques pour les données géographiques
+geopandas
+shapely
+pyogrio
+geopy
+
+# Excel
+xlsxwriter
+
+
+fsspec
+pyarrow
+pyproj
+
+# INDISPENSABLES POUR L'EXE
+fiona
+rtree
+certifi
+packaging

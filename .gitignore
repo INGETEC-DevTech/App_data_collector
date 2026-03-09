@@ -1,0 +1,34 @@
+# Environnement virtuel
+venv/
+.env
+
+# Données lourdes (INSEE, IGN)
+assets/*.geojson
+data_sources/*.csv
+P:/
+
+# Fichiers de sortie
+exports/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+ENV/
+
+data_sources/__pycache__
+
+# PyInstaller
+build/
+dist/
+*.spec
+
+# Données locales 
+MOBILITE/
+*.gpkg
+*.xlsx
+*.csv
+
+# IDE
+.vscode/

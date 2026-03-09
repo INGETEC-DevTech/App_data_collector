@@ -1,0 +1,114 @@
+/* ==========================================================================
+   PALETTE DE STYLE INGETEC
+   ==========================================================================
+   NOTE: QSS ne supporte pas les variables. Ceci est un pense-bête.
+   
+   --- Couleurs ---
+   Bleu INGETEC : #2089BB
+   Vert INGETEC : #76b62d
+   Gris Foncé   : #6C757D
+   Fond Clair   : #F8F9FA
+   Fond Blanc   : #FFFFFF
+   Texte Normal : #333
+
+   --- Polices ---
+   Titre       : Overpass-ExtraBold
+   Texte Source: Overpass-SemiBold
+   Log         : Overpass-Light
+   Défaut      : Overpass
+   ========================================================================== */
+
+/* Style général appliqué à toute l'application */
+QWidget {
+    font-family: 'Overpass', sans-serif;
+    color: #333;
+    background-color: #F8F9FA;
+}
+
+/* Style des titres de section (ex: "SOURCES DE DONNÉES") */
+QLabel#titleLabel {
+    font-size: 16px; 
+    font-family: 'Overpass-ExtraBold';
+    font-weight: bold; /* Fallback si la police n'est pas trouvée */
+    color: #2089BB;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    text-transform: uppercase;
+}
+
+/* Fond de la fenêtre principale */
+QMainWindow {
+    background-color: #FFFFFF;
+}
+
+/* Conteneur de la liste des sources */
+QListWidget {
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+}
+
+/* Chaque élément dans la liste des sources */
+QListWidget::item {
+    padding: 5px;
+    font-size: 16px;
+    font-family: 'Overpass-Bold';
+}
+
+/* Style par défaut pour TOUS les boutons */
+QPushButton {
+    background-color: #2089BB; /* Bleu INGETEC */
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+/* Style des boutons au survol de la souris */
+QPushButton:hover {
+    background-color: #1A73A3; /* Bleu plus foncé */
+}
+
+/* Style des boutons au moment du clic */
+QPushButton:pressed {
+    background-color: #155A7E; /* Bleu encore plus foncé */
+}
+
+/* Style commun pour les boutons carrés à icône (Dossier et Lancer) */
+QPushButton#iconButton, QPushButton#launchButton {
+    width: 40px;
+    height: 40px;
+    padding: 0px;
+    border-radius: 5px;
+}
+
+/* Style spécifique pour le bouton rond "Config" */
+QPushButton#configButton {
+    background-color: #76B62D; /* Vert INGETEC */
+    width: 32px;
+    height: 32px;
+    border-radius: 5px; /* La moitié de la taille pour un cercle parfait */
+    padding: 0px;
+}
+QPushButton#configButton:hover {
+    background-color: #649D26; /* Vert plus foncé */
+}
+
+/* Fenêtre des logs en bas à gauche */
+QTextEdit {
+    border: 1px solid #CED4DA;
+    border-radius: 5px;
+    background-color: #E9ECEF;
+    color: #495057;
+    font-family: 'Overpass-Light';
+    /*font-weight: 300;  Correspond à "Light" */
+}
+
+/* Texte affichant le chemin du dossier d'export */
+QLabel#exportPathLabel {
+    color: #6C757D; /* Gris */
+    font-style: italic;
+    font-size: 12px;
+}
