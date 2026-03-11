@@ -40,14 +40,54 @@ class BdTopoSource(SourceDeDonneesBase):
         """Cette source est "En Ligne", donc pas de mise à jour de fichier local."""
         return False
 
-    def valider_lien(self):
-        params = {'SERVICE': 'WFS', 'VERSION': self.wfs_version, 'REQUEST': 'GetCapabilities'}
+    def valider_lien(self) -> tuple[bool, str]:
+        """
+        Vérifie que le serveur WFS IGN répond ET que toutes les couches 
+        demandées dans config.py existent bien sur le serveur.
+        """
+        params = {
+            'SERVICE': 'WFS',
+            'VERSION': self.wfs_version,
+            'REQUEST': 'GetCapabilities'
+        }
+        
         try:
-            response = requests.get(self.base_url, params=params, timeout=10) 
+            # 1. On interroge le serveur (timeout de 10s pour ne pas bloquer trop longtemps)
+            response = requests.get(self.base_url, params=params, timeout=10)
             response.raise_for_status()
-            return True, "Service BD TOPO WFS accessible."
+            
+            # 2. On parse le XML de la réponse pour extraire le nom de toutes les couches disponibles
+            root = ET.fromstring(response.content)
+            
+            # Le namespace WFS dépend de la version, on utilise une recherche un peu tolérante
+            namespaces = {'wfs': 'http://www.opengis.net/wfs/2.0'} 
+            
+            couches_disponibles = []
+            # On cherche toutes les balises <FeatureType><Name>
+            for feature in root.findall('.//FeatureType/Name', namespaces) or root.findall('.//{http://www.opengis.net/wfs/2.0}FeatureType/{http://www.opengis.net/wfs/2.0}Name'):
+                couches_disponibles.append(feature.text)
+                
+            # Si le parsing XML échoue à cause des namespaces, on fait une recherche textuelle simple en backup
+            if not couches_disponibles:
+                import re
+                couches_disponibles = re.findall(r'<Name[^>]*>(.*?)</Name>', response.text)
+
+            # 3. On vérifie que nos couches configurées sont bien dans la liste du serveur
+            couches_manquantes = []
+            for nom_couche in self.layers_config.keys():
+                if nom_couche not in couches_disponibles:
+                    couches_manquantes.append(nom_couche)
+                    
+            if couches_manquantes:
+                noms_erreurs = ", ".join(couches_manquantes)
+                return False, f"Le serveur IGN est en ligne, mais les couches suivantes n'existent plus ou ont changé de nom : {noms_erreurs}. Veuillez mettre à jour le fichier config.py."
+                
+            return True, "Serveur IGN en ligne et toutes les couches configurées sont disponibles."
+            
         except requests.exceptions.RequestException as e:
-            return False, f"Erreur d'accès à BD TOPO WFS: {e}"
+            return False, f"Impossible de joindre le serveur WFS IGN. Erreur réseau : {e}"
+        except Exception as e:
+            return False, f"Erreur inattendue lors de la validation IGN : {e}"
 
     def get_parametres_specifiques_ui(self):
         return {

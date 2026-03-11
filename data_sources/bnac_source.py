@@ -18,7 +18,7 @@ class BnacSource(SourceDeDonneesBase):
     @property
     def supports_update(self) -> bool:
         """Le fichier local est statique."""
-        return False
+        return True
 
     def valider_lien(self):
         """Vérifie si le fichier GeoJSON existe sur le disque."""

@@ -23,13 +23,29 @@ def prepare_bpe_local_to_network():
     path_passage = os.path.join(SOURCE_DIR, "BPE24_table_passage.csv")
     path_gammes = os.path.join(SOURCE_DIR, "BPE_gammes_equipements_2024.xlsx")
 
-    # 1. Lectures (toujours depuis le P:, c'est rapide en lecture)
-    print("1/3 Chargement des données sources...")
+    # 1. Lecture avec vérification des schémas (Schema Drift Protection)
+    print("1/3 Lecture et vérification des formats de fichiers...")
+    
+    # Vérification Table de passage
     df_passage = pd.read_csv(path_passage, sep=';', encoding='utf-8')
-    df_gammes = pd.read_excel(path_gammes, sheet_name='Gammes 2024', skiprows=4)
-    cols_bpe = ['NOMRS', 'DEPCOM', 'DOM', 'SDOM', 'TYPEQU', 'SIRET', 'LAMBERT_X', 'LAMBERT_Y', 'DCIRIS', 'EPCI']
-    df_bpe = pd.read_parquet(path_parquet, columns=cols_bpe)
+    cols_passage_attendues = ['TYPEQU', 'Libelle_TYPEQU', 'Libelle_SDOM', 'Libelle_DOM']
+    for col in cols_passage_attendues:
+        if col not in df_passage.columns:
+            raise ValueError(f"ALERTE FORMAT BPE : La colonne '{col}' manque dans la table de passage. L'Insee a dû changer le format !")
 
+    # Vérification Gammes
+    df_gammes = pd.read_excel(path_gammes, sheet_name='Gammes 2024', skiprows=4)
+    cols_gammes_attendues = ['code équipement', 'gamme']
+    for col in cols_gammes_attendues:
+        if col not in df_gammes.columns:
+            raise ValueError(f"ALERTE FORMAT BPE : La colonne '{col}' manque dans le fichier des gammes.")
+
+    # Vérification Parquet principal
+    cols_bpe = ['NOMRS', 'DEPCOM', 'DOM', 'SDOM', 'TYPEQU', 'SIRET', 'LAMBERT_X', 'LAMBERT_Y', 'DCIRIS', 'EPCI']
+    try:
+        df_bpe = pd.read_parquet(path_parquet, columns=cols_bpe)
+    except ValueError as e:
+        raise ValueError(f"ALERTE FORMAT BPE : L'Insee a modifié les colonnes du fichier Parquet principal ! Détail : {e}")
     # 2. Consolidation
     print("2/3 Jointures et géométrisation...")
     df_enriched = df_bpe.merge(df_passage[['TYPEQU', 'Libelle_TYPEQU', 'Libelle_SDOM', 'Libelle_DOM']], on='TYPEQU', how='left')

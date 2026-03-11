@@ -148,6 +148,10 @@ BNAC_SOURCE_CONFIG = {
     "local_file_config": {
         "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base Nationale des Aménagements Cyclables\BNAC_20250401.geojson",
         "native_crs": "EPSG:4326"
+    },
+    "update_recipe": {
+        "type": "simple_copy",
+        "expected_files": ["Fichier GeoJSON BNAC"]
     }
 }
 
@@ -161,9 +165,14 @@ FILOSOFI_SOURCE_CONFIG = {
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "SOCIO-ECO",
     "local_file_config": {
-        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Carroyage INSEE 2019\carreaux_200m_met.gpkg",
+        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg",
         "native_crs": "EPSG:2154",
         "layer_name": "carreaux_200m_met"
+    },
+    "update_recipe": {
+        "type": "preprocessing",
+        "expected_files": ["Archive ZIP Filosofi de l'Insee (.zip)"],
+        "script_to_run": "prepare_filosofi"
     }
 }
 
@@ -213,6 +222,11 @@ BPE_SOURCE_CONFIG = {
     "local_file_config": {
         "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base permanente des équipements (BPE)\BPE24_France_Enrichie.gpkg",
         "native_crs": "EPSG:2154" 
+    },
+    "update_recipe": {
+        "type": "preprocessing",
+        "expected_files": ["Fichier Parquet BPE (.parquet)", "Table de passage (.csv)", "Fichier Gammes (.xlsx)"],
+        "script_to_run": "prepare_bpe_local_to_network"
     }
 }
 
@@ -223,45 +237,15 @@ BPE_SOURCE_CONFIG = {
 # ------------------------------------------------------------------------------
 FLUX_MOBILITE_SOURCE_CONFIG = {
     "default_selected": False,
-    "nom_source_ui": "Flux de Mobilité (INSEE)",
+    "nom_source_ui": "Flux de Mobilité",
     "categorie": "PRATIQUE DE DÉPLACEMENT",
     "export_subdirectory": "MOBILITE",
-    
-    # Configuration des fichiers CSV sources sur le réseau
-    "csv_sources": {
-        "travail": {
-            "label": "Flux Domicile-Travail",
-            # Chemin reconstitué selon vos indications
-            "path": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Domicile Travail\base-flux-mobilite-domicile-lieu-travail-2020.csv",
-            "cols_mapping": {
-                'CODGEO': 'code_origine', 
-                "LIBGEO": "nom_origine",
-                'DCLT': 'code_destination',
-                "L_DCLT": "nom_destination",
-                'NBFLUX_C20_ACTOCC15P': "flux"
-            }
-        },
-        "etudes": {
-            "label": "Flux Domicile-Études",
-            # Chemin reconstitué selon vos indications
-            "path": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Domicile Etude\base-flux-mobilite-domicile-lieu-etude-2020.csv",
-            "cols_mapping": {
-                    "CODGEO": "code_origine",
-                    "LIBGEO": "nom_origine",
-                    "DCETU": "code_destination",
-                    "L_DCETU": "nom_destination",
-                    "NBFLUX_C20_SCOL02P": "flux"
-            }
-        }
+    "fichiers_locaux": {
+        "travail": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.csv",
+        "etude": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.csv"
     },
-    
-    # Paramètres de lecture CSV
-    "csv_params": {
-        "sep": ";",
-        "encoding": "utf-8-sig", # Encodage standard INSEE récent (sinon tenter 'latin-1')
-        "dtype": {'CODGEO': str, 'DCLT': str, 'DCETU': str} # Force la lecture des codes en texte
-    },
-
-    # Nom du fichier de référence des communes dans le dossier 'assets' de l'application
-    "ref_communes_filename": "communes_simplifie.geojson"
+    "update_recipe": {
+        "type": "simple_copy",
+        "expected_files": ["Fichier Domicile-TRAVAIL (Actifs)", "Fichier Domicile-ÉTUDES (Étudiants)"]
+    }
 }

@@ -25,7 +25,8 @@ from data_sources.base_source import SourceDeDonneesBase
 from data_sources.bd_topo_source import BdTopoSource, recuperer_geometrie_precise_ign
 
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
-                        LayerSelectionDialog, GenericOptionsDialog)
+                        LayerSelectionDialog, GenericOptionsDialog,
+                        UpdateCenterDialog)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -54,6 +55,128 @@ class CollectorWorker(QThread):
             import traceback
             error_msg = f"Erreur critique durant la collecte : {e}\n{traceback.format_exc()}"
             self.progress_signal.emit(error_msg); self.finished_signal.emit(False, error_msg)
+
+class SourceValidatorWorker(QThread):
+    # Signaux: nom_source, succes (bool), message
+    validation_result_signal = pyqtSignal(str, bool, str)
+    finished_signal = pyqtSignal()
+
+    def __init__(self, sources):
+        super().__init__()
+        self.sources = sources
+
+    def run(self):
+        for source in self.sources:
+            try:
+                # On appelle la méthode valider_lien de chaque source
+                success, message = source.valider_lien()
+                self.validation_result_signal.emit(source.nom_source, success, message)
+            except Exception as e:
+                self.validation_result_signal.emit(source.nom_source, False, f"Erreur critique lors de la vérification : {e}")
+        self.finished_signal.emit()
+
+class UpdaterWorker(QThread):
+    progress_signal = pyqtSignal(str)
+    finished_signal = pyqtSignal(bool, str)
+
+    def __init__(self, source_nom, recipe, selected_files_paths, destination_path):
+        super().__init__()
+        self.source_nom = source_nom
+        self.recipe = recipe
+        self.selected_files_paths = selected_files_paths
+        self.destination_path = destination_path
+
+    def run(self):
+        import shutil
+        import sys
+        import os
+        
+        try:
+            self.progress_signal.emit(f"Démarrage de la mise à jour pour {self.source_nom}...")
+            recipe_type = self.recipe.get("type")
+            
+            # On récupère le dossier cible (uniquement si c'est un chemin unique, ex: BPE ou Filosofi)
+            if isinstance(self.destination_path, str):
+                target_dir = os.path.dirname(self.destination_path)
+                os.makedirs(target_dir, exist_ok=True)
+
+            if recipe_type == "simple_copy":
+                
+                # --- NOUVEAU : GESTION DES FICHIERS MULTIPLES (Ex: Flux Mobilité) ---
+                if isinstance(self.destination_path, dict):
+                    self.progress_signal.emit("Mise à jour multiple détectée...")
+                    
+                    # On associe chaque fichier sélectionné par l'utilisateur à sa destination
+                    for i, (cle, dest_file) in enumerate(self.destination_path.items()):
+                        src_file = self.selected_files_paths[i]
+                        target_dir = os.path.dirname(dest_file)
+                        os.makedirs(target_dir, exist_ok=True)
+                        
+                        if os.path.abspath(src_file) != os.path.abspath(dest_file):
+                            self.progress_signal.emit(f"Copie de {os.path.basename(src_file)} vers {target_dir}...")
+                            shutil.copy2(src_file, dest_file)
+                        else:
+                            self.progress_signal.emit(f"Le fichier '{os.path.basename(dest_file)}' est déjà à jour.")
+                            
+                    self.finished_signal.emit(True, "Tous les fichiers ont été mis à jour avec succès !")
+
+                # --- ANCIENNE LOGIQUE : UN SEUL FICHIER (Ex: BPE) ---
+                else:
+                    src_file = self.selected_files_paths[0]
+                    target_dir = os.path.dirname(self.destination_path)
+                    os.makedirs(target_dir, exist_ok=True)
+                    
+                    if os.path.abspath(src_file) == os.path.abspath(self.destination_path):
+                        self.progress_signal.emit("Le fichier est déjà au bon endroit sur le réseau. Copie ignorée.")
+                    else:
+                        self.progress_signal.emit(f"Copie du fichier en cours vers {target_dir}...")
+                        shutil.copy2(src_file, self.destination_path)
+                        
+                    self.finished_signal.emit(True, "Fichier validé et mis à jour avec succès sur le réseau.")
+
+            elif recipe_type == "preprocessing":
+                self.progress_signal.emit("Vérification des fichiers bruts...")
+                
+                for src_file in self.selected_files_paths:
+                    dest_file = os.path.join(target_dir, os.path.basename(src_file))
+                    
+                    # --- NOUVEAU : On ne copie que si c'est nécessaire ---
+                    if os.path.abspath(src_file) != os.path.abspath(dest_file):
+                        self.progress_signal.emit(f"Copie de {os.path.basename(src_file)} vers le serveur...")
+                        shutil.copy2(src_file, dest_file)
+                    else:
+                        self.progress_signal.emit(f"'{os.path.basename(src_file)}' est déjà sur le serveur. Copie ignorée.")
+                
+                script_name = self.recipe.get("script_to_run")
+                self.progress_signal.emit("Fichiers prêts. Lancement du prétraitement (~5 à 10 min)...")
+                
+                # Lancement dynamique du bon script
+                if script_name == "prepare_bpe_local_to_network":
+                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
+                    if prep_dir not in sys.path: sys.path.append(prep_dir)
+                    
+                    from preparation_donnees import prepare_bpe, prepare_filosofi
+                    import importlib
+                    importlib.reload(prepare_bpe) # Recharge le script au cas où tu l'as modifié
+                    prepare_bpe.prepare_bpe_local_to_network()
+                
+                elif script_name == "prepare_filosofi":
+                    from preparation_donnees import prepare_filosofi
+                    import importlib
+                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
+                    if prep_dir not in sys.path: sys.path.append(prep_dir)
+                    importlib.reload(prepare_filosofi)
+                    prepare_filosofi.executer_mise_a_jour()
+                
+                self.finished_signal.emit(True, "Prétraitement terminé et base consolidée mise à jour avec succès.")
+            
+            else:
+                self.finished_signal.emit(False, f"Type de recette inconnu : {recipe_type}")
+
+        except PermissionError:
+            self.finished_signal.emit(False, "Un fichier est bloqué. Fermez Excel, QGIS ou tout autre logiciel utilisant ces données, puis réessayez.")
+        except Exception as e:
+            self.finished_signal.emit(False, f"Erreur critique lors de la mise à jour : {e}")      
 
 class MapInteractionHandler(QObject):
     bbox_drawn = pyqtSignal(float, float, float, float)
@@ -116,9 +239,24 @@ class MainWindow(QMainWindow):
         top_layout = QVBoxLayout(top_widget)
         top_layout.setContentsMargins(0, 0, 0, 10)
         
-        sources_title = QLabel("Sources de Données"); sources_title.setObjectName("titleLabel")
+        # --- NOUVEAU : En-tête avec Titre ET Bouton de mise à jour ---
+        header_layout = QHBoxLayout()
+        sources_title = QLabel("Sources de Données")
+        sources_title.setObjectName("titleLabel")
+        
+        self.btn_open_update_center = QPushButton("Mise à jour des données")
+        self.btn_open_update_center.setStyleSheet("""
+            QPushButton { background-color: #3498db; color: white; font-weight: bold; border-radius: 5px; padding: 5px 10px; }
+            QPushButton:hover { background-color: #2980b9; }
+        """)
+        self.btn_open_update_center.clicked.connect(self.ouvrir_centre_mise_a_jour)
+        
+        header_layout.addWidget(sources_title)
+        header_layout.addStretch()
+        header_layout.addWidget(self.btn_open_update_center)
+        top_layout.addLayout(header_layout)
+        
         self.sources_list_widget = QListWidget()
-        top_layout.addWidget(sources_title)
         top_layout.addWidget(self.sources_list_widget, 1)
 
         # Zone Export
@@ -213,6 +351,12 @@ class MainWindow(QMainWindow):
 
         self.search_overlay.btn_group.buttonClicked.connect(self._update_map_on_clip_change)
         self.current_territory_code = None
+
+        # --- LANCEMENT DE LA VÉRIFICATION DES SOURCES EN ARRIÈRE-PLAN ---
+        self.log_message("Vérification de l'état des sources de données en cours...")
+        self.validator_thread = SourceValidatorWorker(self.loaded_data_sources)
+        self.validator_thread.validation_result_signal.connect(self.on_source_validated)
+        self.validator_thread.start()
 
     def _update_map_on_clip_change(self):
         if self.search_overlay.territory_select.currentIndex() <= 0:
@@ -436,10 +580,89 @@ class MainWindow(QMainWindow):
         self.log_text_edit.append(formatted_message)
         self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
 
+    def lancer_mise_a_jour(self, source):
+        """Ouvre l'explorateur pour sélectionner les fichiers et lance la mise à jour."""
+        recipe = source.config.get("update_recipe")
+        if not recipe:
+            self.log_message(f"Aucune recette de mise à jour n'est configurée pour {source.nom_source}.")
+            return
+
+        expected_files = recipe.get("expected_files", [])
+        selected_files = []
+
+        # On demande à l'utilisateur de fournir chaque fichier listé dans la recette
+        for desc in expected_files:
+            filepath, _ = QFileDialog.getOpenFileName(
+                self, f"Mise à jour {source.nom_source} - Sélectionnez : {desc}", "", "Tous les fichiers (*.*)"
+            )
+            if not filepath:
+                self.log_message("Mise à jour annulée par l'utilisateur.")
+                return # Si l'utilisateur clique sur Annuler, on arrête tout
+            selected_files.append(filepath)
+
+        # On regarde s'il y a plusieurs fichiers (fichiers_locaux) ou un seul (local_file_config)
+        if "fichiers_locaux" in source.config:
+            dest_path = source.config["fichiers_locaux"] # C'est un dictionnaire !
+        else:
+            dest_path = source.config.get("local_file_config", {}).get("path", "")
+
+        if not dest_path:
+            self.log_message("Erreur : Impossible de trouver le chemin de destination (P:/) dans config.py.")
+            return
+        
+        # On bloque les boutons pour éviter que l'utilisateur clique partout pendant la mise à jour
+        self.set_buttons_enabled(False)
+
+        # On lance le travail en arrière-plan !
+        self.updater_thread = UpdaterWorker(source.nom_source, recipe, selected_files, dest_path)
+        self.updater_thread.progress_signal.connect(self.log_message)
+        self.updater_thread.finished_signal.connect(self.on_update_finished)
+        self.updater_thread.start()
+
+    def ouvrir_centre_mise_a_jour(self):
+        """Ouvre la fenêtre listant les sources mettables à jour."""
+        # On filtre les sources pour ne garder que celles où supports_update == True
+        updatable_sources = [s for s in self.loaded_data_sources if getattr(s, 'supports_update', False)]
+        
+        # On ouvre la pop-up en lui passant notre fonction lancer_mise_a_jour
+        dialog = UpdateCenterDialog(updatable_sources, self.lancer_mise_a_jour, self)
+        dialog.exec()
+
+    def on_update_finished(self, success, message):
+        """Appelé quand la mise à jour est terminée (ou a planté)."""
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        if success:
+            self.log_text_edit.append(f"<span style='color:#27ae60;'>[{timestamp}] <b>SUCCÈS :</b> {message}</span>")
+        else:
+            self.log_text_edit.append(f"<span style='color:#e74c3c;'>[{timestamp}] <b>ÉCHEC :</b> {message}</span>")
+            self.log_text_edit.append("<span style='color:#e74c3c;'><i>-> Si le format du fichier INSEE a changé, contactez un expert.</i></span>")
+        
+        self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
+        self.set_buttons_enabled(True) # On réactive les boutons
+
+    def on_source_validated(self, nom_source, success, message):
+        """Reçoit le résultat de la vérification et l'affiche dans les logs."""
+        timestamp = datetime.now().strftime("%H:%M:%S")
+        if success:
+            # Optionnel : Tu peux décommenter la ligne ci-dessous si tu veux voir les messages de succès
+            self.log_message(f" {nom_source} : OK")
+            pass
+        else:
+            # En cas d'erreur, on affiche un message bien visible en rouge !
+            alerte_msg = f"<span style='color:#e74c3c;'>[{timestamp}] <b> PROBLÈME SOURCE '{nom_source}' :</b> {message}</span>"
+            self.log_text_edit.append(alerte_msg)
+            self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
+
     def get_perimeter_from_ui(self):
         try:
             is_precise = self.search_overlay.btn_precise.isChecked()
             poly_to_send = getattr(self, 'selected_polygon_geometry', None)
+
+            # On détermine le type de sélection
+            type_selection = "bbox" # On met 'bbox' par défaut pour le dessin manuel
+            if poly_to_send is not None:
+                # S'il y a un polygone, on lit ce qui est écrit dans le menu déroulant ("Commune" ou "EPCI")
+                type_selection = self.search_overlay.type_select.currentText().lower()
 
             # 1. On s'assure que le polygone est en Lambert 93
             if poly_to_send:
@@ -455,14 +678,13 @@ class MainWindow(QMainWindow):
                 val_min_x, val_min_y, val_max_x, val_max_y = new_bounds
             else:
                 # Si pas de polygone (mode rectangle manuel), on prend les champs UI
-                # Attention : s'ils sont en degrés, il faudra les convertir aussi !
                 val_min_x = float(self.min_x_edit.text())
                 val_min_y = float(self.min_y_edit.text())
                 val_max_x = float(self.max_x_edit.text())
                 val_max_y = float(self.max_y_edit.text())
 
             return {
-                "type": "bbox",
+                "type": type_selection,
                 "value": [val_min_x, val_min_y, val_max_x, val_max_y],
                 "crs": "EPSG:2154",
                 "polygon": poly_to_send

@@ -6,14 +6,16 @@
 
 ### Base nationale des aménagements cyclables - BNAC
 - **Lien :** https://www.data.gouv.fr/datasets/amenagements-cyclables-france-metropolitaine
-- **Mise à jour :** pas besoin -> API
+- **Mise à jour :** ?
 
 ### Base Nationale des Lieux de Covoiturage - BNLC (Insee)
 - **Lien :** https://www.data.gouv.fr/datasets/base-nationale-des-lieux-de-covoiturage
-- **Mise à jour :** ?
+- **Mise à jour :** Téléchargement automatique
 
 ### Base permanente des équipements - BPE (Insee)
 - **Lien :** https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537
+- **Enrichissement :** https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537#documentation
+                       https://www.insee.fr/fr/statistiques/8217535?sommaire=8217537
 - **Mise à jour :** ?
 
 ### Cadastre

@@ -4,15 +4,10 @@ import sys, os, datetime, time, requests, geopandas as gpd, pandas as pd, xml.et
 from shapely.ops import transform
 import pyproj
 
-current_dir = os.path.dirname(os.path.abspath(__file__))
-project_root = os.path.abspath(os.path.join(current_dir, '..'))
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-
 from .base_source import SourceDeDonneesBase
 
 try:
-    from enrichment_pm import enrich_parcels_with_pm_data
+    from .enrichment_pm import enrich_parcels_with_pm_data
     ENRICHMENT_PM_AVAILABLE = True
 except ImportError:
     ENRICHMENT_PM_AVAILABLE = False

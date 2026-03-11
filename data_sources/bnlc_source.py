@@ -16,7 +16,7 @@ class BnlcSource(SourceDeDonneesBase):
 
     @property
     def supports_update(self) -> bool:
-        return True
+        return False
 
     def valider_lien(self):
         url = self.config.get("api_config", {}).get("csv_url")

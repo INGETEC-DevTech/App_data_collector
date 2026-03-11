@@ -127,11 +127,14 @@ class SourceListItemWidget(QWidget):
         self.setMinimumHeight(45)
         layout = QHBoxLayout(self)
         layout.setContentsMargins(5, 5, 5, 5)
+        
         self.checkbox = QCheckBox()
         self.checkbox.setChecked(self.source.config.get("default_selected", False))
         layout.addWidget(self.checkbox)
+        
         label = QLabel(self.source.nom_source); label.setWordWrap(True)
         layout.addWidget(label, 1)
+        
         if self.source.get_parametres_specifiques_ui():
             self.config_button = QPushButton()
             self.config_button.setObjectName("configButton")
@@ -141,21 +144,14 @@ class SourceListItemWidget(QWidget):
             layout.addWidget(self.config_button)
 
     def mousePressEvent(self, event):
-        # On vérifie d'abord si le bouton de config existe ET si on est dessus
         if hasattr(self, 'config_button') and self.config_button.underMouse():
             super().mousePressEvent(event)
             return
-
-        # Si on clique sur la checkbox elle-même, on laisse la checkbox gérer
         if self.checkbox.underMouse():
             super().mousePressEvent(event)
             return
-
-        # Pour tout le reste de la ligne (le texte, le fond), on inverse la case
         self.checkbox.setChecked(not self.checkbox.isChecked())
-        # Important : on accepte l'événement pour ne pas qu'il remonte plus loin
         event.accept()
-
 
 class LayerSelectionDialog(QDialog):
     def __init__(self, config_ui: dict, previously_selected: list | None, parent=None):
@@ -251,3 +247,64 @@ class GenericOptionsDialog(QDialog):
         buttons = QDialogButtonBox(QDialogButtonBox.StandardButton.Ok | QDialogButtonBox.StandardButton.Cancel)
         buttons.accepted.connect(self.accept); buttons.rejected.connect(self.reject); layout.addWidget(buttons)
     def get_selection(self): return [{"id": opt_id, "checked": w.isChecked()} for opt_id, w in self.option_widgets.items()]
+
+
+class UpdateCenterDialog(QDialog):
+    """Fenêtre Pop-up listant toutes les sources locales mettables à jour."""
+    def __init__(self, updatable_sources: list, update_callback, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Centre de Mise à Jour des Données")
+        self.setMinimumSize(500, 300)
+        
+        layout = QVBoxLayout(self)
+        
+        title = QLabel("Sources locales disponibles pour une mise à jour :")
+        title.setStyleSheet("font-weight: bold; font-size: 14px; margin-bottom: 10px; color: #2c3e50;")
+        layout.addWidget(title)
+        
+        # Zone de défilement au cas où il y a beaucoup de sources
+        scroll = QScrollArea(self)
+        scroll.setWidgetResizable(True)
+        layout.addWidget(scroll)
+        
+        scroll_content = QWidget()
+        scroll.setWidget(scroll_content)
+        list_layout = QVBoxLayout(scroll_content)
+        
+        if not updatable_sources:
+            list_layout.addWidget(QLabel("<i>Aucune source locale n'est actuellement configurée pour être mise à jour.</i>"))
+        else:
+            for source in updatable_sources:
+                row = QWidget()
+                row_layout = QHBoxLayout(row)
+                row_layout.setContentsMargins(0, 5, 0, 5)
+                
+                lbl = QLabel(f"<b>{source.nom_source}</b>")
+                row_layout.addWidget(lbl, 1)
+                
+                btn = QPushButton("Mettre à jour")
+                btn.setIcon(QIcon(os.path.join(BASE_DIR, 'icons', 'folder.svg')))
+                btn.setStyleSheet("""
+                    QPushButton { background-color: #3498db; color: white; border-radius: 4px; padding: 6px; font-weight: bold;}
+                    QPushButton:hover { background-color: #2980b9; }
+                """)
+                
+                # Quand on clique, ça ferme la pop-up ET ça lance la mécanique dans la fenêtre principale
+                def handle_click(checked=False, s=source):
+                    self.accept() 
+                    update_callback(s)
+                    
+                btn.clicked.connect(handle_click)
+                row_layout.addWidget(btn)
+                
+                list_layout.addWidget(row)
+                
+                # Petite ligne de séparation
+                line = QFrame(); line.setFrameShape(QFrame.Shape.HLine); line.setStyleSheet("color: #ecf0f1;")
+                list_layout.addWidget(line)
+        
+        list_layout.addStretch()
+        
+        close_btn = QPushButton("Fermer")
+        close_btn.clicked.connect(self.reject)
+        layout.addWidget(close_btn)

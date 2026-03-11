@@ -55,11 +55,6 @@ class FilosofiSource(SourceDeDonneesBase):
         if not is_valid:
             log_callback(message)
             return False, message
-            
-        if not self.layer_name:
-            message = "Nom de la couche FilosoFI non configuré."
-            log_callback(message)
-            return False, message
 
         if not perimetre_selection_objet or perimetre_selection_objet.get("type") != "bbox":
             message = "Périmètre de type BBOX requis."
@@ -89,9 +84,19 @@ class FilosofiSource(SourceDeDonneesBase):
             
             bbox_for_readfile = tuple(selection_gdf_native_crs.total_bounds)
             
-            log_callback(f"  Lecture filtrée du GeoPackage : {self.filepath}, couche : {self.layer_name}...")
-            # Utilisation de pyogrio pour la lecture (déjà configuré dans votre fichier)
-            gdf_filtre = gpd.read_file(self.filepath, layer=self.layer_name, bbox=bbox_for_readfile, engine="pyogrio")
+            # Auto-détection du nom de la couche
+            import pyogrio
+            layers = pyogrio.list_layers(self.filepath)
+            if len(layers) == 0:
+                return False, "Le fichier GeoPackage semble vide ou corrompu."
+            
+            actual_layer_name = layers[0][0] # On prend la première couche trouvée
+            
+            log_callback(f"  Lecture filtrée du GeoPackage : {self.filepath}...")
+            log_callback(f"  Couche détectée automatiquement : '{actual_layer_name}'")
+            
+            # Utilisation de pyogrio avec le VRAI nom de la couche
+            gdf_filtre = gpd.read_file(self.filepath, layer=actual_layer_name, bbox=bbox_for_readfile, engine="pyogrio")
             
             # --- BLOC DE DÉCOUPAGE PRÉCIS (CLIPPING) ---
             mask_native = perimetre_selection_objet.get("polygon")

@@ -60,7 +60,7 @@ class BpeSource(SourceDeDonneesBase):
 
     @property
     def supports_update(self) -> bool:
-        return False
+        return True
 
     def valider_lien(self):
         if self.filepath and os.path.exists(self.filepath):
