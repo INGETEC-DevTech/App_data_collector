@@ -94,7 +94,7 @@ class CadastreSource(SourceDeDonneesBase):
             enrichir_pm = False
 
         if not self.typename_parcelles: return False, "TYPENAME des parcelles non configuré."
-        if not (perimetre_selection_objet and perimetre_selection_objet.get("type") == "bbox"): return False, "Périmètre BBOX requis."
+        if not perimetre_selection_objet or "value" not in perimetre_selection_objet: return False, "Périmètre ou coordonnées introuvables."
         
         bbox, crs = perimetre_selection_objet["value"], perimetre_selection_objet["crs"]
         bbox_str = f"{bbox[0]},{bbox[1]},{bbox[2]},{bbox[3]},urn:ogc:def:crs:EPSG::{crs.split(':')[1]}"

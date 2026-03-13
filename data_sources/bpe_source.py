@@ -115,10 +115,11 @@ class BpeSource(SourceDeDonneesBase):
             res = requests.get(url_ign, params=params_ign, timeout=30)
             res.raise_for_status()
             gdf_communes = gpd.GeoDataFrame.from_features(res.json(), crs="EPSG:2154")
-            
+
             polygon_mask = perimetre_selection_objet.get("polygon")
             if polygon_mask is not None:
-                gdf_communes = gdf_communes[gdf_communes.geometry.intersects(polygon_mask)].copy()
+                # On vérifie que le CENTRE de la commune est dans le polygone
+                gdf_communes = gdf_communes[gdf_communes.geometry.centroid.intersects(polygon_mask)].copy()
             
             log(f" > {len(gdf_communes)} communes identifiées dans la zone.")
             if prog: prog(30, 100)
@@ -213,14 +214,14 @@ class BpeSource(SourceDeDonneesBase):
 
             # Export B : Les Polygones des Communes avec leurs scores
             gdf_poles = gdf_communes.merge(df_synthese, on='code_insee', how='left')
-            path_poles = os.path.join(dest_folder, "Cartographie_Poles_Equipements.gpkg")
+            path_poles = os.path.join(dest_folder, "equipements_bpe.gpkg")
             gdf_poles.to_file(path_poles, driver="GPKG", layer="Cartographie_Poles_Equipements")
             
             # Ajout du style QML dynamique pour les polygones
             generer_qml_poles(path_poles.replace(".gpkg", ".qml"))
 
             # Export C : Le Rapport Excel
-            excel_path = os.path.join(dest_folder, "Analyse_Poles_Equipements.xlsx")
+            excel_path = os.path.join(dest_folder, "equipements_bpe.xlsx")
             with pd.ExcelWriter(excel_path, engine='xlsxwriter') as writer:
                 df_synthese.to_excel(writer, sheet_name="Classification BPE", index=False)
                 worksheet = writer.sheets["Classification BPE"]

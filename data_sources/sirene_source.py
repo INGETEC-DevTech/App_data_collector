@@ -93,8 +93,8 @@ class SireneSource(SourceDeDonneesBase):
         except OSError as e:
             return False, f"Erreur lors de la création du dossier {destination_folder}: {e}"
 
-        if not (perimetre_selection_objet and perimetre_selection_objet.get("type") == "bbox"):
-            return False, "Périmètre BBOX requis."
+        if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
+            return False, "Périmètre ou coordonnées introuvables."
         
         min_x, min_y, max_x, max_y = perimetre_selection_objet["value"]
         query = f"coordonneeLambertAbscisseEtablissement:[{min_x} TO {max_x}] AND coordonneeLambertOrdonneeEtablissement:[{min_y} TO {max_y}]"

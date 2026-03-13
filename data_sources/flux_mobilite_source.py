@@ -42,8 +42,8 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             "type": "checkbox_options",
             "title": "Choix des flux à exporter",
             "options": [
-                {"id": "travail", "label": "Flux Domicile-Travail (Actifs)", "default_checked": True},
-                {"id": "etude", "label": "Flux Domicile-Études (Étudiants)", "default_checked": True}
+                {"id": "travail", "label": "Domicile-Travail", "default_checked": True},
+                {"id": "etude", "label": "Domicile-Études", "default_checked": True}
             ]
         }
 
@@ -240,7 +240,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             # Exports
             dest_folder = os.path.join(dossier_export_local, self.config.get("export_subdirectory", "FLUX_MOBILITE"))
             os.makedirs(dest_folder, exist_ok=True)
-            base_name = f"Analyse_Flux_{mode.capitalize()}"
+            base_name = "flux_dom-travail" if mode == "travail" else "flux_dom-etudes"
             
             with pd.ExcelWriter(os.path.join(dest_folder, f"{base_name}.xlsx"), engine='xlsxwriter') as writer:
                 for sheet_name, df in dict_excel.items():

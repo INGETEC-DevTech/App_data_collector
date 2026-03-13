@@ -55,9 +55,10 @@ class FilosofiSource(SourceDeDonneesBase):
         if not is_valid:
             log_callback(message)
             return False, message
-
-        if not perimetre_selection_objet or perimetre_selection_objet.get("type") != "bbox":
-            message = "Périmètre de type BBOX requis."
+        
+        # On vérifie juste qu'on a bien reçu un périmètre et ses coordonnées (value)
+        if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
+            message = "Périmètre ou coordonnées introuvables."
             log_callback(message)
             return False, message
 

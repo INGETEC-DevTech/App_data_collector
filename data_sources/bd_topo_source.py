@@ -140,8 +140,8 @@ class BdTopoSource(SourceDeDonneesBase):
         if not selected_typenames:
             return False, "Aucune couche BD TOPO sélectionnée."
         
-        if not perimetre_selection_objet or perimetre_selection_objet.get("type") != "bbox":
-            return False, "Format BBOX invalide."
+        if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
+            return False, "Format invalide ou coordonnées introuvables."
             
         bbox_value = perimetre_selection_objet["value"]
         bbox_crs = perimetre_selection_objet["crs"]

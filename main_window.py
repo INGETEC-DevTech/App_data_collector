@@ -4,15 +4,16 @@ from shapely.geometry import shape, box
 import tempfile
 from PyQt6.QtWidgets import (QMainWindow, QPushButton, QVBoxLayout, QHBoxLayout, QWidget,
                              QTextEdit, QListWidget, QListWidgetItem,
-                             QLabel, QFileDialog, QLineEdit,
+                             QLabel, QFileDialog, QLineEdit, 
                              QProgressBar, QCompleter, QSplitter)
-from PyQt6.QtCore import QThread, pyqtSignal, Qt, QUrl, QObject, pyqtSlot
+from PyQt6.QtCore import QThread, pyqtSignal, Qt, QUrl, QObject, pyqtSlot, QStringListModel
 from PyQt6.QtGui import QIcon, QFontMetrics
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from PyQt6.QtWebEngineCore import QWebEngineSettings
 from PyQt6.QtWebChannel import QWebChannel
 from datetime import datetime
 from shapely import geometry
+import unicodedata
 
 try:
     import folium
@@ -189,6 +190,48 @@ class MapInteractionHandler(QObject):
             self.bbox_drawn.emit(min(lngs), min(lats), max(lngs), max(lats))
         except Exception as e: self.logger(f"Erreur traitement BBOX: {e}")
 
+# Pour la barre de recherche améliorée
+def nettoyer_texte(texte):
+    """Enlève les accents, les ligatures (œ, æ) et remplace tirets/apostrophes par des espaces."""
+    if not texte: return ""
+    texte = str(texte).lower()
+    
+    # Gestion des lettres spéciales
+    texte = texte.replace('œ', 'oe').replace('æ', 'ae').replace('ç', 'c')
+    
+    # On transforme les tirets et apostrophes en espaces ---
+    #texte = texte.replace('-', ' ').replace("'", ' ')
+    texte = texte.replace('-', '').replace("'", '').replace(' ', '')
+    
+    # Suppression des accents
+    texte = "".join(c for c in unicodedata.normalize('NFD', texte) if unicodedata.category(c) != 'Mn')
+    
+    # On supprime les espaces en double au cas où, pour avoir un texte bien propre
+    return " ".join(texte.split())
+
+class CompleterIntelligent(QCompleter):
+    def __init__(self, items, parent=None):
+        super().__init__(items, parent)
+        # On pré-calcule les noms "propres" UNE SEULE FOIS pour éviter de faire 
+        # ramer l'application à chaque lettre tapée (très important pour 35000 communes)
+        self.items_originaux = items
+        self.items_nettoyes = [nettoyer_texte(item) for item in items]
+        
+    def splitPath(self, path):
+        """Cette fonction est appelée à chaque lettre tapée par l'utilisateur."""
+        texte_recherche = nettoyer_texte(path)
+        
+        # On compare le texte recherché avec notre liste pré-calculée
+        resultats = [
+            self.items_originaux[i] 
+            for i, texte_propre in enumerate(self.items_nettoyes) 
+            if texte_recherche in texte_propre
+        ]
+        
+        # On injecte les bons résultats et on force l'affichage
+        self.setModel(QStringListModel(resultats))
+        return [""]
+    
 class MainWindow(QMainWindow):
     def __init__(self, loaded_data_sources: list[SourceDeDonneesBase], default_export_path: str | None = None):
         super().__init__()
@@ -239,10 +282,25 @@ class MainWindow(QMainWindow):
         top_layout = QVBoxLayout(top_widget)
         top_layout.setContentsMargins(0, 0, 0, 10)
         
-        # --- NOUVEAU : En-tête avec Titre ET Bouton de mise à jour ---
+        # --- NOUVEAU : En-tête avec Titre, Mini-boutons ET Bouton de mise à jour ---
         header_layout = QHBoxLayout()
         sources_title = QLabel("Sources de Données")
         sources_title.setObjectName("titleLabel")
+        
+        # Création des mini-boutons
+        self.btn_select_all = QPushButton("Tout cocher")
+        self.btn_deselect_all = QPushButton("Tout décocher")
+        
+        # Style minimaliste (texte cliquable discret)
+        mini_btn_style = """
+            QPushButton { background-color: transparent; color: #7f8c8d; text-decoration: underline; border: none; font-size: 11px; padding: 2px 5px; }
+            QPushButton:hover { color: #2c3e50; font-weight: bold; }
+        """
+        self.btn_select_all.setStyleSheet(mini_btn_style)
+        self.btn_deselect_all.setStyleSheet(mini_btn_style)
+        
+        self.btn_select_all.clicked.connect(self.tout_cocher)
+        self.btn_deselect_all.clicked.connect(self.tout_decocher)
         
         self.btn_open_update_center = QPushButton("Mise à jour des données")
         self.btn_open_update_center.setStyleSheet("""
@@ -251,10 +309,15 @@ class MainWindow(QMainWindow):
         """)
         self.btn_open_update_center.clicked.connect(self.ouvrir_centre_mise_a_jour)
         
+        # Ajout dans l'en-tête
         header_layout.addWidget(sources_title)
+        header_layout.addWidget(self.btn_select_all)
+        header_layout.addWidget(QLabel("<span style='color:#bdc3c7;'>|</span>")) # Petit séparateur
+        header_layout.addWidget(self.btn_deselect_all)
         header_layout.addStretch()
         header_layout.addWidget(self.btn_open_update_center)
         top_layout.addLayout(header_layout)
+
         
         self.sources_list_widget = QListWidget()
         top_layout.addWidget(self.sources_list_widget, 1)
@@ -357,6 +420,7 @@ class MainWindow(QMainWindow):
         self.validator_thread = SourceValidatorWorker(self.loaded_data_sources)
         self.validator_thread.validation_result_signal.connect(self.on_source_validated)
         self.validator_thread.start()
+        self.tout_decocher()
 
     def _update_map_on_clip_change(self):
         if self.search_overlay.territory_select.currentIndex() <= 0:
@@ -443,6 +507,9 @@ class MainWindow(QMainWindow):
             self.sources_list_widget.setItemWidget(item_titre, label_titre)
 
             # B. --- AJOUT DES SOURCES EN DESSOUS DU TITRE ---
+            # On trie les sources selon le numéro défini dans config.py
+            sources_de_cette_categorie.sort(key=lambda s: s.config.get("ordre", 99))
+            
             for source in sources_de_cette_categorie:
                 item_source = QListWidgetItem()
                 
@@ -452,6 +519,22 @@ class MainWindow(QMainWindow):
                 self.sources_list_widget.addItem(item_source)
                 item_source.setSizeHint(widget_source.sizeHint())
                 self.sources_list_widget.setItemWidget(item_source, widget_source)
+
+    def tout_cocher(self):
+        self._modifier_etat_toutes_sources(True)
+
+    def tout_decocher(self):
+        self._modifier_etat_toutes_sources(False)
+
+    def _modifier_etat_toutes_sources(self, etat: bool):
+        """Parcourt la liste et coche/décoche uniquement les widgets qui ont une case à cocher."""
+        for i in range(self.sources_list_widget.count()):
+            item = self.sources_list_widget.item(i)
+            widget = self.sources_list_widget.itemWidget(item)
+            
+            # On vérifie que c'est bien une source (et pas un titre de catégorie comme "PRATIQUE DE DÉPLACEMENT")
+            if widget and hasattr(widget, 'checkbox'):
+                widget.checkbox.setChecked(etat)
 
     def open_source_configuration(self, source: SourceDeDonneesBase):
         if not source or not (params_ui := source.get_parametres_specifiques_ui()): return
@@ -745,13 +828,12 @@ class MainWindow(QMainWindow):
             p = feature['properties']
             n = p.get('libgeo') or p.get('nom') or p.get('nom_com') or p.get('lib_epci')
             if n: noms.append(n)
-        
+
         noms_uniques = sorted(list(set(noms)))
         combo.addItems(noms_uniques)
         
-        completer = QCompleter(noms_uniques)
-        completer.setCaseSensitivity(Qt.CaseSensitivity.CaseInsensitive)
-        completer.setFilterMode(Qt.MatchFlag.MatchContains)
+        # --- NOUVEAU COMPLETER SANS ACCENT ---
+        completer = CompleterIntelligent(noms_uniques, combo)
         combo.setCompleter(completer)
 
     def _on_territory_selected(self, index):

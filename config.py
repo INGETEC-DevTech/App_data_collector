@@ -11,7 +11,8 @@
 # Fichier: bd_topo_source.py -> Classe: BdTopoSource
 # ------------------------------------------------------------------------------
 BD_TOPO_SOURCE_CONFIG = {
-    "default_selected": True,
+    "ordre": 1,
+    "default_selected": False,
     "nom_source_ui": "BD TOPO (IGN)",
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "BDTOPO",
@@ -105,7 +106,8 @@ BD_TOPO_SOURCE_CONFIG = {
 # Fichier: cadastre_source.py -> Classe: CadastreSource
 # ------------------------------------------------------------------------------
 CADASTRE_SOURCE_CONFIG = {
-    "default_selected": True,
+    "ordre": 2,
+    "default_selected": False,
     "nom_source_ui": "Cadastre (IGN)",
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "FONCIER",
@@ -142,6 +144,7 @@ CADASTRE_SOURCE_CONFIG = {
 # ------------------------------------------------------------------------------
 
 BNAC_SOURCE_CONFIG = {
+    "ordre": 1,
     "nom_source_ui": "Aménagements cyclables (BNAC - data.gouv.fr)",
     "categorie": "OFFRE DE TRANSPORT",
     "export_subdirectory": "VELO",
@@ -160,7 +163,8 @@ BNAC_SOURCE_CONFIG = {
 # Fichier: filosofi_source.py -> Classe: FilosofiSource
 # ------------------------------------------------------------------------------
 FILOSOFI_SOURCE_CONFIG = {
-    "default_selected": True,
+    "ordre": 3,
+    "default_selected": False,
     "nom_source_ui": "Données socio-économiques carroyées (FiLoSoFi - INSEE)",
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "SOCIO-ECO",
@@ -181,6 +185,7 @@ FILOSOFI_SOURCE_CONFIG = {
 # Fichier: sirene_source.py -> Classe: SireneSource
 # ------------------------------------------------------------------------------
 SIRENE_SOURCE_CONFIG = {
+    "ordre": 4,
     "default_selected": False,
     "nom_source_ui": "Entreprises (SIRENE - INSEE)",
     "categorie": "DESCRIPTION DU TERRITOIRE",
@@ -199,10 +204,11 @@ SIRENE_SOURCE_CONFIG = {
 # ------------------------------------------------------------------------------
 
 BNLC_SOURCE_CONFIG = {
+    "ordre": 2,
     "default_selected": False,
     "nom_source_ui": "Lieux de covoiturage (BNLC - data.gouv.fr)",
     "categorie": "OFFRE DE TRANSPORT",
-    "export_subdirectory": "COVOITURAGE",
+    "export_subdirectory": "VL-PL",
     "api_config": {
         # URL directe extraite de votre fichier JSON
         "csv_url": "https://transport.data.gouv.fr/resources/81372/download",
@@ -215,6 +221,7 @@ BNLC_SOURCE_CONFIG = {
 # Fichier: bpe_source.py -> Classe: BpeSource
 # ------------------------------------------------------------------------------
 BPE_SOURCE_CONFIG = {
+    "ordre": 5,
     "default_selected": False,
     "nom_source_ui": "Equipements (BPE - INSEE)",
     "categorie": "DESCRIPTION DU TERRITOIRE",
@@ -236,10 +243,11 @@ BPE_SOURCE_CONFIG = {
 # Fichier: flux_mobilite_source.py -> Classe: FluxMobiliteSource
 # ------------------------------------------------------------------------------
 FLUX_MOBILITE_SOURCE_CONFIG = {
+    "ordre": 2,
     "default_selected": False,
-    "nom_source_ui": "Flux de Mobilité",
+    "nom_source_ui": "Flux de Mobilité (INSEE)",
     "categorie": "PRATIQUE DE DÉPLACEMENT",
-    "export_subdirectory": "MOBILITE",
+    "export_subdirectory": "COMPTAGES-FLUX",
     "fichiers_locaux": {
         "travail": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.csv",
         "etude": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.csv"
