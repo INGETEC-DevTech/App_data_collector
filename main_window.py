@@ -1,237 +1,28 @@
 import os
 import json
-from shapely.geometry import shape, box
-import tempfile
+from shapely.geometry import shape
 from PyQt6.QtWidgets import (QMainWindow, QPushButton, QVBoxLayout, QHBoxLayout, QWidget,
                              QTextEdit, QListWidget, QListWidgetItem,
                              QLabel, QFileDialog, QLineEdit, 
-                             QProgressBar, QCompleter, QSplitter)
-from PyQt6.QtCore import QThread, pyqtSignal, Qt, QUrl, QObject, pyqtSlot, QStringListModel
+                             QProgressBar, QSplitter)
+from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QFontMetrics
 from PyQt6.QtWebEngineWidgets import QWebEngineView
-from PyQt6.QtWebEngineCore import QWebEngineSettings
-from PyQt6.QtWebChannel import QWebChannel
 from datetime import datetime
 from shapely import geometry
-import unicodedata
-
-try:
-    import folium
-    from folium import plugins
-    FOLIUM_AVAILABLE = True
-except ImportError:
-    FOLIUM_AVAILABLE = False
+from map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
-from data_sources.bd_topo_source import BdTopoSource, recuperer_geometrie_precise_ign
+from data_sources.bd_topo_source import recuperer_geometrie_precise_ign
+from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker
+from utils import CompleterIntelligent
 
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
                         UpdateCenterDialog)
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
 
-class CollectorWorker(QThread):
-    progress_signal = pyqtSignal(str)
-    step_progress_signal = pyqtSignal(int, int) # (valeur_actuelle, valeur_totale)
-    finished_signal = pyqtSignal(bool, str)
-
-    def __init__(self, parent, data_source_instance, export_dir, bbox_obj, options_obj):
-        super().__init__(parent)
-        self.data_source = data_source_instance
-        self.export_dir = export_dir
-        self.bbox_obj = bbox_obj
-        self.options_obj = options_obj
-
-    def run(self):
-        try:
-            self.progress_signal.emit(f"Lancement de la collecte pour {self.data_source.nom_source}...")
-            collect_options_with_log = self.options_obj.copy() if self.options_obj is not None else {}
-            collect_options_with_log["log_callback"] = self.progress_signal.emit
-            collect_options_with_log["progress_callback"] = self.step_progress_signal.emit
-            succes, message_global = self.data_source.collecter_donnees(
-                self.export_dir, self.bbox_obj, collect_options_with_log)
-            self.finished_signal.emit(succes, message_global)
-        except Exception as e:
-            import traceback
-            error_msg = f"Erreur critique durant la collecte : {e}\n{traceback.format_exc()}"
-            self.progress_signal.emit(error_msg); self.finished_signal.emit(False, error_msg)
-
-class SourceValidatorWorker(QThread):
-    # Signaux: nom_source, succes (bool), message
-    validation_result_signal = pyqtSignal(str, bool, str)
-    finished_signal = pyqtSignal()
-
-    def __init__(self, sources):
-        super().__init__()
-        self.sources = sources
-
-    def run(self):
-        for source in self.sources:
-            try:
-                # On appelle la méthode valider_lien de chaque source
-                success, message = source.valider_lien()
-                self.validation_result_signal.emit(source.nom_source, success, message)
-            except Exception as e:
-                self.validation_result_signal.emit(source.nom_source, False, f"Erreur critique lors de la vérification : {e}")
-        self.finished_signal.emit()
-
-class UpdaterWorker(QThread):
-    progress_signal = pyqtSignal(str)
-    finished_signal = pyqtSignal(bool, str)
-
-    def __init__(self, source_nom, recipe, selected_files_paths, destination_path):
-        super().__init__()
-        self.source_nom = source_nom
-        self.recipe = recipe
-        self.selected_files_paths = selected_files_paths
-        self.destination_path = destination_path
-
-    def run(self):
-        import shutil
-        import sys
-        import os
-        
-        try:
-            self.progress_signal.emit(f"Démarrage de la mise à jour pour {self.source_nom}...")
-            recipe_type = self.recipe.get("type")
-            
-            # On récupère le dossier cible (uniquement si c'est un chemin unique, ex: BPE ou Filosofi)
-            if isinstance(self.destination_path, str):
-                target_dir = os.path.dirname(self.destination_path)
-                os.makedirs(target_dir, exist_ok=True)
-
-            if recipe_type == "simple_copy":
-                
-                # --- NOUVEAU : GESTION DES FICHIERS MULTIPLES (Ex: Flux Mobilité) ---
-                if isinstance(self.destination_path, dict):
-                    self.progress_signal.emit("Mise à jour multiple détectée...")
-                    
-                    # On associe chaque fichier sélectionné par l'utilisateur à sa destination
-                    for i, (cle, dest_file) in enumerate(self.destination_path.items()):
-                        src_file = self.selected_files_paths[i]
-                        target_dir = os.path.dirname(dest_file)
-                        os.makedirs(target_dir, exist_ok=True)
-                        
-                        if os.path.abspath(src_file) != os.path.abspath(dest_file):
-                            self.progress_signal.emit(f"Copie de {os.path.basename(src_file)} vers {target_dir}...")
-                            shutil.copy2(src_file, dest_file)
-                        else:
-                            self.progress_signal.emit(f"Le fichier '{os.path.basename(dest_file)}' est déjà à jour.")
-                            
-                    self.finished_signal.emit(True, "Tous les fichiers ont été mis à jour avec succès !")
-
-                # --- ANCIENNE LOGIQUE : UN SEUL FICHIER (Ex: BPE) ---
-                else:
-                    src_file = self.selected_files_paths[0]
-                    target_dir = os.path.dirname(self.destination_path)
-                    os.makedirs(target_dir, exist_ok=True)
-                    
-                    if os.path.abspath(src_file) == os.path.abspath(self.destination_path):
-                        self.progress_signal.emit("Le fichier est déjà au bon endroit sur le réseau. Copie ignorée.")
-                    else:
-                        self.progress_signal.emit(f"Copie du fichier en cours vers {target_dir}...")
-                        shutil.copy2(src_file, self.destination_path)
-                        
-                    self.finished_signal.emit(True, "Fichier validé et mis à jour avec succès sur le réseau.")
-
-            elif recipe_type == "preprocessing":
-                self.progress_signal.emit("Vérification des fichiers bruts...")
-                
-                for src_file in self.selected_files_paths:
-                    dest_file = os.path.join(target_dir, os.path.basename(src_file))
-                    
-                    # --- NOUVEAU : On ne copie que si c'est nécessaire ---
-                    if os.path.abspath(src_file) != os.path.abspath(dest_file):
-                        self.progress_signal.emit(f"Copie de {os.path.basename(src_file)} vers le serveur...")
-                        shutil.copy2(src_file, dest_file)
-                    else:
-                        self.progress_signal.emit(f"'{os.path.basename(src_file)}' est déjà sur le serveur. Copie ignorée.")
-                
-                script_name = self.recipe.get("script_to_run")
-                self.progress_signal.emit("Fichiers prêts. Lancement du prétraitement (~5 à 10 min)...")
-                
-                # Lancement dynamique du bon script
-                if script_name == "prepare_bpe_local_to_network":
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
-                    
-                    from preparation_donnees import prepare_bpe, prepare_filosofi
-                    import importlib
-                    importlib.reload(prepare_bpe) # Recharge le script au cas où tu l'as modifié
-                    prepare_bpe.prepare_bpe_local_to_network()
-                
-                elif script_name == "prepare_filosofi":
-                    from preparation_donnees import prepare_filosofi
-                    import importlib
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
-                    importlib.reload(prepare_filosofi)
-                    prepare_filosofi.executer_mise_a_jour()
-                
-                self.finished_signal.emit(True, "Prétraitement terminé et base consolidée mise à jour avec succès.")
-            
-            else:
-                self.finished_signal.emit(False, f"Type de recette inconnu : {recipe_type}")
-
-        except PermissionError:
-            self.finished_signal.emit(False, "Un fichier est bloqué. Fermez Excel, QGIS ou tout autre logiciel utilisant ces données, puis réessayez.")
-        except Exception as e:
-            self.finished_signal.emit(False, f"Erreur critique lors de la mise à jour : {e}")      
-
-class MapInteractionHandler(QObject):
-    bbox_drawn = pyqtSignal(float, float, float, float)
-    def __init__(self, logger_func=print, parent=None): super().__init__(parent); self.logger = logger_func
-    @pyqtSlot(str)
-    def receive_bbox(self, bbox_json_str):
-        try:
-            coords = json.loads(bbox_json_str)['geometry']['coordinates'][0]
-            lngs, lats = [p[0] for p in coords], [p[1] for p in coords]
-            self.bbox_drawn.emit(min(lngs), min(lats), max(lngs), max(lats))
-        except Exception as e: self.logger(f"Erreur traitement BBOX: {e}")
-
-# Pour la barre de recherche améliorée
-def nettoyer_texte(texte):
-    """Enlève les accents, les ligatures (œ, æ) et remplace tirets/apostrophes par des espaces."""
-    if not texte: return ""
-    texte = str(texte).lower()
-    
-    # Gestion des lettres spéciales
-    texte = texte.replace('œ', 'oe').replace('æ', 'ae').replace('ç', 'c')
-    
-    # On transforme les tirets et apostrophes en espaces ---
-    #texte = texte.replace('-', ' ').replace("'", ' ')
-    texte = texte.replace('-', '').replace("'", '').replace(' ', '')
-    
-    # Suppression des accents
-    texte = "".join(c for c in unicodedata.normalize('NFD', texte) if unicodedata.category(c) != 'Mn')
-    
-    # On supprime les espaces en double au cas où, pour avoir un texte bien propre
-    return " ".join(texte.split())
-
-class CompleterIntelligent(QCompleter):
-    def __init__(self, items, parent=None):
-        super().__init__(items, parent)
-        # On pré-calcule les noms "propres" UNE SEULE FOIS pour éviter de faire 
-        # ramer l'application à chaque lettre tapée (très important pour 35000 communes)
-        self.items_originaux = items
-        self.items_nettoyes = [nettoyer_texte(item) for item in items]
-        
-    def splitPath(self, path):
-        """Cette fonction est appelée à chaque lettre tapée par l'utilisateur."""
-        texte_recherche = nettoyer_texte(path)
-        
-        # On compare le texte recherché avec notre liste pré-calculée
-        resultats = [
-            self.items_originaux[i] 
-            for i, texte_propre in enumerate(self.items_nettoyes) 
-            if texte_recherche in texte_propre
-        ]
-        
-        # On injecte les bons résultats et on force l'affichage
-        self.setModel(QStringListModel(resultats))
-        return [""]
-    
 class MainWindow(QMainWindow):
     def __init__(self, loaded_data_sources: list[SourceDeDonneesBase], default_export_path: str | None = None):
         super().__init__()
@@ -334,12 +125,33 @@ class MainWindow(QMainWindow):
         self.export_dir_label = QLabel(f"<i>{self.export_directory or 'Aucun dossier sélectionné'}</i>")
         top_layout.addWidget(self.export_dir_label)
 
+        # =====================================================================
+        # ZONE DES BOUTONS D'ACTION
+        # =====================================================================
+        action_buttons_layout = QHBoxLayout() # Crée une ligne horizontale
+
+        # 1. Le bouton Lancer
         self.collect_button = QPushButton(" LANCER LA COLLECTE")
         self.collect_button.setObjectName("launchButton")
         self.collect_button.setIcon(QIcon(os.path.join(BASE_DIR, 'icons', 'play.svg')))
         self.collect_button.clicked.connect(self.lancer_collecte_multiple)
-        top_layout.addWidget(self.collect_button)
+        action_buttons_layout.addWidget(self.collect_button) # On l'ajoute à la ligne
         
+        # 2. Le bouton Annuler
+        self.cancel_button = QPushButton(" ANNULER")
+        self.cancel_button.setEnabled(False) # Grisé par défaut
+        self.cancel_button.setStyleSheet("""
+            QPushButton { background-color: #e74c3c; color: white; font-weight: bold; border-radius: 4px; padding: 6px;}
+            QPushButton:hover { background-color: #c0392b; }
+            QPushButton:disabled { background-color: #bdc3c7; color: #ecf0f1; }
+        """)
+        self.cancel_button.clicked.connect(self.annuler_collecte)
+        action_buttons_layout.addWidget(self.cancel_button) # On l'ajoute à la ligne à côté du premier
+        
+        # 3. On ajoute la ligne complète au panneau principal
+        top_layout.addLayout(action_buttons_layout)
+        # =====================================================================
+
         self.progress_bar = QProgressBar()
         self.progress_bar.setVisible(False)
         top_layout.addWidget(self.progress_bar)
@@ -373,6 +185,17 @@ class MainWindow(QMainWindow):
             self.map_view = QWebEngineView()
             self.map_container_layout.addWidget(self.map_view)
             
+            # On initialise le manager
+            self.map_manager = MapManager(self.map_view, self.log_message)
+            self.map_manager.setup_map(BASE_DIR)
+
+            # On connecte le signal de dessin de BBOX à ta méthode locale existante
+            self.map_manager.handler.bbox_drawn.connect(self.on_bbox_drawn_on_map)
+            
+            # On charge la logique JS quand la page est prête
+            js_path = os.path.join(BASE_DIR, 'assets', 'map_logic.js')
+            self.map_view.loadFinished.connect(lambda: self.map_manager.load_js_logic(js_path))
+            
             # Installation de l'Overlay
             self.search_overlay = OverlaySearchWidget(self.map_container)
             self.search_overlay.raise_() # S'assure qu'il est au-dessus de la carte
@@ -385,8 +208,6 @@ class MainWindow(QMainWindow):
             self.search_overlay.territory_select.lineEdit().returnPressed.connect(
                 lambda: self._on_territory_selected(self.search_overlay.territory_select.currentIndex())
             )
-
-            self.setup_map()
         else:
             self.map_container_layout.addWidget(QLabel("Folium non disponible."))
 
@@ -422,6 +243,28 @@ class MainWindow(QMainWindow):
         self.validator_thread.start()
         self.tout_decocher()
 
+    def annuler_collecte(self):
+        """Déclenchée quand l'utilisateur clique sur le bouton Annuler."""
+        # 1. On vide la liste d'attente (pour ne pas lancer les sources suivantes)
+        if hasattr(self, 'collection_queue'):
+            self.collection_queue.clear()
+
+        # 2. On TUE le processus en cours instantanément
+        if hasattr(self, 'collector_thread') and self.collector_thread and self.collector_thread.isRunning():
+            self.log_message("ARRÊT IMMÉDIAT EN COURS...")
+            
+            # La méthode forte : coupe l'alimentation du thread
+            self.collector_thread.terminate()
+            self.collector_thread.wait() # On attend un quart de seconde pour être sûr qu'il est bien mort
+            
+            # 3. Comme le thread a été tué brutalement, il n'enverra pas son signal "Terminé"
+            # On doit donc remettre l'interface au propre nous-mêmes manuellement :
+            self.log_message(f"{'='*40}\n<span style='color:#e74c3c;'><b>=== COLLECTE ANNULÉE ===</b></span>\n")
+            self.progress_bar.setVisible(False)
+            self.cancel_button.setEnabled(False)
+            self.cancel_button.setText(" ANNULER")
+            self.set_buttons_enabled(True) # On réactive le bouton "Collecter"
+
     def _update_map_on_clip_change(self):
         if self.search_overlay.territory_select.currentIndex() <= 0:
             return
@@ -429,31 +272,10 @@ class MainWindow(QMainWindow):
         # Si on a déjà une géométrie HD sélectionnée, on l'utilise
         if self.selected_polygon_geometry:
             geojson_dict = geometry.mapping(self.selected_polygon_geometry)
-            geojson_str = json.dumps(geojson_dict)
-            
             is_precise = self.search_overlay.btn_precise.isChecked()
-            # IMPORTANT : 'false' ici pour ne pas re-zoomer lors d'un switch de bouton
-            js_call = f"if(window.drawTerritory) {{ window.drawTerritory({geojson_str}, {'false' if is_precise else 'true'}, false); }}"
-            if self.map_view:
-                self.map_view.page().runJavaScript(js_call)
 
-    def setup_map(self):
-        """Configure la page web de la carte et le canal de communication avec Python."""
-        page = self.map_view.page()
-        # Autorise l'accès aux ressources distantes (OpenStreetMap)
-        page.settings().setAttribute(QWebEngineSettings.WebAttribute.LocalContentCanAccessRemoteUrls, True)
-        
-        # Initialise le gestionnaire d'interaction (BBOX dessinée)
-        self.map_interaction_handler = MapInteractionHandler(self.log_message)
-        self.map_interaction_handler.bbox_drawn.connect(self.on_bbox_drawn_on_map)
-        
-        # Configure le canal de communication (QWebChannel)
-        self.channel = QWebChannel(page)
-        page.setWebChannel(self.channel)
-        self.channel.registerObject("pyHandler", self.map_interaction_handler)
-        
-        # Charge le fichier HTML de Folium
-        self.load_map_with_draw_and_comms()
+            # On utilise le manager
+            self.map_manager.run_js_draw(geojson_dict, is_precise, False)
 
     def populate_data_sources_list(self):
         self.sources_list_widget.clear()
@@ -552,6 +374,7 @@ class MainWindow(QMainWindow):
         if not self.perimeter_is_defined:
             self.log_message("ERREUR : Veuillez d'abord définir un périmètre.")
             return
+        self.cancel_button.setEnabled(True)
         
         # On regarde quel mode est actif
         is_precise = self.search_overlay.btn_precise.isChecked()
@@ -601,15 +424,17 @@ class MainWindow(QMainWindow):
             
         if not self.collection_queue: self.log_message("Aucune source sélectionnée pour la collecte."); return
         
-        self.log_message(f"\n### Lancement de la collecte pour {len(self.collection_queue)} source(s) ###")
+        self.log_message(f"\n=== DÉBUT DE LA COLLECTE ({len(self.collection_queue)} source(s)) ===\n{'='*40}")
         self.set_buttons_enabled(False)
         self._start_next_collection()
 
     def _start_next_collection(self):
         if not self.collection_queue:
-            self.log_message("\n--- Toutes les collectes sont terminées. ---\n")
+            self.log_message(f"{'='*40} \n === COLLECTE TERMINÉE === \n")
             self.set_buttons_enabled(True)
             self.progress_bar.setVisible(False)
+            self.cancel_button.setEnabled(False)
+            self.cancel_button.setText(" ANNULER")
             return
         source = self.collection_queue.pop(0)
 
@@ -633,7 +458,10 @@ class MainWindow(QMainWindow):
         self.collector_thread.start()
 
     def on_collecte_terminee(self, succes, message):
-        self.log_message(f"\n--- Résultat pour la source ---\n{message}\n------------------------------")
+        if succes:
+            self.log_message(f"  └─ <span style='color:#27ae60;'><b>[OK]</b></span> {message}")
+        else:
+            self.log_message(f"  └─ <span style='color:#e74c3c;'><b>[ERREUR]</b></span> {message}")
         self._start_next_collection()
 
     def set_buttons_enabled(self, enabled):
@@ -775,25 +603,15 @@ class MainWindow(QMainWindow):
         except Exception as e:
             self.log_message(f"Erreur périmètre: {e}")
             return None
-    
-    def load_map_with_draw_and_comms(self):
-        if not FOLIUM_AVAILABLE: return
-        m = folium.Map(location=[46.2, 2.2], zoom_start=6, tiles="OpenStreetMap")
-        plugins.Draw(export=False, draw_options={'polyline':False,'polygon':False,'circle':False,'marker':False,'circlemarker':False,'rectangle':True}).add_to(m)
-        temp_map_file = os.path.join(tempfile.gettempdir(), "map_render.html")
-        m.save(temp_map_file)
-        with open(temp_map_file, 'r', encoding='utf-8') as f: html = f.read()
-        html = html.replace('<head>', '<head><script src="qrc:///qtwebchannel/qwebchannel.js"></script>', 1)
-        self.map_view.loadFinished.connect(self.on_map_fully_loaded_activate_js_drawing)
-        self.map_view.setHtml(html, QUrl.fromLocalFile(temp_map_file))
 
     def on_map_fully_loaded_activate_js_drawing(self, success):
         if not success:
             self.log_message("Erreur critique: La page de la carte n'a pas pu charger.")
             return
-        
-        js_code = self.get_js_code()
-        self.map_view.page().runJavaScript(js_code)
+
+        # On définit le chemin et on demande au manager de charger le fichier
+        js_path = os.path.join(BASE_DIR, 'assets', 'map_logic.js')
+        self.map_manager.load_js_logic(js_path)
 
     def on_bbox_drawn_on_map(self, min_lng, min_lat, max_lng, max_lat):
         try:
@@ -882,14 +700,10 @@ class MainWindow(QMainWindow):
             # print(f"Territoire sélectionné : {nom} (Code: {self.current_territory_code})")
 
             self.selected_polygon_geometry = shape(target_final['geometry'])
-            geojson_str = json.dumps(target_final['geometry'])
-            
+
             is_precise = self.search_overlay.btn_precise.isChecked()
-            # On force le zoom à 'true' (3ème argument)
-            js_call = f"if(window.drawTerritory) {{ window.drawTerritory({geojson_str}, {'false' if is_precise else 'true'}, true); }}"
-            
-            if self.map_view:
-                self.map_view.page().runJavaScript(js_call)
+            # On envoie la géométrie au manager en forçant le zoom (True)
+            self.map_manager.run_js_draw(target_final['geometry'], is_precise, True)
 
             # Mise à jour des coordonnées
             bounds = self.selected_polygon_geometry.bounds
@@ -903,15 +717,3 @@ class MainWindow(QMainWindow):
         if total > 0:
             self.progress_bar.setMaximum(total)
             self.progress_bar.setValue(current)
-
-    def get_js_code(self):
-        # On définit le chemin vers le fichier .js
-        current_dir = os.path.dirname(os.path.abspath(__file__))
-        js_path = os.path.join(current_dir, 'assets', 'map_logic.js')
-        
-        try:
-            with open(js_path, 'r', encoding='utf-8') as f:
-                return f.read()
-        except Exception as e:
-            print(f"Erreur lors de la lecture du fichier JS : {e}")
-            return ""

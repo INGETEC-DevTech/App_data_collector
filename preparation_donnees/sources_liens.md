@@ -14,8 +14,8 @@
 
 ### Base permanente des équipements - BPE (Insee)
 - **Lien :** https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537
-- **Enrichissement :** https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537#documentation
-                       https://www.insee.fr/fr/statistiques/8217535?sommaire=8217537
+- **Enrichissement :** https://www.insee.fr/fr/statistiques/8217525?sommaire=8217537#documentation (table de passage .csv)
+                       https://www.insee.fr/fr/statistiques/8217535?sommaire=8217537 (fichier gammes .xlsx)
 - **Mise à jour :** ?
 
 ### Cadastre

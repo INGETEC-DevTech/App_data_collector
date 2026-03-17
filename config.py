@@ -230,6 +230,9 @@ BPE_SOURCE_CONFIG = {
         "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base permanente des équipements (BPE)\BPE24_France_Enrichie.gpkg",
         "native_crs": "EPSG:2154" 
     },
+    "local_file_config_scores": {
+        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base permanente des équipements (BPE)\BPE24_Scores_Communes_France.csv"
+    },
     "update_recipe": {
         "type": "preprocessing",
         "expected_files": ["Fichier Parquet BPE (.parquet)", "Table de passage (.csv)", "Fichier Gammes (.xlsx)"],
