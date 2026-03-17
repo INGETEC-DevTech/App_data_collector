@@ -27,7 +27,7 @@ var selectionContour = null;
     var lastDrawnRectangle = null;
 
     // FONCTION POUR DESSINER LE CONTOUR ET ZOOMER
-    window.drawTerritory = function(featureData, showAsRectangle, shouldZoom) {
+    window.drawTerritory = function(featureData, isPrecise, shouldZoom) {
         if (!leafletMapInstance) {
             for (var k in window) { if (window[k] instanceof L.Map) { leafletMapInstance = window[k]; break; } }
         }
@@ -51,7 +51,7 @@ var selectionContour = null;
             
             lastDrawnRectangle = null;
 
-            if (showAsRectangle) {
+            if (!isPrecise) {
                 // --- MODE RECTANGLE ---
                 var tempLayer = L.geoJSON(featureData);
                 var bounds = tempLayer.getBounds();

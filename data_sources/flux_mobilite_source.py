@@ -7,7 +7,7 @@ import math
 import unicodedata
 import pandas as pd
 import geopandas as gpd
-from shapely.geometry import Point, LineString
+from shapely.geometry import Point, LineString, box
 from geopy.distance import great_circle
 
 # Import de la classe de base
@@ -125,6 +125,18 @@ class FluxMobiliteSource(SourceDeDonneesBase):
 
         # Filtrage Spatial
         mask_2154 = perimetre_selection_objet.get("polygon")
+
+        # --- NOUVEAU : Si pas de polygone (Mode Rectangle), on en fabrique un ! ---
+        if mask_2154 is None: 
+            bbox_vals = perimetre_selection_objet.get("value")
+            if bbox_vals and len(bbox_vals) == 4:
+                # 'box' crée un polygone rectangulaire parfait à partir des coordonnées
+                mask_2154 = box(bbox_vals[0], bbox_vals[1], bbox_vals[2], bbox_vals[3])
+            else:
+                return False, "Périmètre de sélection invalide (Aucune coordonnée trouvée)."
+
+        communes_in_poly = gdf_cities[gdf_cities.geometry.intersects(mask_2154)]['insee'].tolist()
+        
         if mask_2154 is None: return False, "Périmètre de sélection invalide."
 
         communes_in_poly = gdf_cities[gdf_cities.geometry.intersects(mask_2154)]['insee'].tolist()

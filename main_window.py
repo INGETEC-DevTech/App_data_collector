@@ -20,6 +20,8 @@ from utils import CompleterIntelligent
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
                         UpdateCenterDialog)
+import logging
+from logger_config import logger, log_emitter
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
 
@@ -229,15 +231,18 @@ class MainWindow(QMainWindow):
                     with open(path, "r", encoding="utf-8") as f:
                         self.territoires_data_hd[key] = json.load(f)
                 else:
-                    print(f"Fichier HD introuvable : {path}")
+                    logger.warning(f"Fichier HD introuvable : {path}")
             except Exception as e:
-                print(f"Erreur chargement HD {key} : {e}")
+                logger.error(f"Erreur chargement HD {key} : {e}")
 
         self.search_overlay.btn_group.buttonClicked.connect(self._update_map_on_clip_change)
         self.current_territory_code = None
 
+        # --- CONNEXION AU SYSTEME DE LOG CENTRAL ---
+        log_emitter.log_signal.connect(self.afficher_log_colore)
+
         # --- LANCEMENT DE LA VÉRIFICATION DES SOURCES EN ARRIÈRE-PLAN ---
-        self.log_message("Vérification de l'état des sources de données en cours...")
+        logger.info("Vérification de l'état des sources de données en cours...")
         self.validator_thread = SourceValidatorWorker(self.loaded_data_sources)
         self.validator_thread.validation_result_signal.connect(self.on_source_validated)
         self.validator_thread.start()
@@ -251,7 +256,7 @@ class MainWindow(QMainWindow):
 
         # 2. On TUE le processus en cours instantanément
         if hasattr(self, 'collector_thread') and self.collector_thread and self.collector_thread.isRunning():
-            self.log_message("ARRÊT IMMÉDIAT EN COURS...")
+            logger.warning("ARRÊT IMMÉDIAT EN COURS...")
             
             # La méthode forte : coupe l'alimentation du thread
             self.collector_thread.terminate()
@@ -259,7 +264,7 @@ class MainWindow(QMainWindow):
             
             # 3. Comme le thread a été tué brutalement, il n'enverra pas son signal "Terminé"
             # On doit donc remettre l'interface au propre nous-mêmes manuellement :
-            self.log_message(f"{'='*40}\n<span style='color:#e74c3c;'><b>=== COLLECTE ANNULÉE ===</b></span>\n")
+            logger.warning("=== COLLECTE ANNULÉE ===")
             self.progress_bar.setVisible(False)
             self.cancel_button.setEnabled(False)
             self.cancel_button.setText(" ANNULER")
@@ -365,14 +370,14 @@ class MainWindow(QMainWindow):
         dialog = None
         if dialog_type == "layer_selection": dialog = LayerSelectionDialog(params_ui, current_options, self)
         elif dialog_type == "checkbox_options": dialog = GenericOptionsDialog(params_ui, current_options, self)
-        else: self.log_message(f"Type de dialogue non reconnu: '{dialog_type}'"); return
+        else: logger.error(f"Type de dialogue non reconnu: '{dialog_type}'"); return
         if dialog.exec():
             self.current_source_config_options[source.nom_source] = dialog.get_selection()
-            self.log_message(f"Configuration pour '{source.nom_source}' mise à jour.")
+            logger.info(f"Configuration pour '{source.nom_source}' mise à jour.")
 
     def lancer_collecte_multiple(self):
         if not self.perimeter_is_defined:
-            self.log_message("ERREUR : Veuillez d'abord définir un périmètre.")
+            logger.warning("Veuillez d'abord définir un périmètre.")
             return
         self.cancel_button.setEnabled(True)
         
@@ -385,20 +390,20 @@ class MainWindow(QMainWindow):
             if is_precise:
                 # --- MODE PRÉCIS ---
                 tipo = self.search_overlay.type_select.currentText()
-                self.log_message(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
+                logger.info(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
                 
                 # On utilise le log_callback pour voir les messages
                 geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code, log_callback=self.log_message)
                 
                 if geom_precise:
                     self.selected_polygon_geometry = geom_precise
-                    self.log_message(f"Géométrie précise récupérée et appliquée au filtre.")
+                    logger.info("Géométrie précise récupérée et appliquée au filtre.")
                 else:
-                    self.log_message(f"Échec récupération précise. Utilisation du contour simplifié.")
+                    logger.warning("Échec récupération précise. Utilisation du contour simplifié.")
             
             else:
                 # --- MODE RECTANGLE ---
-                self.log_message("Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).")
+                logger.info("Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).")
                 # LIGNE CRUCIALE : On efface le polygone complexe de la mémoire
                 # Cela force la méthode `get_perimeter_from_ui` à lire les valeurs de ton rectangle édité !
                 self.selected_polygon_geometry = None
@@ -406,7 +411,8 @@ class MainWindow(QMainWindow):
 
         # --- La suite de la méthode ne change pas ---
         if not self.export_directory:
-            self.log_message("ERREUR : Veuillez choisir un dossier d'exportation."); return
+            logger.warning("Veuillez choisir un dossier d'exportation."); return
+            
         
         if not (perimetre := self.get_perimeter_from_ui()): return
         
@@ -422,15 +428,15 @@ class MainWindow(QMainWindow):
                 if widget.checkbox.isChecked():
                     self.collection_queue.append(widget.source)
             
-        if not self.collection_queue: self.log_message("Aucune source sélectionnée pour la collecte."); return
+        if not self.collection_queue: logger.warning("Aucune source sélectionnée pour la collecte."); return
         
-        self.log_message(f"\n=== DÉBUT DE LA COLLECTE ({len(self.collection_queue)} source(s)) ===\n{'='*40}")
+        logger.info(f"=== DÉBUT DE LA COLLECTE ({len(self.collection_queue)} source(s)) ===")
         self.set_buttons_enabled(False)
         self._start_next_collection()
 
     def _start_next_collection(self):
         if not self.collection_queue:
-            self.log_message(f"{'='*40} \n === COLLECTE TERMINÉE === \n")
+            logger.info("=== COLLECTE TERMINÉE ===")
             self.set_buttons_enabled(True)
             self.progress_bar.setVisible(False)
             self.cancel_button.setEnabled(False)
@@ -450,7 +456,6 @@ class MainWindow(QMainWindow):
 
         self.collector_thread = CollectorWorker(self, source, self.export_directory, perimetre, options_finales)
         self.collector_thread.finished.connect(self.collector_thread.deleteLater)
-        self.collector_thread.progress_signal.connect(self.log_message)
         self.collector_thread.finished_signal.connect(self.on_collecte_terminee)
         self.collector_thread.step_progress_signal.connect(self.update_progress_bar)
         self.progress_bar.setVisible(True)
@@ -459,9 +464,9 @@ class MainWindow(QMainWindow):
 
     def on_collecte_terminee(self, succes, message):
         if succes:
-            self.log_message(f"  └─ <span style='color:#27ae60;'><b>[OK]</b></span> {message}")
+            logger.info(f"  └─ [OK] {message}")
         else:
-            self.log_message(f"  └─ <span style='color:#e74c3c;'><b>[ERREUR]</b></span> {message}")
+            logger.error(f"  └─ [ERREUR] {message}")
         self._start_next_collection()
 
     def set_buttons_enabled(self, enabled):
@@ -485,17 +490,36 @@ class MainWindow(QMainWindow):
             self.export_dir_label.setText(elided_text)
             self.export_dir_label.setToolTip(directory)
 
-    def log_message(self, message):
+    def afficher_log_colore(self, message, level):
+        """Reçoit le signal du logger central et l'affiche avec la bonne couleur."""
         timestamp = datetime.now().strftime("%H:%M:%S")
-        formatted_message = f"<span style='color:#7f8c8d;'>[{timestamp}]</span> {message}"
+        
+        # Choix de la couleur selon l'importance du message
+        color = "#2c3e50" # Noir/Gris sombre par défaut (INFO)
+        if level >= logging.ERROR:
+            color = "#e74c3c" # Rouge pour les erreurs
+            message = f"<b>{message}</b>" # En gras pour bien voir
+        elif level >= logging.WARNING:
+            color = "#e67e22" # Orange pour les avertissements
+        elif "[OK]" in message or "SUCCÈS" in message:
+            color = "#27ae60" # Vert pour les réussites (petite astuce de détection)
+
+        formatted_message = f"<span style='color:#7f8c8d;'>[{timestamp}]</span> <span style='color:{color};'>{message}</span>"
         self.log_text_edit.append(formatted_message)
         self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
+
+    def log_message(self, message):
+        """
+        Fonction de transition : sert de 'pont' temporaire pour les anciens 
+        callbacks (comme MapManager) qui n'ont pas encore été mis à jour.
+        """
+        logger.info(message)
 
     def lancer_mise_a_jour(self, source):
         """Ouvre l'explorateur pour sélectionner les fichiers et lance la mise à jour."""
         recipe = source.config.get("update_recipe")
         if not recipe:
-            self.log_message(f"Aucune recette de mise à jour n'est configurée pour {source.nom_source}.")
+            logger.error(f"Aucune recette de mise à jour n'est configurée pour {source.nom_source}.")
             return
 
         expected_files = recipe.get("expected_files", [])
@@ -507,7 +531,7 @@ class MainWindow(QMainWindow):
                 self, f"Mise à jour {source.nom_source} - Sélectionnez : {desc}", "", "Tous les fichiers (*.*)"
             )
             if not filepath:
-                self.log_message("Mise à jour annulée par l'utilisateur.")
+                logger.info("Mise à jour annulée par l'utilisateur.")
                 return # Si l'utilisateur clique sur Annuler, on arrête tout
             selected_files.append(filepath)
 
@@ -518,7 +542,7 @@ class MainWindow(QMainWindow):
             dest_path = source.config.get("local_file_config", {}).get("path", "")
 
         if not dest_path:
-            self.log_message("Erreur : Impossible de trouver le chemin de destination (P:/) dans config.py.")
+            logger.error("Impossible de trouver le chemin de destination dans config.py.")
             return
         
         # On bloque les boutons pour éviter que l'utilisateur clique partout pendant la mise à jour
@@ -526,7 +550,6 @@ class MainWindow(QMainWindow):
 
         # On lance le travail en arrière-plan !
         self.updater_thread = UpdaterWorker(source.nom_source, recipe, selected_files, dest_path)
-        self.updater_thread.progress_signal.connect(self.log_message)
         self.updater_thread.finished_signal.connect(self.on_update_finished)
         self.updater_thread.start()
 
@@ -540,29 +563,18 @@ class MainWindow(QMainWindow):
         dialog.exec()
 
     def on_update_finished(self, success, message):
-        """Appelé quand la mise à jour est terminée (ou a planté)."""
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        if success:
-            self.log_text_edit.append(f"<span style='color:#27ae60;'>[{timestamp}] <b>SUCCÈS :</b> {message}</span>")
-        else:
-            self.log_text_edit.append(f"<span style='color:#e74c3c;'>[{timestamp}] <b>ÉCHEC :</b> {message}</span>")
-            self.log_text_edit.append("<span style='color:#e74c3c;'><i>-> Si le format du fichier INSEE a changé, contactez un expert.</i></span>")
-        
-        self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
-        self.set_buttons_enabled(True) # On réactive les boutons
+      if success:
+          logger.info(f"SUCCÈS : {message}")
+      else:
+          logger.error(f"ÉCHEC : {message}")
+          logger.warning("-> Si le format du fichier INSEE a changé, contactez un expert.")
+      self.set_buttons_enabled(True)
 
     def on_source_validated(self, nom_source, success, message):
-        """Reçoit le résultat de la vérification et l'affiche dans les logs."""
-        timestamp = datetime.now().strftime("%H:%M:%S")
-        if success:
-            # Optionnel : Tu peux décommenter la ligne ci-dessous si tu veux voir les messages de succès
-            self.log_message(f" {nom_source} : OK")
-            pass
-        else:
-            # En cas d'erreur, on affiche un message bien visible en rouge !
-            alerte_msg = f"<span style='color:#e74c3c;'>[{timestamp}] <b> PROBLÈME SOURCE '{nom_source}' :</b> {message}</span>"
-            self.log_text_edit.append(alerte_msg)
-            self.log_text_edit.verticalScrollBar().setValue(self.log_text_edit.verticalScrollBar().maximum())
+      if success:
+          logger.info(f"{nom_source} : OK")
+      else:
+          logger.error(f"PROBLÈME SOURCE '{nom_source}' : {message}")
 
     def get_perimeter_from_ui(self):
         try:
@@ -601,12 +613,12 @@ class MainWindow(QMainWindow):
                 "polygon": poly_to_send
             }
         except Exception as e:
-            self.log_message(f"Erreur périmètre: {e}")
+            logger.error(f"Erreur périmètre: {e}")
             return None
 
     def on_map_fully_loaded_activate_js_drawing(self, success):
         if not success:
-            self.log_message("Erreur critique: La page de la carte n'a pas pu charger.")
+            logger.error("Erreur critique: La page de la carte n'a pas pu charger.")
             return
 
         # On définit le chemin et on demande au manager de charger le fichier
@@ -618,12 +630,12 @@ class MainWindow(QMainWindow):
             import geopandas as gpd
             from shapely.geometry import box
             target_crs = self.crs_edit.text()
-            if not target_crs: self.log_message("Erreur: CRS non défini pour la reprojection."); return
+            if not target_crs: logger.error("Erreur: CRS non défini pour la reprojection."); return
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
             self.min_x_edit.setText(f"{bounds[0]:.2f}"); self.min_y_edit.setText(f"{bounds[1]:.2f}"); self.max_x_edit.setText(f"{bounds[2]:.2f}"); self.max_y_edit.setText(f"{bounds[3]:.2f}")
             self.perimeter_is_defined = True
-            self.log_message("Périmètre mis à jour. Vous pouvez lancer la collecte.")
-        except Exception as e: self.log_message(f"Erreur reprojection BBOX: {e}")
+            logger.info("Périmètre mis à jour. Vous pouvez lancer la collecte.")
+        except Exception as e: logger.error(f"Erreur reprojection BBOX: {e}")
 
     def _load_geojson_assets(self, filename):
         path = os.path.join(BASE_DIR, "assets", filename)
@@ -632,7 +644,7 @@ class MainWindow(QMainWindow):
                 with open(path, 'r', encoding='utf-8') as f:
                     return json.load(f)
             except Exception as e:
-                print(f"Erreur chargement {filename}: {e}")
+                logger.error(f"Erreur de chargement de l'asset {filename}: {e}")
         return None
 
     def _on_admin_type_changed(self, text):
@@ -696,8 +708,6 @@ class MainWindow(QMainWindow):
                 props.get('code') or        # Générique
                 props.get('id')             # Dernier recours
             )
-            # Il me soule ce print
-            # print(f"Territoire sélectionné : {nom} (Code: {self.current_territory_code})")
 
             self.selected_polygon_geometry = shape(target_final['geometry'])
 
@@ -716,4 +726,4 @@ class MainWindow(QMainWindow):
     def update_progress_bar(self, current, total):
         if total > 0:
             self.progress_bar.setMaximum(total)
-            self.progress_bar.setValue(current)
+            self.progress_bar.setValue(current) 

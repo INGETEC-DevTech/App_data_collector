@@ -8,8 +8,12 @@ import re
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFontDatabase
 
-# Le seul endroit où config est importé.
 import config
+from logger_config import logger
+
+logger.info("=========================================")
+logger.info("Démarrage de l'application...")
+logger.info("=========================================")
 
 os.environ['QTWEBENGINE_REMOTE_DEBUGGING'] = '9223'
 
@@ -41,7 +45,7 @@ def load_and_configure_data_sources(sources_package_name="data_sources") -> list
     sources_dir = os.path.join(project_root, sources_package_name)
 
     if not os.path.exists(sources_dir):
-        print(f"Erreur: Dossier des sources de données introuvable: '{sources_dir}'")
+        logger.error(f"Dossier des sources de données introuvable: '{sources_dir}'")
         return []
 
     # Lister les fichiers se terminant par _source.py pour la détection
@@ -65,11 +69,11 @@ def load_and_configure_data_sources(sources_package_name="data_sources") -> list
                             instance = member_obj(config=config_block)
                             data_sources_instances.append(instance)
                         else:
-                            print(f"Avertissement: Classe '{expected_class_name}' trouvée mais le bloc de configuration '{config_block_name}' est manquant dans config.py.")
+                            logger.warning(f"Classe '{expected_class_name}' trouvée mais le bloc '{config_block_name}' manque dans config.py.")
                 else:
-                    print(f"Avertissement: Fichier '{filename}' trouvé mais la classe attendue '{expected_class_name}' est introuvable.")
+                    logger.warning(f"Fichier '{filename}' trouvé mais la classe '{expected_class_name}' est introuvable.")
             except Exception as e:
-                print(f"Erreur lors du chargement de la source {module_name}: {e}")
+                logger.error(f"Erreur lors du chargement de la source {module_name}: {e}")
     
     return data_sources_instances
 
@@ -91,11 +95,11 @@ if __name__ == "__main__":
         with open(style_path, "r", encoding="utf-8") as f:
             app.setStyleSheet(f.read())
     except FileNotFoundError:
-        print("Avertissement: Fichier style.qss non trouvé. Utilisation du style par défaut.")
+        logger.warning("Fichier style.qss non trouvé. Utilisation du style par défaut.")
     
     available_sources = load_and_configure_data_sources()
     if not available_sources:
-        print("AVERTISSEMENT: Aucune source de données n'a pu être chargée. Vérifiez votre dossier 'data_sources' et votre fichier 'config.py'.")
+        logger.error("Aucune source de données n'a pu être chargée. Vérifiez 'data_sources' et 'config.py'.")
 
     default_path = config.DEFAULT_EXPORT_PATH if hasattr(config, 'DEFAULT_EXPORT_PATH') else None
 

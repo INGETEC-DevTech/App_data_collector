@@ -1,0 +1,142 @@
+2026-03-17 15:10:07 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-17 15:10:09 - INFO - BD TOPO (IGN) : OK
+2026-03-17 15:10:09 - INFO - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-17 15:10:09 - INFO - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-17 15:10:09 - INFO - Equipements (BPE - INSEE) : OK
+2026-03-17 15:10:10 - INFO - Cadastre (IGN) : OK
+2026-03-17 15:10:10 - INFO - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-17 15:10:10 - INFO - Flux de Mobilité (INSEE) : OK
+2026-03-17 15:10:11 - INFO - Entreprises (SIRENE - INSEE) : OK
+2026-03-17 15:45:02 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-17 15:45:03 - INFO - BD TOPO (IGN) : OK
+2026-03-17 15:45:03 - INFO - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-17 15:45:03 - INFO - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-17 15:45:04 - INFO - Equipements (BPE - INSEE) : OK
+2026-03-17 15:45:05 - INFO - Cadastre (IGN) : OK
+2026-03-17 15:45:05 - INFO - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-17 15:45:05 - INFO - Flux de Mobilité (INSEE) : OK
+2026-03-17 15:45:06 - INFO - Entreprises (SIRENE - INSEE) : OK
+2026-03-17 16:10:07 - INFO - =========================================
+2026-03-17 16:10:07 - INFO - Démarrage de l'application...
+2026-03-17 16:10:07 - INFO - =========================================
+2026-03-17 16:10:14 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-17 16:10:15 - INFO - BD TOPO (IGN) : OK
+2026-03-17 16:10:15 - INFO - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-17 16:10:15 - INFO - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-17 16:10:16 - INFO - Equipements (BPE - INSEE) : OK
+2026-03-17 16:10:17 - INFO - Cadastre (IGN) : OK
+2026-03-17 16:10:17 - INFO - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-17 16:10:17 - INFO - Flux de Mobilité (INSEE) : OK
+2026-03-17 16:10:18 - INFO - Entreprises (SIRENE - INSEE) : OK
+2026-03-17 16:10:34 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:40 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:41 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:41 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:41 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:42 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:43 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:45 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:47 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:10:49 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:11:03 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:11:13 - INFO - Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).
+2026-03-17 16:11:13 - INFO - === DÉBUT DE LA COLLECTE (8 source(s)) ===
+2026-03-17 16:11:13 - INFO - 
+[SOURCE] BD TOPO (IGN)
+2026-03-17 16:11:13 - INFO - Estimation du volume des données à télécharger...
+2026-03-17 16:11:14 - INFO - Aucune entité trouvée pour aerodrome, ignorée.
+2026-03-17 16:11:21 - INFO - Aucune entité trouvée pour limite_terre_mer, ignorée.
+2026-03-17 16:11:31 - INFO - Aucune entité trouvée pour troncon_de_voie_ferree, ignorée.
+2026-03-17 16:11:33 - INFO - Volume total identifié (estimé) : 13258 entités.
+2026-03-17 16:12:28 - INFO -   └─ [OK] Succès : 13258 entités BD TOPO récupérées.
+2026-03-17 16:12:28 - INFO - 
+[SOURCE] Cadastre (IGN)
+2026-03-17 16:12:28 - INFO - Début collecte Cadastre (IGN)...
+2026-03-17 16:12:29 - INFO -   Récupération index 0 (3000 parcelles)...
+2026-03-17 16:12:33 - INFO -   Récupération index 3000 (3000 parcelles)...
+2026-03-17 16:12:36 - INFO -   Récupération index 6000 (3000 parcelles)...
+2026-03-17 16:12:38 - INFO -   Récupération index 9000 (3000 parcelles)...
+2026-03-17 16:12:40 - INFO -   Lancement de l'enrichissement Personnes Morales...
+2026-03-17 16:12:40 - INFO -   Début de l'enrichissement avec les données Personnes Morales...
+2026-03-17 16:12:40 - INFO -   11259 parcelles lues depuis cadastre_parcelles.gpkg (couche: parcelles).
+2026-03-17 16:12:40 - INFO -   Utilisation de la colonne 'idu' comme IDU.
+2026-03-17 16:12:40 - INFO -   Codes départements identifiés : ['53']
+2026-03-17 16:12:40 - INFO -     Lecture des données propriétaires : PM_24_NB_530.csv
+2026-03-17 16:13:04 - INFO -   Concaténation des données de 1 fichier(s) CSV...
+2026-03-17 16:13:04 - INFO -   Jointure des parcelles avec 98508 entrées propriétaires...
+2026-03-17 16:13:05 - INFO -   Jointure terminée : 1456 parcelles enrichies.
+2026-03-17 16:13:05 - INFO -   Mise à jour du fichier : cadastre_parcelles.gpkg
+2026-03-17 16:13:06 - INFO -   Enrichissement terminé en 25.48 sec.
+2026-03-17 16:13:06 - INFO - Collecte Cadastre (IGN) terminée en 37.86s.
+2026-03-17 16:13:06 - INFO -   └─ [OK] [Cadastre (IGN)] : 11259 parcelles exportées dans 'FONCIER\cadastre_parcelles.gpkg'. Fichier enrichi avec succès.
+2026-03-17 16:13:06 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-03-17 16:13:06 - INFO - Début de la collecte pour Données socio-économiques carroyées (FiLoSoFi - INSEE)...
+2026-03-17 16:13:06 - INFO -   Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg...
+2026-03-17 16:13:06 - INFO -   Couche détectée automatiquement : 'Filosofi2015_carreaux_200m_metropole'
+2026-03-17 16:13:20 - INFO -   393 carreaux trouvés. Préparation de la sauvegarde...
+2026-03-17 16:13:20 - INFO -   393 carreaux FilosoFI trouvés.
+2026-03-17 16:13:20 - INFO -   Sauvegarde de 393 carreaux vers C:/Users/AGO/OneDrive - ingetec/Mobilité - Documents/5. Logiciels-Data/1. DevTech/25-000_Mobilité Data Collector/test_destination\SOCIO-ECO\filosofi.gpkg...
+2026-03-17 16:13:20 - INFO - Collecte Données socio-économiques carroyées (FiLoSoFi - INSEE) terminée en 14.14 sec.
+2026-03-17 16:13:20 - INFO -   └─ [OK] [Données socio-économiques carroyées (FiLoSoFi - INSEE)] : 393 entités FilosoFI exportées dans 'SOCIO-ECO/filosofi.gpkg'.
+2026-03-17 16:13:20 - INFO - 
+[SOURCE] Entreprises (SIRENE - INSEE)
+2026-03-17 16:13:20 - INFO - Début collecte Entreprises (SIRENE - INSEE)...
+2026-03-17 16:13:21 - INFO -   Page 1 traitée.
+2026-03-17 16:13:23 - INFO -   └─ [OK] [Entreprises (SIRENE - INSEE)] : 56 établissements sauvegardés.
+2026-03-17 16:13:23 - INFO - 
+[SOURCE] Equipements (BPE - INSEE)
+2026-03-17 16:13:23 - INFO - --- Démarrage de l'extraction BPE ---
+2026-03-17 16:13:23 - INFO -  > Téléchargement des contours de communes (IGN WFS)...
+2026-03-17 16:13:24 - INFO -  > Génération de la couche Communes...
+2026-03-17 16:13:25 - INFO -    - Fichier 'classification_commune.gpkg' généré (colonnes épurées).
+2026-03-17 16:13:25 - INFO -  > Génération de la couche Équipements...
+2026-03-17 16:13:26 - INFO -    - Fichier 'equipements_bpe.gpkg' généré (colonnes épurées et triées).
+2026-03-17 16:13:26 - INFO -   └─ [OK] Analyse BPE terminée.
+2026-03-17 16:13:26 - INFO - 
+[SOURCE] Aménagements cyclables (BNAC - data.gouv.fr)
+2026-03-17 16:13:26 - INFO - Démarrage de la collecte : Aménagements cyclables (BNAC)
+2026-03-17 16:13:26 - INFO -   > [Action] : Préparation du filtre spatial...
+2026-03-17 16:13:26 - INFO -   > [Action] : Lecture du fichier local BNAC_20250401.geojson...
+2026-03-17 16:14:29 - INFO -   > [Filtrage] : 28 segments cyclables identifiés.
+2026-03-17 16:14:29 - INFO -   > [Action] : Sauvegarde vers aménagements_cyclables_bnac.gpkg...
+2026-03-17 16:14:29 - INFO -   └─ [OK] Succès : 28 aménagements cyclables récupérés.
+2026-03-17 16:14:29 - INFO - 
+[SOURCE] Lieux de covoiturage (BNLC - data.gouv.fr)
+2026-03-17 16:14:29 - INFO - Démarrage de la collecte : Lieux de covoiturage (BNLC)
+2026-03-17 16:14:29 - INFO -   > [Action] : Téléchargement du fichier national...
+2026-03-17 16:14:33 - INFO -   > [Action] : Lecture et conversion des données...
+2026-03-17 16:14:33 - INFO - Filtrage de la zone d'étude...
+2026-03-17 16:14:33 - INFO -   └─ [OK] Aucun lieu de covoiturage trouvé dans cette zone.
+2026-03-17 16:14:33 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-17 16:14:33 - INFO -   > Chargement des référentiels géographiques...
+2026-03-17 16:14:34 - ERROR -   └─ [ERREUR] Périmètre de sélection invalide.
+2026-03-17 16:14:34 - INFO - === COLLECTE TERMINÉE ===
+2026-03-17 16:27:50 - INFO - =========================================
+2026-03-17 16:27:50 - INFO - Démarrage de l'application...
+2026-03-17 16:27:50 - INFO - =========================================
+2026-03-17 16:27:56 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-17 16:27:58 - INFO - BD TOPO (IGN) : OK
+2026-03-17 16:27:58 - INFO - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-17 16:27:58 - INFO - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-17 16:27:58 - INFO - Equipements (BPE - INSEE) : OK
+2026-03-17 16:27:59 - INFO - Cadastre (IGN) : OK
+2026-03-17 16:27:59 - INFO - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-17 16:27:59 - INFO - Flux de Mobilité (INSEE) : OK
+2026-03-17 16:28:00 - INFO - Entreprises (SIRENE - INSEE) : OK
+2026-03-17 16:28:21 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:28:25 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:28:28 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-17 16:28:38 - INFO - Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).
+2026-03-17 16:28:38 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-17 16:28:38 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-17 16:28:38 - INFO -   > Chargement des référentiels géographiques...
+2026-03-17 16:28:38 - INFO -   > Utilisation de l'emprise rectangulaire pour isoler les communes.
+2026-03-17 16:28:38 - INFO -   > Zone d'étude définie : 6 commune(s) concernée(s).
+2026-03-17 16:28:38 - INFO - --- Traitement des flux : TRAVAIL ---
+2026-03-17 16:28:50 - INFO - --- Traitement des flux : ETUDE ---
+2026-03-17 16:28:55 - INFO - Collecte globale terminée en 16.94s.
+2026-03-17 16:28:55 - INFO -   └─ [OK] Fichiers Excel et couches cartographiques créés avec succès.
+2026-03-17 16:28:55 - INFO - === COLLECTE TERMINÉE ===
