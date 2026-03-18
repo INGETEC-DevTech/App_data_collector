@@ -140,3 +140,98 @@
 2026-03-17 16:28:55 - INFO - Collecte globale terminée en 16.94s.
 2026-03-17 16:28:55 - INFO -   └─ [OK] Fichiers Excel et couches cartographiques créés avec succès.
 2026-03-17 16:28:55 - INFO - === COLLECTE TERMINÉE ===
+2026-03-18 09:43:59 - INFO - =========================================
+2026-03-18 09:43:59 - INFO - Démarrage de l'application...
+2026-03-18 09:43:59 - INFO - =========================================
+2026-03-18 09:44:06 - INFO - =========================================
+2026-03-18 09:44:06 - INFO - Démarrage de l'application...
+2026-03-18 09:44:06 - INFO - =========================================
+2026-03-18 09:44:13 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-18 09:44:14 - INFO - BD TOPO (IGN) : OK
+2026-03-18 09:44:14 - INFO - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-18 09:44:14 - INFO - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-18 09:44:15 - INFO - Equipements (BPE - INSEE) : OK
+2026-03-18 09:44:16 - INFO - Cadastre (IGN) : OK
+2026-03-18 09:44:16 - INFO - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-18 09:44:16 - INFO - Flux de Mobilité (INSEE) : OK
+2026-03-18 09:44:17 - INFO - Entreprises (SIRENE - INSEE) : OK
+2026-03-18 09:44:37 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-18 09:44:38 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-18 09:44:41 - INFO - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-18 09:44:53 - INFO - Récupération de la géométrie haute précision pour Commune 08237...
+2026-03-18 09:44:54 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-18 09:44:54 - INFO - === DÉBUT DE LA COLLECTE (8 source(s)) ===
+2026-03-18 09:44:54 - INFO - 
+[SOURCE] BD TOPO (IGN)
+2026-03-18 09:44:54 - INFO - Estimation du volume des données à télécharger...
+2026-03-18 09:44:55 - INFO - Aucune entité trouvée pour aerodrome, ignorée.
+2026-03-18 09:45:01 - INFO - Aucune entité trouvée pour limite_terre_mer, ignorée.
+2026-03-18 09:45:02 - INFO - Aucune entité trouvée pour plan_d_eau, ignorée.
+2026-03-18 09:45:09 - INFO - Volume total identifié (estimé) : 1892 entités.
+2026-03-18 09:45:32 - INFO -   └─ [OK] Succès : 1292 entités BD TOPO récupérées.
+2026-03-18 09:45:32 - INFO - 
+[SOURCE] Cadastre (IGN)
+2026-03-18 09:45:32 - INFO - Début collecte Cadastre (IGN)...
+2026-03-18 09:45:34 - INFO -   Récupération index 0 (3000 parcelles)...
+2026-03-18 09:45:37 - INFO -   Lancement de l'enrichissement Personnes Morales...
+2026-03-18 09:45:37 - INFO -   Début de l'enrichissement avec les données Personnes Morales...
+2026-03-18 09:45:37 - INFO -   1434 parcelles lues depuis cadastre_parcelles.gpkg (couche: parcelles).
+2026-03-18 09:45:37 - INFO -   Utilisation de la colonne 'idu' comme IDU.
+2026-03-18 09:45:37 - INFO -   Codes départements identifiés : ['08']
+2026-03-18 09:45:37 - INFO -     Lecture des données propriétaires : PM_24_NB_080.csv
+2026-03-18 09:45:58 - INFO -   Concaténation des données de 1 fichier(s) CSV...
+2026-03-18 09:45:58 - INFO -   Jointure des parcelles avec 115150 entrées propriétaires...
+2026-03-18 09:45:58 - INFO -   Jointure terminée : 287 parcelles enrichies.
+2026-03-18 09:45:58 - INFO -   Mise à jour du fichier : cadastre_parcelles.gpkg
+2026-03-18 09:45:58 - INFO -   Enrichissement terminé en 20.66 sec.
+2026-03-18 09:45:58 - INFO - Collecte Cadastre (IGN) terminée en 25.54s.
+2026-03-18 09:45:58 - INFO -   └─ [OK] [Cadastre (IGN)] : 1434 parcelles exportées dans 'FONCIER\cadastre_parcelles.gpkg'. Fichier enrichi avec succès.
+2026-03-18 09:45:58 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-03-18 09:45:58 - INFO - Début de la collecte pour Données socio-économiques carroyées (FiLoSoFi - INSEE)...
+2026-03-18 09:45:58 - INFO -   Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg...
+2026-03-18 09:45:58 - INFO -   Couche détectée automatiquement : 'Filosofi2015_carreaux_200m_metropole'
+2026-03-18 09:46:00 - INFO -   Filtrage spatial précis des carreaux FiLoSoFi...
+2026-03-18 09:46:00 - INFO -   34 carreaux trouvés. Préparation de la sauvegarde...
+2026-03-18 09:46:00 - INFO -   34 carreaux FilosoFI trouvés.
+2026-03-18 09:46:00 - INFO -   Sauvegarde de 34 carreaux vers C:/Users/AGO/OneDrive - ingetec/Mobilité - Documents/5. Logiciels-Data/1. DevTech/25-000_Mobilité Data Collector/test_destination\SOCIO-ECO\filosofi.gpkg...
+2026-03-18 09:46:00 - INFO - Collecte Données socio-économiques carroyées (FiLoSoFi - INSEE) terminée en 2.26 sec.
+2026-03-18 09:46:00 - INFO -   └─ [OK] [Données socio-économiques carroyées (FiLoSoFi - INSEE)] : 34 entités FilosoFI exportées dans 'SOCIO-ECO/filosofi.gpkg'.
+2026-03-18 09:46:00 - INFO - 
+[SOURCE] Entreprises (SIRENE - INSEE)
+2026-03-18 09:46:00 - INFO - Début collecte Entreprises (SIRENE - INSEE)...
+2026-03-18 09:46:01 - INFO -   Page 1 traitée.
+2026-03-18 09:46:03 - INFO -   └─ [OK] [Entreprises (SIRENE - INSEE)] : 5 établissements sauvegardés.
+2026-03-18 09:46:03 - INFO - 
+[SOURCE] Equipements (BPE - INSEE)
+2026-03-18 09:46:03 - INFO - --- Démarrage de l'extraction BPE ---
+2026-03-18 09:46:03 - INFO -  > Téléchargement des contours de communes (IGN WFS)...
+2026-03-18 09:46:04 - INFO -  > Génération de la couche Communes...
+2026-03-18 09:46:04 - INFO -    - Fichier 'classification_commune.gpkg' généré (colonnes épurées).
+2026-03-18 09:46:04 - INFO -  > Génération de la couche Équipements...
+2026-03-18 09:46:06 - INFO -    - Fichier 'equipements_bpe.gpkg' généré (colonnes épurées et triées).
+2026-03-18 09:46:06 - INFO -   └─ [OK] Analyse BPE terminée.
+2026-03-18 09:46:06 - INFO - 
+[SOURCE] Aménagements cyclables (BNAC - data.gouv.fr)
+2026-03-18 09:46:06 - INFO - Démarrage de la collecte : Aménagements cyclables (BNAC)
+2026-03-18 09:46:06 - INFO -   > [Action] : Préparation du filtre spatial...
+2026-03-18 09:46:06 - INFO -   > [Action] : Lecture du fichier local BNAC_20250401.geojson...
+2026-03-18 09:47:03 - INFO -   > [Filtrage] : 5 segments cyclables identifiés.
+2026-03-18 09:47:03 - INFO -   > [Action] : Sauvegarde vers aménagements_cyclables_bnac.gpkg...
+2026-03-18 09:47:03 - INFO -   └─ [OK] Succès : 2 aménagements cyclables récupérés.
+2026-03-18 09:47:03 - INFO - 
+[SOURCE] Lieux de covoiturage (BNLC - data.gouv.fr)
+2026-03-18 09:47:03 - INFO - Démarrage de la collecte : Lieux de covoiturage (BNLC)
+2026-03-18 09:47:03 - INFO -   > [Action] : Téléchargement du fichier national...
+2026-03-18 09:47:06 - INFO -   > [Action] : Lecture et conversion des données...
+2026-03-18 09:47:06 - INFO - Filtrage de la zone d'étude...
+2026-03-18 09:47:06 - INFO -   └─ [OK] Aucun lieu de covoiturage trouvé dans cette zone.
+2026-03-18 09:47:06 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-18 09:47:06 - INFO -   > Chargement des référentiels géographiques...
+2026-03-18 09:47:07 - INFO -   > Zone d'étude définie : 1 commune(s) concernée(s).
+2026-03-18 09:47:07 - INFO - \n--- Traitement des flux : TRAVAIL ---
+2026-03-18 09:47:18 - INFO - \n--- Traitement des flux : ETUDE ---
+2026-03-18 09:47:23 - INFO - Collecte globale terminée en 16.49s.
+2026-03-18 09:47:23 - INFO -   └─ [OK] Fichiers Excel et couches cartographiques créés avec succès.
+2026-03-18 09:47:23 - INFO - === COLLECTE TERMINÉE ===

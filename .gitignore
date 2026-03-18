@@ -31,3 +31,6 @@ MOBILITE/
 
 # IDE
 .vscode/
+
+# Les logs
+app.log
