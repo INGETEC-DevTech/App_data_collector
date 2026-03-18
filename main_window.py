@@ -13,9 +13,8 @@ from shapely import geometry
 from map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
-from data_sources.bd_topo_source import recuperer_geometrie_precise_ign
 from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker
-from utils import CompleterIntelligent
+from utils import CompleterIntelligent, recuperer_geometrie_precise_ign
 
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
@@ -245,6 +244,7 @@ class MainWindow(QMainWindow):
         logger.info("Vérification de l'état des sources de données en cours...")
         self.validator_thread = SourceValidatorWorker(self.loaded_data_sources)
         self.validator_thread.validation_result_signal.connect(self.on_source_validated)
+        self.validator_thread.finished_signal.connect(lambda: logger.info("Toutes les sources sont opérationnelles."))
         self.validator_thread.start()
         self.tout_decocher()
 
@@ -373,7 +373,7 @@ class MainWindow(QMainWindow):
         else: logger.error(f"Type de dialogue non reconnu: '{dialog_type}'"); return
         if dialog.exec():
             self.current_source_config_options[source.nom_source] = dialog.get_selection()
-            logger.info(f"Configuration pour '{source.nom_source}' mise à jour.")
+            logger.debug(f"Configuration pour '{source.nom_source}' mise à jour.")
 
     def lancer_collecte_multiple(self):
         if not self.perimeter_is_defined:
@@ -392,8 +392,7 @@ class MainWindow(QMainWindow):
                 tipo = self.search_overlay.type_select.currentText()
                 logger.info(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
                 
-                # On utilise le log_callback pour voir les messages
-                geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code, log_callback=self.log_message)
+                geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code)
                 
                 if geom_precise:
                     self.selected_polygon_geometry = geom_precise
@@ -464,9 +463,9 @@ class MainWindow(QMainWindow):
 
     def on_collecte_terminee(self, succes, message):
         if succes:
-            logger.info(f"  └─ [OK] {message}")
+            logger.info(f"  -> [OK] {message}")
         else:
-            logger.error(f"  └─ [ERREUR] {message}")
+            logger.error(f"  -> [ERREUR] {message}")
         self._start_next_collection()
 
     def set_buttons_enabled(self, enabled):
@@ -572,7 +571,7 @@ class MainWindow(QMainWindow):
 
     def on_source_validated(self, nom_source, success, message):
       if success:
-          logger.info(f"{nom_source} : OK")
+          logger.debug(f"{nom_source} : OK")
       else:
           logger.error(f"PROBLÈME SOURCE '{nom_source}' : {message}")
 
@@ -634,7 +633,7 @@ class MainWindow(QMainWindow):
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
             self.min_x_edit.setText(f"{bounds[0]:.2f}"); self.min_y_edit.setText(f"{bounds[1]:.2f}"); self.max_x_edit.setText(f"{bounds[2]:.2f}"); self.max_y_edit.setText(f"{bounds[3]:.2f}")
             self.perimeter_is_defined = True
-            logger.info("Périmètre mis à jour. Vous pouvez lancer la collecte.")
+            logger.debug("Périmètre mis à jour. Vous pouvez lancer la collecte.") 
         except Exception as e: logger.error(f"Erreur reprojection BBOX: {e}")
 
     def _load_geojson_assets(self, filename):

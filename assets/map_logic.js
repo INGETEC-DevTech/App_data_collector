@@ -114,6 +114,16 @@ var selectionContour = null;
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(layer.toGeoJSON())); }
                 });
             });
+            
+            // --- On synchronise dès qu'on lâche le clic de souris !
+            leafletMapInstance.on('draw:editvertex draw:editmove draw:editresize', function(e) {
+                // Leaflet.Draw n'utilise pas toujours le même nom de variable selon l'action
+                var liveLayer = e.layer || e.poly; 
+                if (liveLayer && window.pyHandler) {
+                    // On envoie instantanément la position à Python
+                    window.pyHandler.receive_bbox(JSON.stringify(liveLayer.toGeoJSON()));
+                }
+            });
 
             // QUAND LE RECTANGLE EST SUPPRIMÉ
             leafletMapInstance.on('draw:deleted', function(e) {

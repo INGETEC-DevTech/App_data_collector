@@ -3,6 +3,7 @@ import requests
 import geopandas as gpd
 import pandas as pd
 from data_sources.base_source import SourceDeDonneesBase
+from logger_config import logger
 
 class BpeSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -36,14 +37,11 @@ class BpeSource(SourceDeDonneesBase):
         return options
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log = options_specifiques.get("log_callback", print)
         prog = options_specifiques.get("progress_callback")
 
-        try:
-            log("--- Démarrage de l'extraction BPE ---")
-            
+        try:         
             # 1. Récupération des Communes IGN
-            log(" > Téléchargement des contours de communes (IGN WFS)...")
+            logger.debug("Téléchargement des contours de communes (IGN WFS)...")
             bbox_coords = perimetre_selection_objet["value"] 
             bbox_str = f"{bbox_coords[0]},{bbox_coords[1]},{bbox_coords[2]},{bbox_coords[3]},urn:ogc:def:crs:EPSG::2154"
             
@@ -70,7 +68,7 @@ class BpeSource(SourceDeDonneesBase):
             # EXPORT DES COMMUNES (POLYGONES)
             # =====================================================================
             if options_specifiques.get("export_communes", True):
-                log(" > Génération de la couche Communes...")
+                logger.debug("Génération de la couche Communes...")
                 df_scores = pd.read_csv(self.filepath_scores, sep=';', dtype={'code_insee': str})
                 gdf_poles = gdf_communes.merge(df_scores, on='code_insee', how='left')
                 
@@ -87,15 +85,16 @@ class BpeSource(SourceDeDonneesBase):
                 # EXPORT (Nom du fichier identique au nom de la couche)
                 path_poles = os.path.join(dest_folder, "classification_commune.gpkg")
                 gdf_poles.to_file(path_poles, driver="GPKG", layer="classification_commune")
-                log("   - Fichier 'classification_commune.gpkg' généré (colonnes épurées).")
+                logger.debug("Fichier 'classification_commune.gpkg' généré (colonnes épurées).")
 
             if prog: prog(70, 100)
 
             # =====================================================================
             # EXPORT DES POINTS (ÉQUIPEMENTS)
             # =====================================================================
+            nb_equipements = 0
             if options_specifiques.get("export_points", True):
-                log(" > Génération de la couche Équipements...")
+                logger.debug("Génération de la couche Équipements...")
                 filter_bbox = (bbox_coords[0], bbox_coords[1], bbox_coords[2], bbox_coords[3])
                 gdf_bpe_points = gpd.read_file(self.filepath, bbox=filter_bbox, engine="pyogrio")
                 
@@ -133,15 +132,15 @@ class BpeSource(SourceDeDonneesBase):
                     # EXPORT (Nom du fichier identique au nom de la couche)
                     path_points = os.path.join(dest_folder, "equipements_bpe.gpkg")
                     gdf_bpe_points.to_file(path_points, driver="GPKG", layer="equipements_bpe")
-                    log("   - Fichier 'equipements_bpe.gpkg' généré (colonnes épurées et triées).")
+                    logger.debug("Fichier 'equipements_bpe.gpkg' généré (colonnes épurées et triées).")
+                    nb_equipements = len(gdf_bpe_points)
                 else:
-                    log("   - Aucun équipement trouvé dans cette zone.")
+                    logger.info("Aucun équipement trouvé dans cette zone.")
 
             if prog: prog(100, 100)
-            return True, f"Analyse BPE terminée."
+            return True, f"{nb_equipements} équipements (et classification) sauvegardés avec succès."
 
         except Exception as e:
-            import traceback
-            log(f"  ERREUR BPE : {str(e)}\n{traceback.format_exc()}")
+            logger.exception(f"Erreur critique lors de la collecte BPE")
             return False, f"Erreur BPE : {str(e)}"
         

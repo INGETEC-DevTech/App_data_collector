@@ -2,14 +2,10 @@
 
 import sys
 import os
-import datetime
 import time 
 import requests
 import geopandas
-import pandas 
 import xml.etree.ElementTree as ET 
-from shapely.ops import transform
-import pyproj
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, '..'))
@@ -17,6 +13,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from .base_source import SourceDeDonneesBase
+from logger_config import logger
 
 class BdTopoSource(SourceDeDonneesBase):
     """Source de données pour la BD TOPO via le service WFS de l'IGN."""
@@ -126,7 +123,6 @@ class BdTopoSource(SourceDeDonneesBase):
         return gdf
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         progress_callback = options_specifiques.get("progress_callback") 
         
         subdirectory_name = self.config.get("export_subdirectory", self.nom_source)
@@ -160,7 +156,7 @@ class BdTopoSource(SourceDeDonneesBase):
         # ---------------------------------------------------------------------
         # PHASE 1 : Estimation du volume total
         # ---------------------------------------------------------------------
-        log_callback("Estimation du volume des données à télécharger...")
+        logger.info("Estimation du volume des données à télécharger...")
         total_entites_global = 0
         couches_a_traiter = [] 
 
@@ -178,9 +174,9 @@ class BdTopoSource(SourceDeDonneesBase):
                 if number_matched_str is not None:
                     count = int(number_matched_str)
             except Exception as e:
-                log_callback(f"Attention: Comptage échoué pour {typename_simple} ({e}). On lance le téléchargement forcé.")
+                logger.warning(f"Attention: Comptage échoué pour {typename_simple} ({e}). On lance le téléchargement forcé.")
                 if 'hits_response' in locals():
-                    log_callback(f"Message caché de l'IGN : {hits_response.text}")
+                    logger.debug(f"Message caché de l'IGN : {hits_response.text}")
             
             if count > 0:
                 total_entites_global += count
@@ -192,12 +188,12 @@ class BdTopoSource(SourceDeDonneesBase):
                 couches_a_traiter.append((typename, 1000))
             else:
                 # Ici c'est un vrai 0 (l'IGN a répondu "0 entité")
-                log_callback(f"Aucune entité trouvée pour {typename_simple}, ignorée.")
+                logger.debug(f"Aucune entité trouvée pour {typename_simple}, ignorée.")
 
         if total_entites_global == 0 and len(couches_a_traiter) == 0:
              return True, "Aucune donnée trouvée sur l'ensemble des couches sélectionnées."
-
-        log_callback(f"Volume total identifié (estimé) : {total_entites_global} entités.")
+        
+        logger.info(f"Volume total identifié (estimé) : {total_entites_global} entités.")
 
         # ---------------------------------------------------------------------
         # PHASE 2 : Téléchargement avec barre de progression globale
@@ -291,65 +287,10 @@ class BdTopoSource(SourceDeDonneesBase):
                 nombre_fichiers_crees += 1
     
         if succes_global and entites_sauvegardees_totales > 0:
-            summary_message = f"Succès : {entites_sauvegardees_totales} entités BD TOPO récupérées."
+            summary_message = f"{entites_sauvegardees_totales} entités sauvegardées avec succès."
         elif entites_sauvegardees_totales == 0 and not messages_erreur:
             summary_message = "Aucun aménagement trouvé dans cette zone."
         else:
             summary_message = f"Erreur BD TOPO : {str(messages_erreur[0]) if messages_erreur else 'Erreur inconnue'}"
             
         return succes_global, summary_message
-
-
-# --- AJOUT : Fonction utilitaire pour récupérer la géométrie précise ---
-def recuperer_geometrie_precise_ign(type_territoire: str, code_territoire: str, log_callback=print):
-    """
-    Récupère la géométrie précise (Polygone) d'une commune ou d'un EPCI
-    directement depuis le WFS de l'IGN (BD TOPO).
-    Retourne un objet Shapely Geometry ou None en cas d'échec.
-    """
-    if not code_territoire:
-        return None
-
-    # URL stable du WFS IGN
-    wfs_url = "https://data.geopf.fr/wfs/ows"
-    
-    # Configuration des filtres selon le type
-    if type_territoire == "Commune":
-        typename = "BDTOPO_V3:commune"
-        # Le champ standard est 'code_insee' pour les communes
-        cql_filter = f"code_insee='{code_territoire}'"
-    elif type_territoire == "EPCI":
-        typename = "BDTOPO_V3:epci"
-        # Le champ standard est 'code_siren' pour les EPCI
-        cql_filter = f"code_siren='{code_territoire}'"
-    else:
-        return None
-
-    params = {
-        'SERVICE': 'WFS',
-        'VERSION': '2.0.0',
-        'REQUEST': 'GetFeature',
-        'TYPENAMES': typename,
-        'OUTPUTFORMAT': 'application/json',
-        'CQL_FILTER': cql_filter,
-        'SRSNAME': 'EPSG:2154' # On demande explicitement du Lambert 93
-    }
-
-    try:
-        response = requests.get(wfs_url, params=params, timeout=30)
-        response.raise_for_status()
-        
-        data = response.json()
-        features = data.get('features', [])
-        
-        if features:
-            # On utilise GeoPandas pour convertir proprement le GeoJSON en objet géométrique
-            gdf = geopandas.GeoDataFrame.from_features(features, crs="EPSG:2154")
-            if not gdf.empty:
-                poly = gdf.geometry.iloc[0]
-                return poly
-            
-    except Exception as e:
-        log_callback(f"Erreur WFS IGN (Géométrie précise) : {e}")
-    
-    return None

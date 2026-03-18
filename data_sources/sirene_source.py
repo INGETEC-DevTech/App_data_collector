@@ -1,8 +1,7 @@
 # data_sources/sirene_source.py
 
 import sys, os, time, requests, pandas as pd, geopandas as gpd
-from shapely.ops import transform
-import pyproj
+from logger_config import logger
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, '..'))
@@ -32,7 +31,7 @@ class SireneSource(SourceDeDonneesBase):
     def formater_options_collecte(self, valeurs_ui) -> dict:
         return {}
 
-    def _make_api_request(self, endpoint_url, params=None, log_callback=print):
+    def _make_api_request(self, endpoint_url, params=None):
         # On tente jusqu'à 3 fois en cas de blocage
         for attempt in range(3):
             # 1. Gestion du délai "normal" (lissage des requêtes)
@@ -48,7 +47,7 @@ class SireneSource(SourceDeDonneesBase):
                 
                 # 2. Si on est bloqué par l'API (Erreur 429)
                 if response.status_code == 429:
-                    log_callback(f"Quota API atteint (429). Pause de 65 secondes avant reprise...")
+                    logger.warning("Quota API atteint (429). Pause de 65 secondes avant reprise...")
                     time.sleep(65) # On attend 1 minute et 5 secondes par sécurité
                     continue # On recommence la boucle (nouvelle tentative)
                 
@@ -58,18 +57,18 @@ class SireneSource(SourceDeDonneesBase):
             except requests.exceptions.HTTPError as http_err:
                 # Sécurité supplémentaire : Si c'est une 429 qui a échappé au 'if' ci-dessus
                 if response.status_code == 429:
-                     log_callback(f"Quota API atteint (429). Pause de 65 secondes...")
+                     logger.warning("Quota API atteint (429). Pause de 65 secondes...")
                      time.sleep(65)
                      continue
                 
-                log_callback(f"  Erreur HTTP API SIRENE: {http_err} - Réponse: {http_err.response.text}")
+                logger.error(f"Erreur HTTP API SIRENE: {http_err} - Réponse: {http_err.response.text}")
                 return None # Erreur fatale autre que 429 (ex: 404, 500)
                 
             except requests.exceptions.RequestException as req_err:
-                log_callback(f"  Erreur Requête API SIRENE: {req_err}")
+                logger.error(f"Erreur Requête API SIRENE: {req_err}")
                 return None
 
-        log_callback("Abandon après 3 tentatives échouées (Erreur 429 persistante).")
+        logger.error("Abandon après 3 tentatives échouées (Erreur 429 persistante).")
         return None
 
     def valider_lien(self):
@@ -81,10 +80,8 @@ class SireneSource(SourceDeDonneesBase):
         return False, f"API SIRENE inaccessible (Statut: {status})."
     
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         # 1. Récupération du callback de progression
         progress_callback = options_specifiques.get("progress_callback")
-        log_callback(f"Début collecte {self.nom_source}...")
 
         subdirectory_name = self.config.get("export_subdirectory", self.nom_source)
         destination_folder = os.path.join(dossier_export_local, subdirectory_name)
@@ -121,7 +118,7 @@ class SireneSource(SourceDeDonneesBase):
         while True:
             params = {"q": query, "champs": fields, "nombre": 1000, "tri": "siret asc", "curseur": cursor}
             endpoint_url = f"{self.base_url}/siret"
-            response_data = self._make_api_request(endpoint_url, params=params, log_callback=log_callback)
+            response_data = self._make_api_request(endpoint_url, params=params)
             
             if not response_data or response_data.get("header", {}).get("statut") != 200:
                 msg = response_data.get("fault", {}).get("message", "Erreur API") if response_data else "Échec requête."
@@ -194,8 +191,8 @@ class SireneSource(SourceDeDonneesBase):
                     total_final_sauvegarde += len(gdf_chunk)
                     first_chunk = False
 
-            log_callback(f"  Page {page} traitée.")
+            logger.debug(f"Page {page} traitée.")
             page += 1
             if not (cursor := response_data.get("header", {}).get("curseurSuivant")): break
         
-        return True, f"[{self.nom_source}] : {total_final_sauvegarde} établissements sauvegardés."
+        return True, f"{total_final_sauvegarde} établissements sauvegardés avec succès."

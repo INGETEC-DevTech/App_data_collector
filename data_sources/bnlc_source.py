@@ -7,8 +7,7 @@ import pandas as pd
 import geopandas as gpd
 from pyproj import Transformer
 from data_sources.base_source import SourceDeDonneesBase
-from shapely.ops import transform
-import pyproj
+from logger_config import logger
 
 class BnlcSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -29,7 +28,6 @@ class BnlcSource(SourceDeDonneesBase):
         return {}
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         progress_callback = options_specifiques.get("progress_callback")
 
         try:
@@ -45,8 +43,7 @@ class BnlcSource(SourceDeDonneesBase):
             maxx, maxy = transformer.transform(bbox_coords[2], bbox_coords[3])
 
             # 2. Téléchargement
-            log_callback("Démarrage de la collecte : Lieux de covoiturage (BNLC)")
-            log_callback("  > [Action] : Téléchargement du fichier national...")
+            logger.debug("Téléchargement du fichier national BNLC...")
             temp_csv = os.path.join(tempfile.gettempdir(), "bnlc_national.csv")
             
             response = requests.get(url, timeout=30)
@@ -54,7 +51,7 @@ class BnlcSource(SourceDeDonneesBase):
             with open(temp_csv, 'wb') as f:
                 f.write(response.content)
 
-            log_callback("  > [Action] : Lecture et conversion des données...")
+            logger.debug("Lecture et conversion des données BNLC...")
             if progress_callback:
                 progress_callback(50, 100) # Le téléchargement est fait, on passe au traitement
 
@@ -85,16 +82,17 @@ class BnlcSource(SourceDeDonneesBase):
             )
 
             # 4. Filtrage spatial
-            log_callback("Filtrage de la zone d'étude...")
+            logger.debug("Filtrage de la zone d'étude...")
             gdf_clipped = gdf.cx[minx:maxx, miny:maxy].copy()
-
+            
             if gdf_clipped.empty:
+                logger.debug("Aucun lieu de covoiturage trouvé dans cette zone.")
                 return True, "Aucun lieu de covoiturage trouvé dans cette zone."
 
             # 5. Export
             output_crs = "EPSG:2154"
             gdf_clipped = gdf_clipped.to_crs(output_crs)
-            log_callback(f"  > [Filtrage] : {len(gdf_clipped)} lieux trouvés dans le périmètre.")
+            logger.debug(f"{len(gdf_clipped)} lieux trouvés dans le périmètre avant découpage précis.")
             
             dest_folder = os.path.join(dossier_export_local, self.config.get("export_subdirectory", "COVOITURAGE"))
             os.makedirs(dest_folder, exist_ok=True)
@@ -110,9 +108,10 @@ class BnlcSource(SourceDeDonneesBase):
             gdf_clipped.to_file(path_out, driver="GPKG", engine="pyogrio")
 
             if os.path.exists(temp_csv): os.remove(temp_csv)
-
+        
             if progress_callback: progress_callback(100, 100)
-            return True, f"Succès : {len(gdf_clipped)} lieux de covoiturage récupérés."
+            return True, f"{len(gdf_clipped)} lieux de covoiturage sauvegardés avec succès."
 
         except Exception as e:
+            logger.exception("Erreur lors de la collecte BNLC")
             return False, f"Erreur lors de la collecte BNLC : {str(e)}"

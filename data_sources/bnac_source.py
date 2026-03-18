@@ -4,8 +4,7 @@ import os
 import geopandas as gpd
 from data_sources.base_source import SourceDeDonneesBase
 from pyproj import Transformer # Import indispensable pour la transformation de coordonnées
-from shapely.ops import transform
-import pyproj
+from logger_config import logger
 
 class BnacSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -33,17 +32,14 @@ class BnacSource(SourceDeDonneesBase):
         return {}
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log = options_specifiques.get("log_callback", print)
         prog = options_specifiques.get("progress_callback")
 
         try:
-            log("Démarrage de la collecte : Aménagements cyclables (BNAC)")
-            
             # 1. Préparation du filtre spatial
             bbox_coords = perimetre_selection_objet["value"] 
             source_crs = perimetre_selection_objet.get("crs", "EPSG:2154")
 
-            log("  > [Action] : Préparation du filtre spatial...")
+            logger.debug("Préparation du filtre spatial...")
             # On transforme la BBOX vers le CRS natif du fichier (4326)
             transformer = Transformer.from_crs(source_crs, self.native_crs, always_xy=True)
             minx, miny = transformer.transform(bbox_coords[0], bbox_coords[1])
@@ -51,17 +47,18 @@ class BnacSource(SourceDeDonneesBase):
             filter_bbox = (minx, miny, maxx, maxy)
 
             # 2. Lecture locale filtrée
-            log(f"  > [Action] : Lecture du fichier local {os.path.basename(self.filepath)}...")
+            logger.debug(f"Lecture du fichier local {os.path.basename(self.filepath)}...")
             if prog: prog(20, 100)
             
             # Lecture optimisée avec pyogrio et filtre spatial
             gdf = gpd.read_file(self.filepath, bbox=filter_bbox, engine="pyogrio")
-
+            
             if gdf.empty:
-                return True, f"[{self.nom_source}] : Aucun aménagement cyclable trouvé dans cette zone."
+                logger.info("Aucun aménagement cyclable trouvé dans cette zone.")
+                return True, "Aucun aménagement cyclable trouvé dans cette zone."
 
             # 3. Projection et finalisation
-            log(f"  > [Filtrage] : {len(gdf)} segments cyclables identifiés.")
+            logger.debug(f"{len(gdf)} segments cyclables identifiés avant découpage précis.")
             if prog: prog(80, 100)
             
             gdf = gdf.to_crs("EPSG:2154")
@@ -70,7 +67,7 @@ class BnacSource(SourceDeDonneesBase):
             os.makedirs(dest_folder, exist_ok=True)
             
             path_out = os.path.join(dest_folder, "aménagements_cyclables_bnac.gpkg")
-            log(f"  > [Action] : Sauvegarde vers {os.path.basename(path_out)}...")
+            logger.debug(f"Sauvegarde vers {os.path.basename(path_out)}...")
 
             # --- FILTRAGE PAR POLYGONE ---
             mask_2154 = perimetre_selection_objet.get("polygon")
@@ -79,10 +76,10 @@ class BnacSource(SourceDeDonneesBase):
                 gdf = gdf[gdf.geometry.within(mask_2154)].copy()
             
             gdf.to_file(path_out, driver="GPKG", engine="pyogrio")
-
+        
             if prog: prog(100, 100)
-            return True, f"Succès : {len(gdf)} aménagements cyclables récupérés."
+            return True, f"{len(gdf)} aménagements cyclables sauvegardés avec succès."
 
         except Exception as e:
-            log(f"  ERREUR BNAC : {str(e)}")
+            logger.exception("Erreur lors de la collecte BNAC")
             return False, f"Erreur BNAC (Local) : {str(e)}"

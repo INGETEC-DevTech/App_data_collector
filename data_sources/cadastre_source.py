@@ -1,17 +1,16 @@
 # data_sources/cadastre_source.py
 
-import sys, os, datetime, time, requests, geopandas as gpd, pandas as pd, xml.etree.ElementTree as ET
-from shapely.ops import transform
-import pyproj
+import os, time, requests, geopandas as gpd, xml.etree.ElementTree as ET
 
 from .base_source import SourceDeDonneesBase
+from logger_config import logger
 
 try:
     from .enrichment_pm import enrich_parcels_with_pm_data
     ENRICHMENT_PM_AVAILABLE = True
 except ImportError:
     ENRICHMENT_PM_AVAILABLE = False
-    print("AVERTISSEMENT (cadastre_source.py): enrichment_pm.py non trouvé. L'enrichissement PM sera désactivé.")
+    logger.warning("Fichier enrichment_pm.py non trouvé. L'enrichissement PM sera désactivé.")
 
 class CadastreSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -33,7 +32,7 @@ class CadastreSource(SourceDeDonneesBase):
             os.path.isdir(self.enrich_conf.get("csv_directory_path", ""))
         )
         if not self.typename_parcelles:
-            print(f"ERREUR CFG ({self.nom_source}): 'typename_parcelles' non configuré.")
+            logger.error(f"Erreur de configuration : 'typename_parcelles' non configuré pour {self.nom_source}.")
 
     @property
     def supports_update(self) -> bool:
@@ -74,12 +73,8 @@ class CadastreSource(SourceDeDonneesBase):
         return {"options": valeurs_ui if isinstance(valeurs_ui, list) else []}
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         progress_callback = options_specifiques.get("progress_callback")
         t_debut_collecte = time.perf_counter()
-        
-        # Log de démarrage simplifié
-        log_callback(f"Début collecte {self.nom_source}...")
 
         subdirectory_name = self.config.get("export_subdirectory", self.nom_source)
         destination_folder = os.path.join(dossier_export_local, subdirectory_name)
@@ -90,7 +85,7 @@ class CadastreSource(SourceDeDonneesBase):
 
         enrichir_pm = any(opt.get("checked") for opt in options_specifiques.get("options", []) if opt.get("id") == "enrichir_pm")
         if enrichir_pm and not self.pm_enrichment_possible:
-            log_callback("  AVERTISSEMENT: Enrichissement PM demandé mais non possible.")
+            logger.warning("Enrichissement PM demandé mais non possible.")
             enrichir_pm = False
 
         if not self.typename_parcelles: return False, "TYPENAME des parcelles non configuré."
@@ -132,7 +127,7 @@ class CadastreSource(SourceDeDonneesBase):
 
             while retry_count < max_retries:
                 try:
-                    log_callback(f"  Récupération index {start_index} ({self.page_size} parcelles)...")
+                    logger.debug(f"Récupération index {start_index} ({self.page_size} parcelles)...")
                     response = requests.get(self.base_url, params=params, timeout=180)
                     response.raise_for_status()
                     features = response.json().get('features', [])
@@ -141,11 +136,11 @@ class CadastreSource(SourceDeDonneesBase):
                 except Exception as e:
                     retry_count += 1
                     if retry_count < max_retries:
-                        log_callback(f"  Avertissement : Tentative {retry_count} échouée ({e}). Nouvel essai dans 3s...")
+                        logger.warning(f"Tentative {retry_count} échouée ({e}). Nouvel essai dans 3s...")
                         time.sleep(3) # On attend un peu avant de réessayer
                     else:
                         # Si on a épuisé les tentatives
-                        log_callback(f"  Erreur WFS persistante à l'index {start_index}: {e}")
+                        logger.error(f"Erreur WFS persistante à l'index {start_index}: {e}")
                         return False, f"Échec de la collecte WFS après {max_retries} tentatives: {e}"
 
             if not features:
@@ -179,20 +174,15 @@ class CadastreSource(SourceDeDonneesBase):
         if total_parcelles == 0:
             return True, f"[{self.nom_source}] : Aucune parcelle trouvée."
 
-        # MODIFICATION : Utilisation de os.path.basename pour le chemin final
-        nom_relatif = os.path.join(subdirectory_name, os.path.basename(chemin_export))
-        message_final = f"{total_parcelles} parcelles exportées dans '{nom_relatif}'."
+        message_final = f"{total_parcelles} parcelles sauvegardées avec succès."
         
         if enrichir_pm:
-            log_callback("  Lancement de l'enrichissement Personnes Morales...")
-            enrich_success = enrich_parcels_with_pm_data(chemin_export, "parcelles", self.enrich_conf, log_callback)
+            logger.info("Lancement de l'enrichissement Personnes Morales...") 
+            enrich_success = enrich_parcels_with_pm_data(chemin_export, "parcelles", self.enrich_conf, logger.debug)
             if enrich_success:
-                message_final += " Fichier enrichi avec succès."
-            else:
-                message_final += " L'enrichissement a échoué."
+                message_final = f"{total_parcelles} parcelles sauvegardées et enrichies avec succès."
 
         # Log final en interne (on garde la durée ici pour le log technique interne)
-        log_callback(f"Collecte {self.nom_source} terminée en {time.perf_counter() - t_debut_collecte:.2f}s.")
+        logger.debug(f"Collecte {self.nom_source} terminée en {time.perf_counter() - t_debut_collecte:.2f}s.")
         
-        # MODIFICATION : Retour sans le temps en secondes pour correspondre aux autres sources
-        return True, f"[{self.nom_source}] : {message_final}"
+        return True, f"{message_final}"

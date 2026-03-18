@@ -3,10 +3,7 @@
 import os
 import geopandas as gpd
 from shapely.geometry import box
-import datetime
 import time
-from shapely.ops import transform
-import pyproj
 
 import sys
 current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -15,6 +12,7 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
 
 from .base_source import SourceDeDonneesBase
+from logger_config import logger
 
 class FilosofiSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -45,21 +43,19 @@ class FilosofiSource(SourceDeDonneesBase):
         return {}
 
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         # Récupération du callback de progression
         progress_callback = options_specifiques.get("progress_callback")
         t_debut_collecte = time.perf_counter()
-        log_callback(f"Début de la collecte pour {self.nom_source}...")
 
         is_valid, message = self.valider_lien()
         if not is_valid:
-            log_callback(message)
+            logger.error(message)
             return False, message
         
         # On vérifie juste qu'on a bien reçu un périmètre et ses coordonnées (value)
         if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
             message = "Périmètre ou coordonnées introuvables."
-            log_callback(message)
+            logger.error(message)
             return False, message
 
         try:
@@ -78,7 +74,7 @@ class FilosofiSource(SourceDeDonneesBase):
             selection_gdf_ui_crs = gpd.GeoDataFrame([{'id': 1, 'geometry': selection_polygon_ui_crs}], crs=bbox_crs_from_ui)
 
             if bbox_crs_from_ui.upper() != self.native_crs.upper():
-                log_callback(f"  Reprojection de la BBOX de sélection vers {self.native_crs}...")
+                logger.debug(f"Reprojection de la BBOX de sélection vers {self.native_crs}...")
                 selection_gdf_native_crs = selection_gdf_ui_crs.to_crs(self.native_crs)
             else:
                 selection_gdf_native_crs = selection_gdf_ui_crs
@@ -93,8 +89,8 @@ class FilosofiSource(SourceDeDonneesBase):
             
             actual_layer_name = layers[0][0] # On prend la première couche trouvée
             
-            log_callback(f"  Lecture filtrée du GeoPackage : {self.filepath}...")
-            log_callback(f"  Couche détectée automatiquement : '{actual_layer_name}'")
+            logger.debug(f"Lecture filtrée du GeoPackage : {self.filepath}...")
+            logger.debug(f"Couche détectée automatiquement : '{actual_layer_name}'")
             
             # Utilisation de pyogrio avec le VRAI nom de la couche
             gdf_filtre = gpd.read_file(self.filepath, layer=actual_layer_name, bbox=bbox_for_readfile, engine="pyogrio")
@@ -102,28 +98,28 @@ class FilosofiSource(SourceDeDonneesBase):
             # --- BLOC DE DÉCOUPAGE PRÉCIS (CLIPPING) ---
             mask_native = perimetre_selection_objet.get("polygon")
             if mask_native is not None and not gdf_filtre.empty:
-                log_callback("  Filtrage spatial précis des carreaux FiLoSoFi...")
+                logger.debug("Filtrage spatial précis des carreaux FiLoSoFi...")
                 # On ne garde que les carreaux qui intersectent la commune/EPCI
                 gdf_filtre = gdf_filtre[gdf_filtre.geometry.intersects(mask_native)].copy()
 
-            log_callback(f"  {len(gdf_filtre)} carreaux trouvés. Préparation de la sauvegarde...")
+            logger.debug(f"{len(gdf_filtre)} carreaux trouvés. Préparation de la sauvegarde...")
             if progress_callback:
                 progress_callback(50, 100) # On montre qu'on a fait la moitié du chemin
 
             nb_entites_filtrees = len(gdf_filtre)
-            log_callback(f"  {nb_entites_filtrees} carreaux FilosoFI trouvés.")
+            logger.debug(f"{nb_entites_filtrees} carreaux FilosoFI trouvés.")
 
             if nb_entites_filtrees > 0:
                 output_crs = "EPSG:2154"
                 if gdf_filtre.crs.to_string().upper() != output_crs.upper():
-                    log_callback(f"  Reprojection vers {output_crs}...")
+                    logger.debug(f"Reprojection vers {output_crs}...")
                     gdf_filtre = gdf_filtre.to_crs(output_crs)
                 
                 output_layer_name = "filosofi"
                 nom_fichier = f"{output_layer_name}.gpkg"
                 chemin_export_complet = os.path.join(destination_folder, nom_fichier)
                 
-                log_callback(f"  Sauvegarde de {nb_entites_filtrees} carreaux vers {chemin_export_complet}...")
+                logger.debug(f"Sauvegarde de {nb_entites_filtrees} carreaux vers {chemin_export_complet}...")
                 # ÉCRITURE OPTIMISÉE AVEC PYOGRIO
                 gdf_filtre.to_file(chemin_export_complet, driver="GPKG", layer=output_layer_name, engine="pyogrio")
                 
@@ -134,18 +130,16 @@ class FilosofiSource(SourceDeDonneesBase):
                 # Libération immédiate de la mémoire
                 del gdf_filtre
                 
-                message_final = f"{nb_entites_filtrees} entités FilosoFI exportées dans '{subdirectory_name}/{nom_fichier}'."
-                log_callback(f"Collecte {self.nom_source} terminée en {time.perf_counter() - t_debut_collecte:.2f} sec.")
-                return True, f"[{self.nom_source}] : {message_final}"
+                message_final = f"{nb_entites_filtrees} carreaux sauvegardés avec succès."
+                logger.debug(f"Collecte {self.nom_source} terminée en {time.perf_counter() - t_debut_collecte:.2f} sec.")
+                return True, f"{message_final}"
             else:
                 if progress_callback:
                     progress_callback(100, 100)
                 message_final = "Aucun carreau FilosoFI trouvé dans la sélection."
-                log_callback(message_final)
-                return True, f"[{self.nom_source}] : {message_final}"
+                logger.info(message_final)
+                return True, f"{message_final}"
 
         except Exception as e:
-            import traceback
-            message = f"Erreur lors du traitement de FilosoFI : {e}\n{traceback.format_exc()}"
-            log_callback(message)
-            return False, message
+            logger.exception(f"Erreur lors du traitement de FilosoFI")
+            return False, f"Erreur lors du traitement de FilosoFI : {e}"

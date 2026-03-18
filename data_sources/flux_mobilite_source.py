@@ -16,6 +16,7 @@ project_root = os.path.abspath(os.path.join(current_dir, '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 from .base_source import SourceDeDonneesBase
+from logger_config import logger
 
 class FluxMobiliteSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
@@ -88,7 +89,6 @@ class FluxMobiliteSource(SourceDeDonneesBase):
 
     # --- COLLECTE PRINCIPALE ---
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
-        log_callback = options_specifiques.get("log_callback", print)
         progress_callback = options_specifiques.get("progress_callback")
         t_debut_global = time.perf_counter()
 
@@ -104,7 +104,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
         path_cities = os.path.join(assets_dir, 'communes-france-2025.csv')
         path_match = os.path.join(assets_dir, 'com_matching-code_2025.csv')
 
-        log_callback("  > Chargement des référentiels géographiques...")
+        logger.debug("Chargement des référentiels géographiques...")
         df_cities = pd.read_csv(path_cities, dtype=str)
         df_cities.rename(columns={'code_insee': 'insee', 'latitude_mairie': 'latitude', 'longitude_mairie': 'longitude'}, inplace=True)
         df_cities['insee'] = df_cities['insee'].apply(self.normalize_insee)
@@ -125,7 +125,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
 
         # Filtrage Spatial
         mask_2154 = perimetre_selection_objet.get("polygon")
-
+        
         # --- NOUVEAU : Si pas de polygone (Mode Rectangle), on en fabrique un ! ---
         if mask_2154 is None: 
             bbox_vals = perimetre_selection_objet.get("value")
@@ -143,7 +143,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
         if not communes_in_poly:
             return True, "Aucune commune trouvée dans cette zone. Export annulé."
         
-        log_callback(f"  > Zone d'étude définie : {len(communes_in_poly)} commune(s) concernée(s).")
+        logger.info(f"Zone d'étude définie : {len(communes_in_poly)} commune(s) concernée(s).")
         
         type_selection = perimetre_selection_objet.get("type", "bbox")
         is_epci = type_selection == "epci"
@@ -154,7 +154,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
 
         # BOUCLE SUR LES FLUX COCHÉS
         for idx, mode in enumerate(options_cochees):
-            log_callback(f"\\n--- Traitement des flux : {mode.upper()} ---")
+            logger.debug(f"Traitement des flux : {mode.upper()}")
             filepath = self.fichiers_locaux.get(mode)
             
             if mode == "etude":
@@ -187,7 +187,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             flux_filtres = flux_df_agg[(flux_df_agg['code_res'].isin(communes_in_poly)) | (flux_df_agg['code_trav'].isin(communes_in_poly))].copy()
 
             if flux_filtres.empty:
-                log_callback(f"  > Aucun flux trouvé pour {mode}.")
+                logger.info(f"Aucun flux trouvé pour {mode}.")
                 continue
 
             flux_filtres = pd.merge(flux_filtres, df_epci_ref[['code_commune', 'code_epci', 'nom_epci']], left_on='code_res', right_on='code_commune', how='left').rename(columns={'code_epci': 'code_epci_res', 'nom_epci': 'nom_epci_res'})
@@ -278,6 +278,6 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             
             # Mise à jour de la barre de progression
             if progress_callback: progress_callback(int((idx + 1) / len(options_cochees) * 100), 100)
-
-        log_callback(f"Collecte globale terminée en {time.perf_counter() - t_debut_global:.2f}s.")
-        return True, "Fichiers Excel et couches cartographiques créés avec succès."
+    
+        logger.debug(f"Collecte globale terminée en {time.perf_counter() - t_debut_global:.2f}s.")
+        return True, "Fichiers de flux (Excel et Géométries) sauvegardés avec succès."
