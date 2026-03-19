@@ -23,7 +23,7 @@ class BnacSource(SourceDeDonneesBase):
         """Vérifie si le fichier GeoJSON existe sur le disque."""
         if self.filepath and os.path.exists(self.filepath):
             return True, f"Fichier BNAC trouvé : {os.path.basename(self.filepath)}"
-        return False, f"Fichier BNAC introuvable : {self.filepath}"
+        return False, "Fichier local introuvable."
 
     def get_parametres_specifiques_ui(self):
         return None

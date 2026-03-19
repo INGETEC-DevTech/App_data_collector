@@ -18,7 +18,7 @@ class BpeSource(SourceDeDonneesBase):
     def valider_lien(self):
         if self.filepath and os.path.exists(self.filepath) and self.filepath_scores and os.path.exists(self.filepath_scores):
             return True, f"Base BPE (Points et Scores) trouvée."
-        return False, f"Fichiers BPE introuvables. Lancez une mise à jour des données."
+        return False, "Fichier(s) local/locaux introuvable(s)."
 
     def get_parametres_specifiques_ui(self):
         return {

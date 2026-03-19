@@ -47,7 +47,7 @@ class CadastreSource(SourceDeDonneesBase):
             wfs_msg = "Service WFS accessible."
             wfs_ok = True
         except requests.RequestException:
-            wfs_msg = "Service WFS inaccessible."
+            wfs_msg = "Service distant (API/WFS) inaccessible."
             wfs_ok = False
         
         pm_msg = "Enrichissement PM désactivé."

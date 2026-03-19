@@ -77,7 +77,7 @@ class SireneSource(SourceDeDonneesBase):
         if data and data.get("etatService") == "UP":
             return True, "API SIRENE accessible."
         status = data.get("etatService", "Inconnu") if data else "Échec"
-        return False, f"API SIRENE inaccessible (Statut: {status})."
+        return False, "Service distant (API/WFS) inaccessible."
     
     def collecter_donnees(self, dossier_export_local, perimetre_selection_objet, options_specifiques):
         # 1. Récupération du callback de progression

@@ -114,4 +114,4 @@ class BnlcSource(SourceDeDonneesBase):
 
         except Exception as e:
             logger.exception("Erreur lors de la collecte BNLC")
-            return False, f"Erreur lors de la collecte BNLC : {str(e)}"
+            return False, "Service distant (API/WFS) inaccessible."

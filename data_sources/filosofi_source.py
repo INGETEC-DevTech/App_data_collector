@@ -32,7 +32,7 @@ class FilosofiSource(SourceDeDonneesBase):
             return False, "Chemin du fichier Filosofi non configuré."
         if os.path.exists(self.filepath):
             return True, f"Fichier Filosofi trouvé : {self.filepath}"
-        return False, f"Fichier Filosofi NON TROUVÉ : {self.filepath}"
+        return False, "Fichier local introuvable."
 
     def get_parametres_specifiques_ui(self):
         """Pas d'options de configuration spécifiques pour cette source."""

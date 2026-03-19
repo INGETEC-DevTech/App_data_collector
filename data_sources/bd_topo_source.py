@@ -82,7 +82,7 @@ class BdTopoSource(SourceDeDonneesBase):
             return True, "Serveur IGN en ligne et toutes les couches configurées sont disponibles."
             
         except requests.exceptions.RequestException as e:
-            return False, f"Impossible de joindre le serveur WFS IGN. Erreur réseau : {e}"
+            return False, "Service distant (API/WFS) inaccessible."
         except Exception as e:
             return False, f"Erreur inattendue lors de la validation IGN : {e}"
 

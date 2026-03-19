@@ -34,7 +34,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             if not os.path.exists(path):
                 manquants.append(mode)
         if manquants:
-            return False, f"Fichier(s) manquant(s) pour : {', '.join(manquants)}"
+            return False, f"Fichier(s) local/locaux introuvable(s) ({', '.join(manquants)})."
         return True, "Fichiers de flux OK (Travail & Études)"
 
     # --- C'EST ICI QU'ON CRÉE LA ROUE CRANTÉE ---

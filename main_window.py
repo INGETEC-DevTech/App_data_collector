@@ -21,6 +21,11 @@ from gui_module import (OverlaySearchWidget, SourceListItemWidget,
                         UpdateCenterDialog)
 import logging
 from logger_config import logger, log_emitter
+import pyproj
+from shapely.ops import transform
+import geopandas as gpd
+from shapely.geometry import box
+
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
 
@@ -244,7 +249,7 @@ class MainWindow(QMainWindow):
         logger.info("Vérification de l'état des sources de données en cours...")
         self.validator_thread = SourceValidatorWorker(self.loaded_data_sources)
         self.validator_thread.validation_result_signal.connect(self.on_source_validated)
-        self.validator_thread.finished_signal.connect(lambda: logger.info("Toutes les sources sont opérationnelles."))
+        self.validator_thread.finished_signal.connect(self.on_validation_finished)
         self.validator_thread.start()
         self.tout_decocher()
 
@@ -271,6 +276,7 @@ class MainWindow(QMainWindow):
             self.set_buttons_enabled(True) # On réactive le bouton "Collecter"
 
     def _update_map_on_clip_change(self):
+        logger.debug(f"Index barre de recherche: {self.search_overlay.territory_select.currentIndex()}")
         if self.search_overlay.territory_select.currentIndex() <= 0:
             return
 
@@ -379,14 +385,13 @@ class MainWindow(QMainWindow):
         if not self.perimeter_is_defined:
             logger.warning("Veuillez d'abord définir un périmètre.")
             return
-        self.cancel_button.setEnabled(True)
         
         # On regarde quel mode est actif
         is_precise = self.search_overlay.btn_precise.isChecked()
         
         # Interrogation WFS IGN ou utilisation du Rectangle
         if self.search_overlay.territory_select.currentIndex() > 0 and self.current_territory_code:
-            
+
             if is_precise:
                 # --- MODE PRÉCIS ---
                 tipo = self.search_overlay.type_select.currentText()
@@ -395,17 +400,19 @@ class MainWindow(QMainWindow):
                 geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code)
                 
                 if geom_precise:
-                    self.selected_polygon_geometry = geom_precise
+                    # NOUVEAU : On stocke dans une variable dédiée à la collecte !
+                    self.polygon_for_collection = geom_precise 
                     logger.info("Géométrie précise récupérée et appliquée au filtre.")
                 else:
                     logger.warning("Échec récupération précise. Utilisation du contour simplifié.")
+                    # NOUVEAU : Copie de secours si l'IGN plante
+                    self.polygon_for_collection = self.selected_polygon_geometry 
             
             else:
                 # --- MODE RECTANGLE ---
                 logger.info("Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).")
-                # LIGNE CRUCIALE : On efface le polygone complexe de la mémoire
-                # Cela force la méthode `get_perimeter_from_ui` à lire les valeurs de ton rectangle édité !
-                self.selected_polygon_geometry = None
+                # On met le polygone de collecte à None, MAIS on ne touche plus à selected_polygon_geometry !
+                self.polygon_for_collection = None
 
 
         # --- La suite de la méthode ne change pas ---
@@ -427,10 +434,14 @@ class MainWindow(QMainWindow):
                 if widget.checkbox.isChecked():
                     self.collection_queue.append(widget.source)
             
-        if not self.collection_queue: logger.warning("Aucune source sélectionnée pour la collecte."); return
+        if not self.collection_queue: 
+            # Un message beaucoup plus clair et incitatif pour l'utilisateur
+            logger.warning("Action impossible : Veuillez cocher au moins une source de données à collecter.") 
+            return
         
         logger.info(f"=== DÉBUT DE LA COLLECTE ({len(self.collection_queue)} source(s)) ===")
         self.set_buttons_enabled(False)
+        self.cancel_button.setEnabled(True)
         self._start_next_collection()
 
     def _start_next_collection(self):
@@ -570,15 +581,35 @@ class MainWindow(QMainWindow):
       self.set_buttons_enabled(True)
 
     def on_source_validated(self, nom_source, success, message):
-      if success:
-          logger.debug(f"{nom_source} : OK")
-      else:
-          logger.error(f"PROBLÈME SOURCE '{nom_source}' : {message}")
+        if not hasattr(self, 'erreurs_validation'):
+            self.erreurs_validation = 0
+
+        if success:
+            logger.debug(f"{nom_source} : OK")
+        else:
+            self.erreurs_validation += 1
+            logger.error(f"[{nom_source}] : {message}")
+
+    def on_validation_finished(self):
+        erreurs = getattr(self, 'erreurs_validation', 0)
+        
+        if erreurs == 0:
+            logger.info("Toutes les sources sont opérationnelles.")
+        else:
+            logger.warning(f"Vérification terminée : {erreurs} source(s) indisponible(s).")
+        self.erreurs_validation = 0
 
     def get_perimeter_from_ui(self):
         try:
             is_precise = self.search_overlay.btn_precise.isChecked()
             poly_to_send = getattr(self, 'selected_polygon_geometry', None)
+
+            if is_precise:
+                # On prend la géométrie de collecte (et si elle n'existe pas, on prend celle de l'UI par sécurité)
+                poly_to_send = getattr(self, 'polygon_for_collection', getattr(self, 'selected_polygon_geometry', None))
+            else:
+                # En mode rectangle, on force None pour être sûr d'utiliser la BBOX
+                poly_to_send = None
 
             # On détermine le type de sélection
             type_selection = "bbox" # On met 'bbox' par défaut pour le dessin manuel
@@ -590,8 +621,6 @@ class MainWindow(QMainWindow):
             if poly_to_send:
                 bounds = poly_to_send.bounds
                 if max(abs(bounds[0]), abs(bounds[2])) < 180:
-                    import pyproj
-                    from shapely.ops import transform
                     project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
                     poly_to_send = transform(project, poly_to_send)
                 
@@ -626,8 +655,6 @@ class MainWindow(QMainWindow):
 
     def on_bbox_drawn_on_map(self, min_lng, min_lat, max_lng, max_lat):
         try:
-            import geopandas as gpd
-            from shapely.geometry import box
             target_crs = self.crs_edit.text()
             if not target_crs: logger.error("Erreur: CRS non défini pour la reprojection."); return
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
@@ -715,11 +742,18 @@ class MainWindow(QMainWindow):
             self.map_manager.run_js_draw(target_final['geometry'], is_precise, True)
 
             # Mise à jour des coordonnées
-            bounds = self.selected_polygon_geometry.bounds
-            self.min_x_edit.setText(f"{bounds[0]:.6f}")
-            self.min_y_edit.setText(f"{bounds[1]:.6f}")
-            self.max_x_edit.setText(f"{bounds[2]:.6f}")
-            self.max_y_edit.setText(f"{bounds[3]:.6f}")
+
+            # 1. On projette le polygone GPS (4326) vers le Lambert 93 (2154)
+            project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
+            geom_2154 = transform(project, self.selected_polygon_geometry)
+            
+            # 2. On récupère les limites en mètres
+            bounds_2154 = geom_2154.bounds
+
+            self.min_x_edit.setText(f"{bounds_2154[0]:.6f}")
+            self.min_y_edit.setText(f"{bounds_2154[1]:.6f}")
+            self.max_x_edit.setText(f"{bounds_2154[2]:.6f}")
+            self.max_y_edit.setText(f"{bounds_2154[3]:.6f}")
             self.perimeter_is_defined = True # Ne pas oublier d'activer le flag de périmètre
 
     def update_progress_bar(self, current, total):
