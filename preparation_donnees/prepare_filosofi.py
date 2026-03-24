@@ -6,9 +6,10 @@ import glob
 
 # À ADAPTER : Mets ici le chemin du dossier où Filosofi est stocké sur P:/
 FILOSOFI_DIR = r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019" 
-TARGET_GPKG_NAME = "carreaux_200m_met.gpkg" # Le nom attendu par l'application
+TARGET_GPKG_NAME = "carreaux_200m_met.gpkg" 
 
-def executer_mise_a_jour():
+# On demande le fichier exact en paramètre
+def executer_mise_a_jour(zip_path): 
     try:
         import py7zr
     except ImportError:
@@ -16,18 +17,15 @@ def executer_mise_a_jour():
 
     print("--- Démarrage de l'extraction automatisée Filosofi ---")
 
-    # 1. Trouver le fichier ZIP déposé par l'application
-    zip_files = glob.glob(os.path.join(FILOSOFI_DIR, "*.zip"))
-    if not zip_files:
-        raise FileNotFoundError("Aucun fichier .zip n'a été trouvé dans le dossier Filosofi.")
-    
-    zip_path = zip_files[0] # On prend le premier zip trouvé
+    # On vérifie juste que le fichier qu'on nous donne existe bien.
+    if not zip_path or not os.path.exists(zip_path):
+        raise FileNotFoundError(f"Le fichier ZIP source est introuvable : {zip_path}")
+
+    print(f"1/4 Extraction du fichier ZIP principal : {os.path.basename(zip_path)}...")
 
     # Création d'un dossier temporaire invisible qui se supprimera tout seul
     with tempfile.TemporaryDirectory() as temp_dir:
-        
         # 2. Extraire le ZIP
-        print(f"1/4 Extraction du fichier ZIP principal...")
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(temp_dir)
 

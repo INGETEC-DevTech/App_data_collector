@@ -4,7 +4,7 @@ from shapely.geometry import shape
 from PyQt6.QtWidgets import (QMainWindow, QPushButton, QVBoxLayout, QHBoxLayout, QWidget,
                              QTextEdit, QListWidget, QListWidgetItem,
                              QLabel, QFileDialog, QLineEdit, 
-                             QProgressBar, QSplitter)
+                             QProgressBar, QSplitter, QMessageBox)
 from PyQt6.QtCore import Qt
 from PyQt6.QtGui import QIcon, QFontMetrics
 from PyQt6.QtWebEngineWidgets import QWebEngineView
@@ -207,6 +207,9 @@ class MainWindow(QMainWindow):
             self.search_overlay.raise_() # S'assure qu'il est au-dessus de la carte
             self.search_overlay.move(150, 15)
             self.search_overlay.show()
+
+            # On écoute le signal de la poubelle
+            self.search_overlay.btn_effacer.clicked.connect(self.confirmer_et_nettoyer)
             
             # Connexion des nouveaux signaux
             self.search_overlay.type_select.currentTextChanged.connect(self._on_admin_type_changed)
@@ -276,7 +279,6 @@ class MainWindow(QMainWindow):
             self.set_buttons_enabled(True) # On réactive le bouton "Collecter"
 
     def _update_map_on_clip_change(self):
-        logger.debug(f"Index barre de recherche: {self.search_overlay.territory_select.currentIndex()}")
         if self.search_overlay.territory_select.currentIndex() <= 0:
             return
 
@@ -759,4 +761,47 @@ class MainWindow(QMainWindow):
     def update_progress_bar(self, current, total):
         if total > 0:
             self.progress_bar.setMaximum(total)
-            self.progress_bar.setValue(current) 
+            self.progress_bar.setValue(current)
+
+    def confirmer_et_nettoyer(self):
+        """Affiche une vraie popup PyQt native pour confirmer la suppression."""
+        if not self.perimeter_is_defined and not self.selected_polygon_geometry:
+            # S'il n'y a rien à effacer, on ne fait rien
+            return
+
+        reponse = QMessageBox.question(
+            self, 
+            "Confirmation de suppression", 
+            "Voulez-vous vraiment effacer la zone sélectionnée ?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No,
+            QMessageBox.StandardButton.No
+        )
+
+        if reponse == QMessageBox.StandardButton.Yes:
+            self.nettoyer_interface()
+
+    def nettoyer_interface(self):
+        """Fait le ménage absolu dans Python et sur la carte."""
+        # 1. On ordonne à la carte de s'effacer
+        if hasattr(self, 'map_manager'):
+            self.map_manager.effacer_carte_js()
+
+        # 2. On efface la mémoire Python
+        self.selected_polygon_geometry = None
+        if hasattr(self, 'polygon_for_collection'):
+            self.polygon_for_collection = None
+        self.current_territory_code = None
+        self.perimeter_is_defined = False
+        
+        # 3. On remet la barre de recherche à "Choisir..." pour forcer un vrai rechargement la prochaine fois
+        # Important : bloquez temporairement les signaux pour ne pas redéclencher d'événements
+        self.search_overlay.territory_select.blockSignals(True)
+        self.search_overlay.territory_select.setCurrentIndex(0)
+        self.search_overlay.territory_select.blockSignals(False)
+        self.search_overlay.territory_select.setCurrentText("") # Vide la zone de texte
+        
+        # 4. On vide les coordonnées
+        self.min_x_edit.clear(); self.min_y_edit.clear()
+        self.max_x_edit.clear(); self.max_y_edit.clear()
+        
+        logger.info("Sélection effacée. Prêt pour une nouvelle recherche.")

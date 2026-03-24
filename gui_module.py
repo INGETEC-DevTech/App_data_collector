@@ -71,6 +71,21 @@ class OverlaySearchWidget(QFrame):
         self.btn_rectangle.setFixedWidth(80)
         self.btn_rectangle.setFixedHeight(28)
 
+        # Bouton "Poubelle"
+        self.btn_effacer = QPushButton()
+        self.btn_effacer.setIcon(QIcon("icons/trash-can.svg"))
+        self.btn_effacer.setToolTip("Effacer la sélection")
+        self.btn_effacer.setFixedSize(30, 30) # Toujours un petit carré
+        self.btn_effacer.setStyleSheet("""
+            QPushButton { 
+                background-color: #e74c3c; 
+                border-radius: 4px; 
+            }
+            QPushButton:hover { 
+                background-color: #c0392b; 
+            }
+        """)
+
         # On les rend exclusifs (comme des boutons radio)
         self.btn_group = QButtonGroup(self)
         self.btn_group.addButton(self.btn_precise)
@@ -116,6 +131,7 @@ class OverlaySearchWidget(QFrame):
         self.mode_layout.addStretch()
         self.mode_layout.addWidget(self.btn_precise)
         self.mode_layout.addWidget(self.btn_rectangle)
+        self.mode_layout.addWidget(self.btn_effacer)
         self.mode_layout.addStretch()
         
         layout.addLayout(self.mode_layout)

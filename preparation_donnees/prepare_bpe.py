@@ -7,8 +7,8 @@ import unicodedata
 
 # --- CONFIGURATION ---
 SOURCE_DIR = r"P:/BiblioTechnique/MOBILITE/_Data/Base permanente des équipements (BPE)"
-FINAL_FILENAME = "BPE24_France_Enrichie.gpkg"
-SCORES_FILENAME = "BPE24_Scores_Communes_France.csv"
+FINAL_FILENAME = "BPE_France_Enrichie.gpkg"
+SCORES_FILENAME = "BPE_Scores_Communes_France.csv"
 
 LOCAL_TEMP_PATH = os.path.join(os.path.expanduser("~"), "Desktop", FINAL_FILENAME)
 LOCAL_TEMP_SCORES_PATH = os.path.join(os.path.expanduser("~"), "Desktop", SCORES_FILENAME)
@@ -17,19 +17,19 @@ def normaliser_texte(texte):
     if pd.isna(texte): return ""
     return ''.join(c for c in unicodedata.normalize('NFD', str(texte)) if unicodedata.category(c) != 'Mn').lower().strip()
 
-def prepare_bpe_local_to_network():
+def prepare_bpe_local_to_network(path_parquet, path_passage, path_gammes):
     print("--- Démarrage de la consolidation BPE ---")
-    
-    path_parquet = os.path.join(SOURCE_DIR, "BPE24.parquet")
-    path_passage = os.path.join(SOURCE_DIR, "BPE24_table_passage.csv")
-    path_gammes = os.path.join(SOURCE_DIR, "BPE_gammes_equipements_2024.xlsx")
 
+    # Vérification de sécurité
+    if not all([path_parquet, path_passage, path_gammes]):
+        raise ValueError("Il manque un des 3 fichiers requis (.parquet, .csv ou .xlsx) pour la BPE.")
+    
     # ==========================================
     # 1. LECTURE ET APLATISSEMENT DES GAMMES
     # ==========================================
     print("1/4 Lecture et préparation du dictionnaire des gammes...")
     df_passage = pd.read_csv(path_passage, sep=';', encoding='utf-8')
-    df_gammes = pd.read_excel(path_gammes, sheet_name='Gammes 2024', skiprows=4)
+    df_gammes = pd.read_excel(path_gammes, sheet_name='Gammes 2024', skiprows=4) # ATTENTION ICI CA PEUT CHANGER JE PENSE SI LE FICHIER ESY MIS A JOUR
     df_bpe = pd.read_parquet(path_parquet, columns=['NOMRS', 'DEPCOM', 'TYPEQU', 'LAMBERT_X', 'LAMBERT_Y'])
 
     # On nettoie la colonne TYPEQU de la base brute (suppression des espaces + majuscule forcée)

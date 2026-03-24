@@ -1,5 +1,5 @@
 # preparation_donnees/mise_a_jour_globale.py
-
+import prepare_bnac
 import prepare_bpe
 import preparation_donnees.simplifier_contours_carte as simplifier_contours_carte
 
@@ -19,7 +19,10 @@ def lancer_mise_a_jour_complete():
         simplifier_contours_carte.executer_mise_a_jour_geojson()
         print("Étape 2 terminée avec succès.")
 
-        # Tu pourras ajouter l'étape 3 (Filosofi, etc.) ici plus tard !
+        # 3. Mise à jour de la BNAC
+        print("\n--- ÉTAPE 3 : CONVERSION BNAC (GeoJSON -> GPKG) ---")
+        prepare_bnac.executer_mise_a_jour()
+        print("Étape 3 terminée avec succès.")
 
         print("\n======================================================")
         print("TOUTES LES MISES À JOUR ONT ÉTÉ EFFECTUÉES AVEC SUCCÈS")

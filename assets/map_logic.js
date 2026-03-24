@@ -2,29 +2,39 @@
 var leafletMapInstance = null;
 var selectionContour = null;
 
-    function verrouillerBoutonsEdition(verrouiller) {
-        var btnEdit = document.querySelector('.leaflet-draw-edit-edit');
-        // var btnRemove = document.querySelector('.leaflet-draw-edit-remove');
-        
-        if (verrouiller) {
-            // Désactive le mode édition s'il était actif
-            if (leafletMapInstance && leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
-                try { leafletMapInstance._toolbars.edit._modes.edit.handler.disable(); } catch(e){}
-            }
-            // Rend les boutons gris et incliquables
-            if (btnEdit) { btnEdit.style.pointerEvents = 'none'; btnEdit.style.opacity = '0.4'; }
-            // if (btnRemove) { btnRemove.style.pointerEvents = 'none'; btnRemove.style.opacity = '0.4'; }
-        } else {
-            // Réactive les boutons
-            if (btnEdit) { btnEdit.style.pointerEvents = 'auto'; btnEdit.style.opacity = '1'; }
-            // if (btnRemove) { btnRemove.style.pointerEvents = 'auto'; btnRemove.style.opacity = '1'; }
+function verrouillerBoutonsEdition(verrouiller) {
+    var btnEdit = document.querySelector('.leaflet-draw-edit-edit');
+    var btnRemove = document.querySelector('.leaflet-draw-edit-remove');
+    
+    // On cache définitivement la poubelle native de Leaflet !
+    if (btnRemove) { btnRemove.style.display = 'none'; } 
+    
+    if (verrouiller) {
+        if (leafletMapInstance && leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
+            try { leafletMapInstance._toolbars.edit._modes.edit.handler.disable(); } catch(e){}
         }
+        if (btnEdit) { btnEdit.style.pointerEvents = 'none'; btnEdit.style.opacity = '0.4'; }
+    } else {
+        if (btnEdit) { btnEdit.style.pointerEvents = 'auto'; btnEdit.style.opacity = '1'; }
     }
+}
 
 (function() {
     var pyHandlerIsReady = false;
     var leafletMapInstance = null;
     var lastDrawnRectangle = null;
+
+    // Fonction pour supprimer la sélection
+    window.clearMap = function() {
+        if (leafletMapInstance) {
+            if (window.selectionContour) { leafletMapInstance.removeLayer(window.selectionContour); window.selectionContour = null; }
+            if (lastDrawnRectangle) { leafletMapInstance.removeLayer(lastDrawnRectangle); lastDrawnRectangle = null; }
+            if (leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
+                leafletMapInstance._toolbars.edit.options.featureGroup.clearLayers();
+            }
+            verrouillerBoutonsEdition(true);
+        }
+    };
 
     // FONCTION POUR DESSINER LE CONTOUR ET ZOOMER
     window.drawTerritory = function(featureData, isPrecise, shouldZoom) {
@@ -88,57 +98,38 @@ var selectionContour = null;
             }
         }
     };
-
+    
     function findMapAndAttachDrawEvents() {
         if (!leafletMapInstance) {
             for (var k in window) { if (window[k] instanceof L.Map) { leafletMapInstance = window[k]; break; } }
         }
         if (leafletMapInstance && !leafletMapInstance._draw_events_attached) {
             
-            // QUAND UN RECTANGLE EST DESSINÉ (A la main ou via notre ruse JS)
             leafletMapInstance.on('draw:created', function(e) {
                 if (e.layerType === 'rectangle') {
                     if (lastDrawnRectangle) { try { leafletMapInstance.removeLayer(lastDrawnRectangle); } catch(err){} }
                     leafletMapInstance.addLayer(e.layer);
                     lastDrawnRectangle = e.layer;
-                    
-                    // Envoi à Python
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(e.layer.toGeoJSON())); }
                 }
             });
 
-            // --- NOUVEAU : QUAND LE RECTANGLE EST MODIFIÉ (VIA LE BOUTON EDIT) ---
             leafletMapInstance.on('draw:edited', function(e) {
                 e.layers.eachLayer(function(layer) {
-                    // On envoie les nouvelles coordonnées ajustées à Python
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(layer.toGeoJSON())); }
                 });
             });
             
-            // --- On synchronise dès qu'on lâche le clic de souris !
             leafletMapInstance.on('draw:editvertex draw:editmove draw:editresize', function(e) {
-                // Leaflet.Draw n'utilise pas toujours le même nom de variable selon l'action
                 var liveLayer = e.layer || e.poly; 
-                if (liveLayer && window.pyHandler) {
-                    // On envoie instantanément la position à Python
-                    window.pyHandler.receive_bbox(JSON.stringify(liveLayer.toGeoJSON()));
-                }
-            });
-
-            // QUAND LE RECTANGLE EST SUPPRIMÉ
-            leafletMapInstance.on('draw:deleted', function(e) {
-                if (window.selectionContour) {
-                    leafletMapInstance.removeLayer(window.selectionContour);
-                    window.selectionContour = null;
-                }
-                lastDrawnRectangle = null;
-                verrouillerBoutonsEdition(true); // RE-BLOQUE le bouton Edit car tout est vide
+                if (liveLayer && window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(liveLayer.toGeoJSON())); }
             });
 
             leafletMapInstance._draw_events_attached = true;
+            verrouillerBoutonsEdition(true)
         }
-    }
-
+    } 
+    
     function checkReadyState() {
         if (!pyHandlerIsReady && typeof qt !== 'undefined') {
             new QWebChannel(qt.webChannelTransport, function(channel) {
@@ -148,6 +139,6 @@ var selectionContour = null;
         }
         if (typeof L !== 'undefined' && L.map) { findMapAndAttachDrawEvents(); }
     }
-    
+
     setInterval(checkReadyState, 500);
 })();

@@ -75,6 +75,10 @@ class MapManager:
         js_call = f"if(window.drawTerritory) {{ window.drawTerritory({geojson_str}, {'true' if is_precise else 'false'}, {'true' if should_zoom else 'false'}); }}"
         self.view.page().runJavaScript(js_call)
 
+    def effacer_carte_js(self):
+        """Ordonne au Javascript d'effacer tous les dessins sur la carte."""
+        self.view.page().runJavaScript("if(window.clearMap) { window.clearMap(); }")
+
     def load_js_logic(self, js_path):
         """Charge le fichier map_logic.js dans la page"""
         if os.path.exists(js_path):

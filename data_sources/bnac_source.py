@@ -73,7 +73,7 @@ class BnacSource(SourceDeDonneesBase):
             mask_2154 = perimetre_selection_objet.get("polygon")
             if mask_2154 is not None and not gdf.empty:
                 # On utilise directement le masque déjà en 2154
-                gdf = gdf[gdf.geometry.within(mask_2154)].copy()
+                gdf = gdf[gdf.geometry.intersects(mask_2154)].copy()
             
             gdf.to_file(path_out, driver="GPKG", engine="pyogrio")
         

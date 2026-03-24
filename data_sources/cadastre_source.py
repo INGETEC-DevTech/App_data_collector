@@ -1,7 +1,7 @@
 # data_sources/cadastre_source.py
 
 import os, time, requests, geopandas as gpd, xml.etree.ElementTree as ET
-
+import pandas as pd
 from .base_source import SourceDeDonneesBase
 from logger_config import logger
 
@@ -99,6 +99,7 @@ class CadastreSource(SourceDeDonneesBase):
         chemin_export = os.path.join(destination_folder, nom_fichier)
         start_index = 0
         total_parcelles = 0
+        liste_gdf_parcelles = []
         first_chunk = True 
         
         total_theorique = 0
@@ -148,19 +149,24 @@ class CadastreSource(SourceDeDonneesBase):
 
             chunk_gdf = gpd.GeoDataFrame.from_features(features, crs=out_crs)
 
-            # --- DÉBUT DU FILTRAGE PAR POLYGONE (CLIPPING) ---
+            # Filtrage
             mask_2154 = perimetre_selection_objet.get("polygon")
             
             if mask_2154 is not None and not chunk_gdf.empty:    
                 # On garde les parcelles qui intersectent la commune
                 chunk_gdf = chunk_gdf[chunk_gdf.geometry.intersects(mask_2154)].copy()
-            # --- FIN DU FILTRAGE ---
-
+            
+            # Si il y en a qui sont dans la zone sélectionné, on l'ajoute 
+            """
             if not chunk_gdf.empty: # On ne sauvegarde que si le filtrage a laissé des données
                 write_mode = 'w' if first_chunk else 'a'
                 chunk_gdf.to_file(chemin_export, driver="GPKG", layer="parcelles", engine="pyogrio", mode=write_mode)
                 total_parcelles += len(chunk_gdf)
                 first_chunk = False
+            """
+            if not chunk_gdf.empty:
+                liste_gdf_parcelles.append(chunk_gdf) # On stocke en mémoire RAM
+                total_parcelles += len(chunk_gdf)
 
             if progress_callback and total_theorique > 0:
                 # Note: ici il vaut mieux utiliser start_index pour la barre 
@@ -171,8 +177,11 @@ class CadastreSource(SourceDeDonneesBase):
                 break
             start_index += len(features)
         
-        if total_parcelles == 0:
+        if total_parcelles == 0 or not liste_gdf_parcelles:
             return True, f"[{self.nom_source}] : Aucune parcelle trouvée."
+
+        gdf_final = gpd.GeoDataFrame(pd.concat(liste_gdf_parcelles, ignore_index=True), crs=out_crs)
+        gdf_final.to_file(chemin_export, driver="GPKG", layer="parcelles", engine="pyogrio")
 
         message_final = f"{total_parcelles} parcelles sauvegardées avec succès."
         

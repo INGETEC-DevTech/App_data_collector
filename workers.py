@@ -126,8 +126,11 @@ class UpdaterWorker(QThread):
             elif recipe_type == "preprocessing":
                 logger.info("Vérification des fichiers bruts...")
                 
+                fichiers_copies = []
+
                 for src_file in self.selected_files_paths:
                     dest_file = os.path.join(target_dir, os.path.basename(src_file))
+                    fichiers_copies.append(dest_file)
                     
                     # --- NOUVEAU : On ne copie que si c'est nécessaire ---
                     if os.path.abspath(src_file) != os.path.abspath(dest_file):
@@ -147,7 +150,15 @@ class UpdaterWorker(QThread):
                     from preparation_donnees import prepare_bpe, prepare_filosofi
                     import importlib
                     importlib.reload(prepare_bpe) # Recharge le script au cas où tu l'as modifié
-                    prepare_bpe.prepare_bpe_local_to_network()
+
+                    # On identifie qui est qui grâce aux extensions
+                    fichier_parquet = next((f for f in fichiers_copies if f.endswith('.parquet')), None)
+                    fichier_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
+                    fichier_excel = next((f for f in fichiers_copies if f.endswith('.xlsx')), None)
+                    
+                    # On lance la machine en lui donnant les 3 fichiers exacts
+                    prepare_bpe.prepare_bpe_local_to_network(fichier_parquet, fichier_csv, fichier_excel)
+
                 
                 elif script_name == "prepare_filosofi":
                     from preparation_donnees import prepare_filosofi
@@ -155,7 +166,15 @@ class UpdaterWorker(QThread):
                     prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
                     if prep_dir not in sys.path: sys.path.append(prep_dir)
                     importlib.reload(prepare_filosofi)
-                    prepare_filosofi.executer_mise_a_jour()
+                    prepare_filosofi.executer_mise_a_jour(dest_file)
+
+                elif script_name == "prepare_bnac":
+                    from preparation_donnees import prepare_bnac
+                    import importlib
+                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
+                    if prep_dir not in sys.path: sys.path.append(prep_dir)
+                    importlib.reload(prepare_bnac)
+                    prepare_bnac.executer_mise_a_jour(dest_file)
                 
                 self.finished_signal.emit(True, "Prétraitement terminé et base consolidée mise à jour avec succès.")
             

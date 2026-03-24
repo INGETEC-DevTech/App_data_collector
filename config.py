@@ -149,12 +149,13 @@ BNAC_SOURCE_CONFIG = {
     "categorie": "OFFRE DE TRANSPORT",
     "export_subdirectory": "VELO",
     "local_file_config": {
-        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base Nationale des Aménagements Cyclables\BNAC_20250401.geojson",
+        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Base Nationale des Aménagements Cyclables\amenagements_cyclables_bnac.gpkg",
         "native_crs": "EPSG:4326"
     },
     "update_recipe": {
-        "type": "simple_copy",
-        "expected_files": ["Fichier GeoJSON BNAC"]
+        "type": "preprocessing",
+        "expected_files": ["Fichier GeoJSON de la France entière"],
+        "script_to_run": "prepare_bnac"
     }
 }
 
