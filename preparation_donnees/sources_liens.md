@@ -34,3 +34,10 @@
 ### Sirene (Insee)
 - **Lien :** https://portail-api.insee.fr/catalog/api/2ba0e549-5587-3ef1-9082-99cd865de66f?aq=ALL (doc API)
 - **Mise à jour :** pas besoin -> API
+
+### Carte scolaire (data.gouv.fr)
+- **Lien :** - https://data.education.gouv.fr/explore/assets/fr-en-carte-scolaire-colleges-publics/export/ (fichier .parquet)
+             - https://data.education.gouv.fr/explore/assets/fr-en-annuaire-education/export/ (fichier .csv)
+- **Mise à jour :** ?
+
+

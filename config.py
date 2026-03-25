@@ -261,3 +261,25 @@ FLUX_MOBILITE_SOURCE_CONFIG = {
         "expected_files": ["Fichier Domicile-TRAVAIL (Actifs)", "Fichier Domicile-ÉTUDES (Étudiants)"]
     }
 }
+
+# ------------------------------------------------------------------------------
+# Source: Carte Scolaire (Fichiers locaux)
+# ------------------------------------------------------------------------------
+CARTE_SCOLAIRE_SOURCE_CONFIG = {
+    "ordre": 2,
+    "default_selected": False,
+    "nom_source_ui": "Carte scolaire (data.gouv.fr)",
+    "categorie": "PRATIQUE DE DÉPLACEMENT",
+    "export_subdirectory": "CARTE_SCOLAIRE",
+    "local_file_config": {
+        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Carte Scolaire\carte_scolaire_points.gpkg", 
+        "path_csv_rues": r"P:\BiblioTechnique\MOBILITE\_Data\Carte Scolaire\dictionnaire_rues.csv",
+        "path_csv_statuts": r"P:\BiblioTechnique\MOBILITE\_Data\Carte Scolaire\statut_communes.csv",
+        "native_crs": "EPSG:4326" 
+    },
+    "update_recipe": {
+        "type": "preprocessing",
+        "expected_files": ["Fichier des secteurs scolaires (.parquet)", "Fichier de l'annuaire (.csv)"],
+        "script_to_run": "prepare_carte_scolaire"
+    }
+}

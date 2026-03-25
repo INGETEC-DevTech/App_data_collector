@@ -604,33 +604,40 @@ class MainWindow(QMainWindow):
     def get_perimeter_from_ui(self):
         try:
             is_precise = self.search_overlay.btn_precise.isChecked()
+            # On récupère la géométrie de base (simplifiée ou HD)
             poly_to_send = getattr(self, 'selected_polygon_geometry', None)
 
             if is_precise:
-                # On prend la géométrie de collecte (et si elle n'existe pas, on prend celle de l'UI par sécurité)
-                poly_to_send = getattr(self, 'polygon_for_collection', getattr(self, 'selected_polygon_geometry', None))
+                # --- AJOUT DE LA SÉCURITÉ ---
+                # Si l'utilisateur veut du précis mais n'a pas sélectionné de territoire
+                if poly_to_send is None:
+                    logger.warning("Mode 'Précis' activé mais aucun territoire (commune/EPCI) n'est sélectionné. "
+                                   "Utilisation de l'emprise rectangulaire par défaut.")
+                    # On laisse poly_to_send à None pour que la suite traite cela comme un rectangle
+                else:
+                    # Si on a bien un polygone, on essaie de prendre la version HD récupérée au lancement
+                    poly_to_send = getattr(self, 'polygon_for_collection', poly_to_send)
             else:
-                # En mode rectangle, on force None pour être sûr d'utiliser la BBOX
+                # Mode rectangle manuel : on ignore tout polygone
                 poly_to_send = None
 
-            # On détermine le type de sélection
-            type_selection = "bbox" # On met 'bbox' par défaut pour le dessin manuel
+            # Détermination du type de sélection pour les logs/métadonnées
+            type_selection = "bbox" 
             if poly_to_send is not None:
-                # S'il y a un polygone, on lit ce qui est écrit dans le menu déroulant ("Commune" ou "EPCI")
                 type_selection = self.search_overlay.type_select.currentText().lower()
 
-            # 1. On s'assure que le polygone est en Lambert 93
+            # --- Reste de ta logique de projection (Lambert 93) ---
             if poly_to_send:
+                # On s'assure que le polygone est en 2154
                 bounds = poly_to_send.bounds
-                if max(abs(bounds[0]), abs(bounds[2])) < 180:
+                if max(abs(bounds[0]), abs(bounds[2])) < 180: # Si c'est du GPS (WGS84)
                     project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
                     poly_to_send = transform(project, poly_to_send)
                 
-                # 2. CRUCIAL : On met à jour les valeurs de BBOX avec les mètres
                 new_bounds = poly_to_send.bounds
                 val_min_x, val_min_y, val_max_x, val_max_y = new_bounds
             else:
-                # Si pas de polygone (mode rectangle manuel), on prend les champs UI
+                # Lecture directe des champs de texte (coordonnées manuelles ou BBOX de la carte)
                 val_min_x = float(self.min_x_edit.text())
                 val_min_y = float(self.min_y_edit.text())
                 val_max_x = float(self.max_x_edit.text())
@@ -643,7 +650,7 @@ class MainWindow(QMainWindow):
                 "polygon": poly_to_send
             }
         except Exception as e:
-            logger.error(f"Erreur périmètre: {e}")
+            logger.error(f"Erreur lors de la préparation du périmètre : {e}")
             return None
 
     def on_map_fully_loaded_activate_js_drawing(self, success):

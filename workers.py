@@ -176,6 +176,23 @@ class UpdaterWorker(QThread):
                     importlib.reload(prepare_bnac)
                     prepare_bnac.executer_mise_a_jour(dest_file)
                 
+                elif script_name == "prepare_carte_scolaire":
+                    from preparation_donnees import prepare_carte_scolaire
+                    import importlib
+                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
+                    if prep_dir not in sys.path: sys.path.append(prep_dir)
+                    importlib.reload(prepare_carte_scolaire)
+
+                    # Identification des fichiers par leur extension
+                    fichier_parquet = next((f for f in fichiers_copies if f.endswith(('.parquet', '.geoparquet'))), None)
+                    fichier_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
+
+                    if not fichier_parquet or not fichier_csv:
+                        raise ValueError("Fichiers manquants : Veuillez fournir le fichier Parquet ET le fichier CSV.")
+
+                    # Lancement du script
+                    prepare_carte_scolaire.executer_mise_a_jour(fichier_parquet, fichier_csv)
+                
                 self.finished_signal.emit(True, "Prétraitement terminé et base consolidée mise à jour avec succès.")
             
             else:
