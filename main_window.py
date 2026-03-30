@@ -197,6 +197,9 @@ class MainWindow(QMainWindow):
 
             # On connecte le signal de dessin de BBOX à ta méthode locale existante
             self.map_manager.handler.bbox_drawn.connect(self.on_bbox_drawn_on_map)
+
+            # On écoute quand la carte demande la fin de l'édition
+            self.map_manager.handler.edition_finished.connect(self.on_edition_finished_from_map)
             
             # On charge la logique JS quand la page est prête
             js_path = os.path.join(BASE_DIR, 'assets', 'map_logic.js')
@@ -210,6 +213,9 @@ class MainWindow(QMainWindow):
 
             # On écoute le signal de la poubelle
             self.search_overlay.btn_effacer.clicked.connect(self.confirmer_et_nettoyer)
+
+            # On écoute le signal du bouton Modifier
+            self.search_overlay.btn_modifier.toggled.connect(self.on_modifier_toggled)
             
             # Connexion des nouveaux signaux
             self.search_overlay.type_select.currentTextChanged.connect(self._on_admin_type_changed)
@@ -279,14 +285,25 @@ class MainWindow(QMainWindow):
             self.set_buttons_enabled(True) # On réactive le bouton "Collecter"
 
     def _update_map_on_clip_change(self):
+        # 1. On DÉFINIT la variable en tout premier pour éviter l'erreur !
+        is_precise = self.search_overlay.btn_precise.isChecked()
+        
+        # 2. On met à jour l'état du bouton "Modifier" (Crayon)
+        if is_precise:
+            # En mode précis (IGN), on ne peut pas modifier la forme
+            self.search_overlay.btn_modifier.setChecked(False)
+            self.search_overlay.btn_modifier.setEnabled(False)
+        elif self.selected_polygon_geometry or self.perimeter_is_defined:
+            # En mode rectangle, s'il y a déjà une forme dessinée, on active le crayon
+            self.search_overlay.btn_modifier.setEnabled(True)
+
+        # 3. S'il n'y a pas de territoire sélectionné dans la liste, on s'arrête là
         if self.search_overlay.territory_select.currentIndex() <= 0:
             return
 
-        # Si on a déjà une géométrie HD sélectionnée, on l'utilise
+        # 4. Si on a une géométrie en mémoire, on l'envoie à Leaflet pour la redessiner
         if self.selected_polygon_geometry:
             geojson_dict = geometry.mapping(self.selected_polygon_geometry)
-            is_precise = self.search_overlay.btn_precise.isChecked()
-
             # On utilise le manager
             self.map_manager.run_js_draw(geojson_dict, is_precise, False)
 
@@ -669,6 +686,10 @@ class MainWindow(QMainWindow):
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
             self.min_x_edit.setText(f"{bounds[0]:.2f}"); self.min_y_edit.setText(f"{bounds[1]:.2f}"); self.max_x_edit.setText(f"{bounds[2]:.2f}"); self.max_y_edit.setText(f"{bounds[3]:.2f}")
             self.perimeter_is_defined = True
+
+            if not self.search_overlay.btn_precise.isChecked():
+                self.search_overlay.btn_modifier.setEnabled(True)
+
             logger.debug("Périmètre mis à jour. Vous pouvez lancer la collecte.") 
         except Exception as e: logger.error(f"Erreur reprojection BBOX: {e}")
 
@@ -786,6 +807,25 @@ class MainWindow(QMainWindow):
 
         if reponse == QMessageBox.StandardButton.Yes:
             self.nettoyer_interface()
+    
+    def on_modifier_toggled(self, checked):
+        """Action déclenchée quand l'utilisateur clique sur le bouton Modifier/Valider."""
+        if hasattr(self, 'map_manager'):
+            self.map_manager.toggle_edit_mode_js(checked)
+            
+        # Animation du bouton : Crayon (Gris) <-> Coche (Vert)
+        if checked:
+            self.search_overlay.btn_modifier.setIcon(QIcon("icons/check.svg"))
+            self.search_overlay.btn_modifier.setToolTip("Valider les modifications")
+        else:
+            self.search_overlay.btn_modifier.setIcon(QIcon("icons/edit.svg"))
+            self.search_overlay.btn_modifier.setToolTip("Modifier la sélection")
+
+    def on_edition_finished_from_map(self):
+        """Déclenché quand l'utilisateur clique dans le vide sur la carte (Méthode 2)."""
+        # On décoche le bouton, ce qui va automatiquement lancer on_modifier_toggled(False)
+        # L'icône redeviendra un crayon, et le bouton repassera en gris foncé !
+        self.search_overlay.btn_modifier.setChecked(False)
 
     def nettoyer_interface(self):
         """Fait le ménage absolu dans Python et sur la carte."""
@@ -806,6 +846,8 @@ class MainWindow(QMainWindow):
         self.search_overlay.territory_select.setCurrentIndex(0)
         self.search_overlay.territory_select.blockSignals(False)
         self.search_overlay.territory_select.setCurrentText("") # Vide la zone de texte
+        self.search_overlay.btn_modifier.setChecked(False)
+        self.search_overlay.btn_modifier.setEnabled(False)
         
         # 4. On vide les coordonnées
         self.min_x_edit.clear(); self.min_y_edit.clear()

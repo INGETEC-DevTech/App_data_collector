@@ -71,6 +71,34 @@ class OverlaySearchWidget(QFrame):
         self.btn_rectangle.setFixedWidth(80)
         self.btn_rectangle.setFixedHeight(28)
 
+        # Bouton : Modifier
+        self.btn_modifier = QPushButton()
+        self.btn_modifier.setIcon(QIcon("icons/edit.svg"))
+        self.btn_modifier.setCheckable(True)
+        self.btn_modifier.setEnabled(False) # Désactivé par défaut (pas de rectangle au départ)
+        self.btn_modifier.setFixedSize(30, 30)
+        self.btn_modifier.setToolTip("Modifier la sélection")
+
+        # Style spécifique pour le bouton Modifier (pour gérer l'icône, l'état coché et grisé)
+        self.btn_modifier.setStyleSheet("""
+            QPushButton {
+                background-color: #34495e; /* Couleur de base comme les autres */
+                border: 1px solid #2c3e50;
+                border-radius: 4px; /* On copie l'arrondi de 4px de la poubelle */
+            }
+            QPushButton:hover:!checked {
+                background-color: #1a252f; /* Fonce au survol */
+            }
+            QPushButton:checked {
+                background-color: #27ae60; /* Vert de validation */
+                border: 1px solid #2ecc71;
+            }
+            QPushButton:disabled {
+                background-color: #bdc3c7; /* Gris clair quand inactif */
+                border: 1px solid #bdc3c7;
+            }
+        """)
+
         # Bouton "Poubelle"
         self.btn_effacer = QPushButton()
         self.btn_effacer.setIcon(QIcon("icons/trash-can.svg"))
@@ -131,6 +159,7 @@ class OverlaySearchWidget(QFrame):
         self.mode_layout.addStretch()
         self.mode_layout.addWidget(self.btn_precise)
         self.mode_layout.addWidget(self.btn_rectangle)
+        self.mode_layout.addWidget(self.btn_modifier)
         self.mode_layout.addWidget(self.btn_effacer)
         self.mode_layout.addStretch()
         

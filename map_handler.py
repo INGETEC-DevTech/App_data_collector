@@ -16,6 +16,8 @@ class MapInteractionHandler(QObject):
     """Gère les messages envoyés par le JavaScript vers Python"""
     bbox_drawn = pyqtSignal(float, float, float, float)
     
+    edition_finished = pyqtSignal()
+
     def __init__(self, logger_func=print, parent=None): 
         super().__init__(parent)
         self.logger = logger_func
@@ -28,6 +30,11 @@ class MapInteractionHandler(QObject):
             self.bbox_drawn.emit(min(lngs), min(lats), max(lngs), max(lats))
         except Exception as e: 
             self.logger(f"Erreur traitement BBOX: {e}")
+        
+    @pyqtSlot()
+    def finish_edition_from_js(self):
+        """Reçoit l'ordre du JS de terminer l'édition (clic sur la carte)"""
+        self.edition_finished.emit()
 
 class MapManager:
     """Gère l'affichage, le chargement et les dessins sur la carte"""
@@ -84,3 +91,8 @@ class MapManager:
         if os.path.exists(js_path):
             with open(js_path, 'r', encoding='utf-8') as f:
                 self.view.page().runJavaScript(f.read())
+
+    def toggle_edit_mode_js(self, is_editing):
+        """Ordonne à Leaflet d'afficher ou masquer les poignées de redimensionnement."""
+        js_call = f"if(window.toggleRectangleEdit) {{ window.toggleRectangleEdit({'true' if is_editing else 'false'}); }}"
+        self.view.page().runJavaScript(js_call)

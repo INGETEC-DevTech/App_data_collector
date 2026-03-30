@@ -2,97 +2,101 @@
 var leafletMapInstance = null;
 var selectionContour = null;
 
-function verrouillerBoutonsEdition(verrouiller) {
-    var btnEdit = document.querySelector('.leaflet-draw-edit-edit');
-    var btnRemove = document.querySelector('.leaflet-draw-edit-remove');
-    
-    // On cache définitivement la poubelle native de Leaflet !
-    if (btnRemove) { btnRemove.style.display = 'none'; } 
-    
-    if (verrouiller) {
-        if (leafletMapInstance && leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
-            try { leafletMapInstance._toolbars.edit._modes.edit.handler.disable(); } catch(e){}
-        }
-        if (btnEdit) { btnEdit.style.pointerEvents = 'none'; btnEdit.style.opacity = '0.4'; }
-    } else {
-        if (btnEdit) { btnEdit.style.pointerEvents = 'auto'; btnEdit.style.opacity = '1'; }
-    }
-}
-
 (function() {
     var pyHandlerIsReady = false;
     var leafletMapInstance = null;
     var lastDrawnRectangle = null;
 
+    // Cache DÉFINITIVEMENT les boutons natifs de Leaflet (Edit + Poubelle)
+    function masquerBarreEditionNative() {
+        var btnEdit = document.querySelector('.leaflet-draw-edit-edit');
+        var btnRemove = document.querySelector('.leaflet-draw-edit-remove');
+        if (btnEdit) { btnEdit.style.display = 'none'; }
+        if (btnRemove) { btnRemove.style.display = 'none'; }
+    }
+
     // Fonction pour supprimer la sélection
     window.clearMap = function() {
         if (leafletMapInstance) {
             if (window.selectionContour) { leafletMapInstance.removeLayer(window.selectionContour); window.selectionContour = null; }
-            if (lastDrawnRectangle) { leafletMapInstance.removeLayer(lastDrawnRectangle); lastDrawnRectangle = null; }
-            if (leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
-                leafletMapInstance._toolbars.edit.options.featureGroup.clearLayers();
+            if (lastDrawnRectangle) { 
+                try {
+                    if (lastDrawnRectangle.editing) lastDrawnRectangle.editing.disable();
+                    leafletMapInstance.removeLayer(lastDrawnRectangle); 
+                } catch(e) {}
+                lastDrawnRectangle = null; 
             }
-            verrouillerBoutonsEdition(true);
+            
+            // NETTOYAGE ICI : Plus besoin de vider les toolbars Leaflet, on ne les utilise plus
+            
+            masquerBarreEditionNative(); // On remplace l'ancien 'verrouillerBoutonsEdition'
         }
     };
 
-    // FONCTION POUR DESSINER LE CONTOUR ET ZOOMER
+    // NOUVEAU : Fonction pour piloter l'édition depuis PyQt
+    window.toggleRectangleEdit = function(isEditing) {
+        masquerBarreEditionNative(); // Sécurité
+        if (lastDrawnRectangle && lastDrawnRectangle.editing) {
+            if (isEditing) {
+                lastDrawnRectangle.editing.enable();
+            } else {
+                lastDrawnRectangle.editing.disable();
+            }
+        }
+    };
+
     window.drawTerritory = function(featureData, isPrecise, shouldZoom) {
         if (!leafletMapInstance) {
             for (var k in window) { if (window[k] instanceof L.Map) { leafletMapInstance = window[k]; break; } }
         }
         
         if (leafletMapInstance) {
-            // 1. Nettoyage de l'ancienne forme bleue ou pointillée
-            if (window.selectionContour) { 
-                leafletMapInstance.removeLayer(window.selectionContour); 
-                window.selectionContour = null; 
-            }
-            
-            // 2. Nettoyage VISUEL de l'ancien rectangle sur la carte
-            if (lastDrawnRectangle) { 
-                try { leafletMapInstance.removeLayer(lastDrawnRectangle); } catch(err){}
-            }
+            masquerBarreEditionNative(); // On cache les boutons natifs
 
-            // 3. Vidage de la "boîte" des objets modifiables de l'outil de dessin
-            if (leafletMapInstance._toolbars && leafletMapInstance._toolbars.edit) {
-                leafletMapInstance._toolbars.edit.options.featureGroup.clearLayers();
+            if (window.selectionContour) { leafletMapInstance.removeLayer(window.selectionContour); window.selectionContour = null; }
+            if (lastDrawnRectangle) { 
+                try { 
+                    if(lastDrawnRectangle.editing) lastDrawnRectangle.editing.disable(); // Stop edition avant suppression
+                    leafletMapInstance.removeLayer(lastDrawnRectangle); 
+                } catch(err){}
             }
             
             lastDrawnRectangle = null;
 
             if (!isPrecise) {
-                // --- MODE RECTANGLE ---
                 var tempLayer = L.geoJSON(featureData);
                 var bounds = tempLayer.getBounds();
 
-                // A. On affiche la commune en pointillé (non modifiable, en fond)
+                // Fond en pointillé
                 window.selectionContour = L.geoJSON(featureData, {
                     style: { color: "#2c3e50", weight: 2, opacity: 0.6, fillOpacity: 0, dashArray: '5, 10' },
                     interactive: false
                 }).addTo(leafletMapInstance);
 
-                // B. On crée le rectangle
-                var rect = L.rectangle(bounds, {
+                // Création et ajout DIRECT du rectangle
+                lastDrawnRectangle = L.rectangle(bounds, {
                     color: "#3498db", weight: 2, fillOpacity: 0.3, fillColor: "#3498db"
+                }).addTo(leafletMapInstance);
+
+                // TRÈS IMPORTANT : Écouteur unique sur le rectangle
+                lastDrawnRectangle.on('edit', function() {
+                    if (window.pyHandler) { 
+                        window.pyHandler.receive_bbox(JSON.stringify(lastDrawnRectangle.toGeoJSON())); 
+                    }
                 });
 
-                // LA RUSE EST ICI : On déclenche l'événement "draw:created" manuellement.
-                // Cela fait croire à l'outil de dessin que l'utilisateur a tracé ce rectangle.
-                // Ainsi, il l'ajoute à ses objets éditables et active le bouton "Edit".
-                leafletMapInstance.fire('draw:created', { layer: rect, layerType: 'rectangle' });
-                verrouillerBoutonsEdition(false);
+                // On envoie la géométrie initiale à Python
+                if (window.pyHandler) { 
+                    window.pyHandler.receive_bbox(JSON.stringify(lastDrawnRectangle.toGeoJSON())); 
+                }
 
                 if (shouldZoom) { leafletMapInstance.fitBounds(bounds, {padding: [30, 30]}); }
                 
             } else {
-                // --- MODE PRÉCIS ---
-                // Bleu fixe. Pas d'événement 'draw:created', donc le bouton Edit l'ignore.
                 window.selectionContour = L.geoJSON(featureData, {
                     style: { color: "#2c3e50", weight: 3, opacity: 0.8, fillColor: "#3498db", fillOpacity: 0.2 },
                     interactive: false
                 }).addTo(leafletMapInstance);
-                verrouillerBoutonsEdition(true); // BLOQUE le bouton Edit
                 
                 if (shouldZoom) { leafletMapInstance.fitBounds(window.selectionContour.getBounds(), {padding: [30, 30]}); }
             }
@@ -105,28 +109,47 @@ function verrouillerBoutonsEdition(verrouiller) {
         }
         if (leafletMapInstance && !leafletMapInstance._draw_events_attached) {
             
+            // On garde UNIQUEMENT 'draw:created' au cas où l'utilisateur dessine un rectangle à la main 
+            // via le bouton carré de la barre d'outil à gauche (s'il n'est pas caché).
             leafletMapInstance.on('draw:created', function(e) {
                 if (e.layerType === 'rectangle') {
-                    if (lastDrawnRectangle) { try { leafletMapInstance.removeLayer(lastDrawnRectangle); } catch(err){} }
+                    if (lastDrawnRectangle) { 
+                        try { 
+                            if(lastDrawnRectangle.editing) lastDrawnRectangle.editing.disable();
+                            leafletMapInstance.removeLayer(lastDrawnRectangle); 
+                        } catch(err){} 
+                    }
                     leafletMapInstance.addLayer(e.layer);
                     lastDrawnRectangle = e.layer;
+                    
+                    // On attache l'écouteur à ce nouveau rectangle manuel
+                    lastDrawnRectangle.on('edit', function() {
+                        if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(lastDrawnRectangle.toGeoJSON())); }
+                    });
+
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(e.layer.toGeoJSON())); }
+                    
+                    // On force le désactivage de l'édition native de Leaflet.Draw pour que PyQt prenne le relais
+                    masquerBarreEditionNative();
                 }
             });
 
-            leafletMapInstance.on('draw:edited', function(e) {
-                e.layers.eachLayer(function(layer) {
-                    if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(layer.toGeoJSON())); }
-                });
-            });
-            
-            leafletMapInstance.on('draw:editvertex draw:editmove draw:editresize', function(e) {
-                var liveLayer = e.layer || e.poly; 
-                if (liveLayer && window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(liveLayer.toGeoJSON())); }
+            // CLIC SUR LA CARTE POUR VALIDER
+            leafletMapInstance.on('click', function(e) {
+                // Si on a un rectangle et qu'il est en cours d'édition (les poignées sont visibles)
+                if (lastDrawnRectangle && lastDrawnRectangle.editing && lastDrawnRectangle.editing.enabled()) {
+                    
+                    lastDrawnRectangle.editing.disable(); // On fige le rectangle sur la carte
+                    
+                    // On prévient Python pour qu'il décoche le bouton vert dans l'interface !
+                    if (window.pyHandler && window.pyHandler.finish_edition_from_js) {
+                        window.pyHandler.finish_edition_from_js();
+                    }
+                }
             });
 
             leafletMapInstance._draw_events_attached = true;
-            verrouillerBoutonsEdition(true)
+            masquerBarreEditionNative(); // On remplace l'ancien 'verrouillerBoutonsEdition'
         }
     } 
     
