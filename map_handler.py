@@ -63,7 +63,11 @@ class MapManager:
         plugins.Draw(export=False, draw_options={
             'polyline':False, 'polygon':False, 'circle':False, 
             'marker':False, 'circlemarker':False, 'rectangle':True
-        }).add_to(m)
+        },
+        edit_options={
+                'edit': False, 'remove': False
+            }
+        ).add_to(m)
         
         # Sauvegarde temporaire et injection du JS de communication
         temp_map_file = os.path.join(tempfile.gettempdir(), "map_render.html")

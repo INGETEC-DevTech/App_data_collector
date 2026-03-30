@@ -61,13 +61,15 @@ class OverlaySearchWidget(QFrame):
         # Bouton "Découpe Précise"
         self.btn_precise = QPushButton("Précis")
         self.btn_precise.setCheckable(True)
-        self.btn_precise.setChecked(True) # Actif par défaut
+        self.btn_precise.setEnabled(False)
+        self.btn_precise.setChecked(False)
         self.btn_precise.setFixedWidth(80)
         self.btn_precise.setFixedHeight(28)
 
         # Bouton "Emprise Rectangle"
         self.btn_rectangle = QPushButton("Rectangle")
         self.btn_rectangle.setCheckable(True)
+        self.btn_rectangle.setChecked(True)
         self.btn_rectangle.setFixedWidth(80)
         self.btn_rectangle.setFixedHeight(28)
 
@@ -151,6 +153,13 @@ class OverlaySearchWidget(QFrame):
             QPushButton:checked:hover {
                 background-color: #3498db; 
                 border: 1px solid #2980b9;
+            }
+
+            /* État DÉSACTIVÉ (Grisé) */
+            QPushButton:disabled {
+                background-color: #7f8c8d; 
+                color: #bdc3c7;
+                border: 1px solid #7f8c8d;
             }
         """
         self.btn_precise.setStyleSheet(common_style)

@@ -105,6 +105,28 @@ class CarteScolaireSource(SourceDeDonneesBase):
                     # LA JOINTURE avec notre CSV local
                     df_statuts = pd.read_csv(self.path_csv_statuts, sep=';', dtype=str)
                     gdf_communes = gdf_communes.merge(df_statuts, on='code_insee', how='left')
+
+                    # --- Nettoyage et renommage des colonnes ---
+                    # L'IGN utilise 'nom' pour le nom de la commune
+                    col_nom_ign = 'nom' if 'nom' in gdf_communes.columns else 'nom_officiel'
+                    
+                    # On définit la liste stricte des colonnes qu'on veut garder
+                    colonnes_a_garder = [
+                        col_nom_ign, 
+                        'code_insee', # On le garde par sécurité
+                        'Nom Collège', 
+                        'Code Collège', 
+                        'Commune Collège', 
+                        'Nombre de collèges', 
+                        'geometry'
+                    ]
+                    
+                    # On filtre (sécurité : on ne garde que celles qui existent vraiment)
+                    colonnes_finales = [c for c in colonnes_a_garder if c in gdf_communes.columns]
+                    gdf_communes = gdf_communes[colonnes_finales]
+                    
+                    # On renomme la colonne de l'IGN en "Commune" comme demandé
+                    gdf_communes = gdf_communes.rename(columns={col_nom_ign: 'Commune'})
                     
                     gdf_communes.to_file(os.path.join(dest_folder, "secteurs_communes.gpkg"), driver="GPKG", engine="pyogrio")
             else:

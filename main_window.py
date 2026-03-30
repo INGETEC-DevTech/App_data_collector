@@ -687,8 +687,8 @@ class MainWindow(QMainWindow):
             self.min_x_edit.setText(f"{bounds[0]:.2f}"); self.min_y_edit.setText(f"{bounds[1]:.2f}"); self.max_x_edit.setText(f"{bounds[2]:.2f}"); self.max_y_edit.setText(f"{bounds[3]:.2f}")
             self.perimeter_is_defined = True
 
-            if not self.search_overlay.btn_precise.isChecked():
-                self.search_overlay.btn_modifier.setEnabled(True)
+            self.search_overlay.btn_rectangle.setChecked(True)
+            self.search_overlay.btn_modifier.setEnabled(True)
 
             logger.debug("Périmètre mis à jour. Vous pouvez lancer la collecte.") 
         except Exception as e: logger.error(f"Erreur reprojection BBOX: {e}")
@@ -726,6 +726,8 @@ class MainWindow(QMainWindow):
         # Sécurité : on vérifie si l'index est valide (différent de "Choisir...")
         if index < 0 or self.search_overlay.territory_select.currentIndex() == 0:
             self.current_territory_code = None # Reset
+            self.search_overlay.btn_precise.setEnabled(False)
+            self.search_overlay.btn_rectangle.setChecked(True)
             return
 
         nom = self.search_overlay.territory_select.currentText()
@@ -755,6 +757,10 @@ class MainWindow(QMainWindow):
                     break
 
         if target_final:
+
+            self.search_overlay.btn_precise.setEnabled(True)
+            self.search_overlay.btn_precise.setChecked(True)
+
             # On récupère le code INSEE ou SIREN pour l'utiliser plus tard avec le WFS IGN
             props = target_final['properties']
             self.current_territory_code = (
@@ -848,6 +854,10 @@ class MainWindow(QMainWindow):
         self.search_overlay.territory_select.setCurrentText("") # Vide la zone de texte
         self.search_overlay.btn_modifier.setChecked(False)
         self.search_overlay.btn_modifier.setEnabled(False)
+        
+        # On re-verrouille le mode Précis et on repasse sur Rectangle
+        self.search_overlay.btn_precise.setEnabled(False)
+        self.search_overlay.btn_rectangle.setChecked(True)
         
         # 4. On vide les coordonnées
         self.min_x_edit.clear(); self.min_y_edit.clear()

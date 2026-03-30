@@ -39,7 +39,7 @@ def executer_mise_a_jour(fichier_parquet, fichier_csv):
             crs="EPSG:4326"
         )
         
-        cols_points = ['Identifiant_de_l_etablissement', 'Nom_etablissement', 'Nom_commune', 'Code_postal', 'Adresse_1', 'Telephone', 'Mail', 'geometry']
+        cols_points = ['Identifiant_de_l_etablissement', 'Nom_etablissement', 'Nom_commune', 'Code_postal', 'geometry']
         gdf_points = gdf_points[[c for c in cols_points if c in gdf_points.columns]]
         gdf_points = gdf_points.rename(columns={'Identifiant_de_l_etablissement': 'code_rne'})
         
@@ -61,26 +61,41 @@ def executer_mise_a_jour(fichier_parquet, fichier_csv):
         df_rues_export.to_csv(path_csv_rues, sep=';', index=False, encoding='utf-8-sig')
 
         # --- EXPORT 3 : LE STATUT DES COMMUNES ---
-        logger.info("Calcul des statuts communaux (Vectorisation)...")
-        # On calcule le nombre de collèges par commune
-        statut_communes = df_rues.groupby('code_insee')['code_rne'].nunique().reset_index()
-        statut_communes.columns = ['code_insee', 'nb_colleges']
+        logger.info("Calcul des affectations communales (Concaténation)...")
         
+        # On récupère la liste unique des liens Commune <-> Collège
         noms_colleges = df_rues[['code_insee', 'code_rne']].drop_duplicates()
-        noms_colleges = noms_colleges.merge(df_cible[['Identifiant_de_l_etablissement', 'Nom_etablissement']], left_on='code_rne', right_on='Identifiant_de_l_etablissement', how='left')
+        
+        # On y ajoute le nom du collège ET la commune du collège depuis l'annuaire
+        noms_colleges = noms_colleges.merge(
+            df_cible[['Identifiant_de_l_etablissement', 'Nom_etablissement', 'Nom_commune']], 
+            left_on='code_rne', 
+            right_on='Identifiant_de_l_etablissement', 
+            how='left'
+        )
 
-        # OPTIMISATION : Jointure globale (Prend 0.1 seconde au lieu de 15 minutes)
-        noms_uniques = noms_colleges.drop_duplicates(subset=['code_insee'])
-        statut_communes = statut_communes.merge(noms_uniques[['code_insee', 'Nom_etablissement']], on='code_insee', how='left')
+        # Fonction pour joindre les textes avec le séparateur " | "
+        def join_strings(series):
+            return " | ".join(series.fillna("Non renseigné").astype(str))
 
-        # OPTIMISATION : Application des statuts d'un seul coup (Vectorisation)
-        # Cas 1 : Commune avec 1 seul collège
-        statut_communes.loc[statut_communes['nb_colleges'] == 1, 'Statut_Carte_Scolaire'] = "Unique : " + statut_communes['Nom_etablissement'].fillna("Inconnu")
-        # Cas 2 : Commune avec plusieurs collèges
-        statut_communes.loc[statut_communes['nb_colleges'] > 1, 'Statut_Carte_Scolaire'] = "Partagée (" + statut_communes['nb_colleges'].astype(str) + " collèges)"
+        # On groupe par code INSEE et on aggrège tout d'un coup
+        statut_communes = noms_colleges.groupby('code_insee').agg(
+            Nombre_de_colleges=('code_rne', 'nunique'),
+            Nom_College=('Nom_etablissement', join_strings),
+            Code_College=('code_rne', join_strings),
+            Commune_College=('Nom_commune', join_strings)
+        ).reset_index()
+
+        # On renomme proprement pour l'export final
+        statut_communes = statut_communes.rename(columns={
+            'Nombre_de_colleges': 'Nombre de collèges',
+            'Nom_College': 'Nom Collège',
+            'Code_College': 'Code Collège',
+            'Commune_College': 'Commune Collège'
+        })
         
         # Sauvegarde
-        statut_communes[['code_insee', 'Statut_Carte_Scolaire']].to_csv(path_csv_statuts, sep=';', index=False, encoding='utf-8-sig')
+        statut_communes.to_csv(path_csv_statuts, sep=';', index=False, encoding='utf-8-sig')
         
         # Nettoyage
         logger.info("Nettoyage des fichiers sources bruts...")

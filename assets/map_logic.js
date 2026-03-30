@@ -7,14 +7,6 @@ var selectionContour = null;
     var leafletMapInstance = null;
     var lastDrawnRectangle = null;
 
-    // Cache DÉFINITIVEMENT les boutons natifs de Leaflet (Edit + Poubelle)
-    function masquerBarreEditionNative() {
-        var btnEdit = document.querySelector('.leaflet-draw-edit-edit');
-        var btnRemove = document.querySelector('.leaflet-draw-edit-remove');
-        if (btnEdit) { btnEdit.style.display = 'none'; }
-        if (btnRemove) { btnRemove.style.display = 'none'; }
-    }
-
     // Fonction pour supprimer la sélection
     window.clearMap = function() {
         if (leafletMapInstance) {
@@ -26,16 +18,11 @@ var selectionContour = null;
                 } catch(e) {}
                 lastDrawnRectangle = null; 
             }
-            
-            // NETTOYAGE ICI : Plus besoin de vider les toolbars Leaflet, on ne les utilise plus
-            
-            masquerBarreEditionNative(); // On remplace l'ancien 'verrouillerBoutonsEdition'
         }
     };
 
     // NOUVEAU : Fonction pour piloter l'édition depuis PyQt
     window.toggleRectangleEdit = function(isEditing) {
-        masquerBarreEditionNative(); // Sécurité
         if (lastDrawnRectangle && lastDrawnRectangle.editing) {
             if (isEditing) {
                 lastDrawnRectangle.editing.enable();
@@ -51,7 +38,6 @@ var selectionContour = null;
         }
         
         if (leafletMapInstance) {
-            masquerBarreEditionNative(); // On cache les boutons natifs
 
             if (window.selectionContour) { leafletMapInstance.removeLayer(window.selectionContour); window.selectionContour = null; }
             if (lastDrawnRectangle) { 
@@ -128,9 +114,6 @@ var selectionContour = null;
                     });
 
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(e.layer.toGeoJSON())); }
-                    
-                    // On force le désactivage de l'édition native de Leaflet.Draw pour que PyQt prenne le relais
-                    masquerBarreEditionNative();
                 }
             });
 
@@ -149,7 +132,6 @@ var selectionContour = null;
             });
 
             leafletMapInstance._draw_events_attached = true;
-            masquerBarreEditionNative(); // On remplace l'ancien 'verrouillerBoutonsEdition'
         }
     } 
     
