@@ -1,7 +1,7 @@
 # preparation_donnees/mise_a_jour_globale.py
 import prepare_bnac
 import prepare_bpe
-import preparation_donnees.simplifier_contours_carte as simplifier_contours_carte
+import preparation_donnees.generer_dictionnaire as generer_dictionnaire
 
 def lancer_mise_a_jour_complete():
     print("======================================================")
@@ -14,9 +14,9 @@ def lancer_mise_a_jour_complete():
         prepare_bpe.prepare_bpe_local_to_network()
         print("Étape 1 terminée avec succès.")
 
-        # 2. Mise à jour des GeoJSON
-        print("\n--- ÉTAPE 2 : PRÉPARATION GEOJSON ---")
-        simplifier_contours_carte.executer_mise_a_jour_geojson()
+        # 2. Mise à jour du dictionnaire des territoires (API Géo)
+        print("\n--- ÉTAPE 2 : PRÉPARATION DICTIONNAIRE TERRITOIRES ---")
+        generer_dictionnaire.executer_mise_a_jour()
         print("Étape 2 terminée avec succès.")
 
         # 3. Mise à jour de la BNAC

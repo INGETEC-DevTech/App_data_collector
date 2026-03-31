@@ -30,11 +30,6 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
-def _convert_pascal_to_snake_upper(name: str) -> str:
-    """Convertit un nom de classe PascalCase en NOM_DE_CONFIG_UPPER_SNAKE_CASE."""
-    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
-    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).upper()
-
 def load_and_configure_data_sources(sources_package_name="data_sources") -> list[SourceDeDonneesBase]:
     """
     Charge dynamiquement toutes les sources de données, trouve leur configuration

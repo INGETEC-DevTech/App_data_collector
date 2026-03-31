@@ -13,7 +13,7 @@ from shapely import geometry
 from map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
-from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker
+from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker, IgnFetcherWorker
 from utils import CompleterIntelligent, recuperer_geometrie_precise_ign
 
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
@@ -231,22 +231,14 @@ class MainWindow(QMainWindow):
         main_layout.addWidget(right_panel, 3)
 
         self.populate_data_sources_list()
-        self.territoires_data = {
-            "Commune": self._load_geojson_assets("communes_simplifie.geojson"),
-            "EPCI": self._load_geojson_assets("epci_simplifie.geojson")
-        }
 
-        # Chargement des contours précis 
-        self.territoires_data_hd = {}
-        for key, path in [("Communes", "assets/communes.geojson"), ("EPCI", "assets/epci.geojson")]:
-            try:
-                if os.path.exists(path):
-                    with open(path, "r", encoding="utf-8") as f:
-                        self.territoires_data_hd[key] = json.load(f)
-                else:
-                    logger.warning(f"Fichier HD introuvable : {path}")
-            except Exception as e:
-                logger.error(f"Erreur chargement HD {key} : {e}")
+        # Chargement des noms des communes/epci
+        try:
+            with open("assets/territoires_dico.json", "r", encoding="utf-8") as f:
+                self.territoires_data = json.load(f)
+        except Exception as e:
+            logger.error(f"Fichier territoires_dico.json introuvable. Veuillez lancer une mise à jour. Erreur: {e}")
+            self.territoires_data = {"Commune": {}, "EPCI": {}}
 
         self.search_overlay.btn_group.buttonClicked.connect(self._update_map_on_clip_change)
         self.current_territory_code = None
@@ -706,91 +698,95 @@ class MainWindow(QMainWindow):
     def _on_admin_type_changed(self, text):
         combo = self.search_overlay.territory_select
         combo.clear()
+        
+        # Sécurité : si on n'a pas de données, on arrête
         if text not in self.territoires_data or not self.territoires_data[text]:
             return
         
-        noms = []
-        for feature in self.territoires_data[text]['features']:
-            p = feature['properties']
-            n = p.get('libgeo') or p.get('nom') or p.get('nom_com') or p.get('lib_epci')
-            if n: noms.append(n)
+        # On récupère directement les noms qui sont les clés de notre nouveau dictionnaire
+        noms = list(self.territoires_data[text].keys())
 
-        noms_uniques = sorted(list(set(noms)))
+        # On trie par ordre alphabétique
+        noms_uniques = sorted(noms)
+        
+        # Optionnel : Ajouter "Choisir..." au début pour forcer l'utilisateur à faire une action
+        # combo.addItem("Choisir...") 
+        
+        # On ajoute tout dans le menu avec le completer pour les accents et tout
         combo.addItems(noms_uniques)
         
-        # --- NOUVEAU COMPLETER SANS ACCENT ---
         completer = CompleterIntelligent(noms_uniques, combo)
         combo.setCompleter(completer)
 
+    def _update_bbox_ui(self, geom_4326):
+        """Projette le polygone et met à jour les champs de texte de la Bounding Box."""
+        project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
+        geom_2154 = transform(project, geom_4326)
+        bounds_2154 = geom_2154.bounds
+
+        self.min_x_edit.setText(f"{bounds_2154[0]:.6f}")
+        self.min_y_edit.setText(f"{bounds_2154[1]:.6f}")
+        self.max_x_edit.setText(f"{bounds_2154[2]:.6f}")
+        self.max_y_edit.setText(f"{bounds_2154[3]:.6f}")
+        self.perimeter_is_defined = True
+
     def _on_territory_selected(self, index):
-        # Sécurité : on vérifie si l'index est valide (différent de "Choisir...")
         if index < 0 or self.search_overlay.territory_select.currentIndex() == 0:
-            self.current_territory_code = None # Reset
+            self.current_territory_code = None
             self.search_overlay.btn_precise.setEnabled(False)
             self.search_overlay.btn_rectangle.setChecked(True)
             return
 
         nom = self.search_overlay.territory_select.currentText()
         tipo = self.search_overlay.type_select.currentText()
-        
-        # Mapping pour faire correspondre le singulier de l'UI avec le pluriel du chargement HD
-        key_map = {"Commune": "Communes", "EPCI": "EPCI"}
-        hd_key = key_map.get(tipo, tipo)
-        
-        target_final = None
 
-        # 1. On cherche d'abord dans le HD (avec la bonne clé)
-        if hd_key in self.territoires_data_hd:
-            for f in self.territoires_data_hd[hd_key]['features']:
-                p = f['properties']
-                # On ajoute 'NOM' en majuscule souvent utilisé dans les fichiers IGN
-                if p.get('libgeo') == nom or p.get('nom') == nom or p.get('lib_epci') == nom or p.get('NOM') == nom:
-                    target_final = f
-                    break
-        
-        # 2. Backup sur le simplifié si non trouvé
-        if not target_final and tipo in self.territoires_data:
-            for f in self.territoires_data[tipo]['features']:
-                p = f['properties']
-                if p.get('libgeo') == nom or p.get('nom') == nom or p.get('lib_epci') == nom:
-                    target_final = f
-                    break
+        # 1. On cherche dans notre mini-dictionnaire instantané
+        if tipo in self.territoires_data and nom in self.territoires_data[tipo]:
+            data = self.territoires_data[tipo][nom]
+            self.current_territory_code = data['code']
 
-        if target_final:
+            # --- PHASE 1 : ZOOM INSTANTANÉ SUR LA BBOX ---
+            if 'bbox' in data:
+                # L'API nous fournit déjà un polygone GeoJSON parfait pour la BBox !
+                fake_geojson = data['bbox']
+            else:
+                # Plan B de sécurité si la BBox est absente
+                lon, lat = data['centre']
+                fake_geojson = {"type": "Point", "coordinates": [lon, lat]}
 
             self.search_overlay.btn_precise.setEnabled(True)
             self.search_overlay.btn_precise.setChecked(True)
-
-            # On récupère le code INSEE ou SIREN pour l'utiliser plus tard avec le WFS IGN
-            props = target_final['properties']
-            self.current_territory_code = (
-                props.get('codgeo') or      # Souvent utilisé pour les communes
-                props.get('code_insee') or  # Variante
-                props.get('code_siren') or  # Souvent utilisé pour les EPCI
-                props.get('code') or        # Générique
-                props.get('id')             # Dernier recours
-            )
-
-            self.selected_polygon_geometry = shape(target_final['geometry'])
-
-            is_precise = self.search_overlay.btn_precise.isChecked()
-            # On envoie la géométrie au manager en forçant le zoom (True)
-            self.map_manager.run_js_draw(target_final['geometry'], is_precise, True)
-
-            # Mise à jour des coordonnées
-
-            # 1. On projette le polygone GPS (4326) vers le Lambert 93 (2154)
-            project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
-            geom_2154 = transform(project, self.selected_polygon_geometry)
             
-            # 2. On récupère les limites en mètres
-            bounds_2154 = geom_2154.bounds
+            # La carte va maintenant zoomer parfaitement sur la taille de la ville !
+            self.map_manager.run_js_draw(fake_geojson, True, True)
 
-            self.min_x_edit.setText(f"{bounds_2154[0]:.6f}")
-            self.min_y_edit.setText(f"{bounds_2154[1]:.6f}")
-            self.max_x_edit.setText(f"{bounds_2154[2]:.6f}")
-            self.max_y_edit.setText(f"{bounds_2154[3]:.6f}")
-            self.perimeter_is_defined = True # Ne pas oublier d'activer le flag de périmètre
+            # --- PHASE 2 : LANCEMENT DU CHARGEMENT HD EN ARRIÈRE-PLAN ---
+            logger.debug(f"Centrage sur {nom}. Téléchargement de la frontière exacte en cours...")
+            
+            if hasattr(self, 'ign_worker') and self.ign_worker.isRunning():
+                self.ign_worker.terminate()
+                self.ign_worker.wait()
+                
+            # On lance le travailleur de l'ombre
+            self.ign_worker = IgnFetcherWorker(tipo, self.current_territory_code)
+            self.ign_worker.result_signal.connect(self._on_ign_hd_received)
+            self.ign_worker.start()
+
+    def _on_ign_hd_received(self, success, feature):
+        if success:
+            logger.debug("Contour HD reçu ! Ajustement de la carte en cours...")
+            self.selected_polygon_geometry = shape(feature['geometry'])
+            
+            # On met à jour la variable globale (très important pour la collecte WFS)
+            self.polygon_for_collection = self.selected_polygon_geometry
+            
+            is_precise = self.search_overlay.btn_precise.isChecked()
+            # On redessine le polygone précis par dessus l'ancien. 
+            # (False = on ne force pas le zoom, car l'utilisateur l'a déjà)
+            self.map_manager.run_js_draw(feature['geometry'], is_precise, False)
+            self._update_bbox_ui(self.selected_polygon_geometry)
+        else:
+            logger.warning("Échec du téléchargement HD. Le contour simplifié est conservé.")
 
     def update_progress_bar(self, current, total):
         if total > 0:
@@ -858,7 +854,7 @@ class MainWindow(QMainWindow):
         # On re-verrouille le mode Précis et on repasse sur Rectangle
         self.search_overlay.btn_precise.setEnabled(False)
         self.search_overlay.btn_rectangle.setChecked(True)
-        
+
         # 4. On vide les coordonnées
         self.min_x_edit.clear(); self.min_y_edit.clear()
         self.max_x_edit.clear(); self.max_y_edit.clear()

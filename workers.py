@@ -1,6 +1,7 @@
 from PyQt6.QtCore import QThread, pyqtSignal
 import os
 from logger_config import logger
+import requests
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
 
@@ -202,3 +203,44 @@ class UpdaterWorker(QThread):
             self.finished_signal.emit(False, "Un fichier est bloqué. Fermez Excel, QGIS ou tout autre logiciel utilisant ces données, puis réessayez.")
         except Exception as e:
             self.finished_signal.emit(False, f"Erreur critique lors de la mise à jour : {e}") 
+
+class IgnFetcherWorker(QThread):
+    """
+    Worker en arrière-plan chargé d'aller chercher la géométrie HD sur l'API de l'IGN
+    sans bloquer l'interface utilisateur.
+    """
+    # Ce signal renvoie : (Succès: bool, Données_GeoJSON: dict)
+    result_signal = pyqtSignal(bool, dict)
+
+    def __init__(self, tipo, code_recherche, parent=None):
+        super().__init__(parent)
+        self.tipo = tipo
+        self.code_recherche = code_recherche
+
+    def run(self):
+        try:
+            layer_name = 'BDTOPO_V3:commune' if self.tipo == 'Commune' else 'BDTOPO_V3:epci'
+            filter_prop = 'code_insee' if self.tipo == 'Commune' else 'code_siren'
+
+            params = {
+                'SERVICE': 'WFS',
+                'VERSION': '2.0.0',
+                'REQUEST': 'GetFeature',
+                'TYPENAMES': layer_name,
+                'OUTPUTFORMAT': 'application/json',
+                'CQL_FILTER': f"{filter_prop}='{self.code_recherche}'",
+                'SRSNAME': 'EPSG:4326'
+            }
+
+            response = requests.get("https://data.geopf.fr/wfs/ows", params=params, timeout=10)
+            response.raise_for_status()
+            data = response.json()
+
+            if data.get('features'):
+                # On envoie la première feature trouvée
+                self.result_signal.emit(True, data['features'][0])
+            else:
+                self.result_signal.emit(False, {})
+        except Exception as e:
+            logger.error(f"Erreur API IGN en arrière-plan: {e}")
+            self.result_signal.emit(False, {})
