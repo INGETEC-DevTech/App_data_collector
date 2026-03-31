@@ -253,13 +253,14 @@ FLUX_MOBILITE_SOURCE_CONFIG = {
     "categorie": "PRATIQUE DE DÉPLACEMENT",
     "export_subdirectory": "COMPTAGES-FLUX",
     "fichiers_locaux": {
-        "travail": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.csv",
-        "etude": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.csv"
+        "travail": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet",
+        "etude": r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet"
     },
     "update_recipe": {
-        "type": "simple_copy",
-        "expected_files": ["Fichier Domicile-TRAVAIL (Actifs)", "Fichier Domicile-ÉTUDES (Étudiants)"]
-    }
+        "type": "preprocessing",
+        "expected_files": ["Fichier Domicile-TRAVAIL (Actifs)", "Fichier Domicile-ÉTUDES (Étudiants)"],
+        "script_to_run": "prepare_flux_mobilite"
+    },
 }
 
 # ------------------------------------------------------------------------------

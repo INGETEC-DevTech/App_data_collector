@@ -1,20 +1,57 @@
 import pandas as pd
+import os
 
-# 1. Mets ici le chemin exact du fichier Parquet que tu as téléchargé
-fichier_parquet = r"C:\Users\AGO\Downloads\fr-en-carte-scolaire-colleges-publics (1).parquet"
+# --- CONFIGURATION ---
+file_travail = r"P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet"
 
-print("Lecture du fichier brut en cours...")
-df_brut = pd.read_parquet(fichier_parquet)
+def diagnostiquer_probleme_filtrage(filepath):
+    if not os.path.exists(filepath):
+        print(f"ERREUR : Fichier introuvable.")
+        return
 
-# 2. On cherche toutes les communes qui s'appellent Bagnols ou qui contiennent ce mot
-# (Bagnols-sur-Cèze, Bagnols-en-Forêt, etc.)
-df_bagnols = df_brut[df_brut['libelle_commune'].str.contains('Bagnols', case=False, na=False)]
+    print("--- CHARGEMENT DES DONNÉES ---")
+    df = pd.read_parquet(filepath)
+    
+    # --- SIMULATION DU PROBLÈME ---
+    # Voici ce que l'application reçoit souvent de la carte ou du fichier CSV des communes
+    test_annemasse_str = "74012"
+    test_annemasse_int = 74012
+    test_annemasse_space = " 74012 "
 
-print(f"\n--- RÉSULTAT POUR BAGNOLS ---")
-print(f"Nombre de lignes trouvées dans la donnée source brute : {len(df_bagnols)}")
+    print(f"\n--- DIAGNOSTIC DES COMPARAISONS ---")
+    
+    # 1. Test avec String propre
+    res_str = df[df['code_res'] == test_annemasse_str]
+    print(f"1. Recherche avec STRING '{test_annemasse_str}' : {len(res_str)} lignes.")
 
-# 3. On affiche les premières lignes pour voir si les rues (type_et_libelle) sont remplies ou vides (NaN/None)
-colonnes_a_voir = ['code_insee', 'libelle_commune', 'type_et_libelle', 'code_rne']
+    # 2. Test avec Integer
+    try:
+        res_int = df[df['code_res'] == test_annemasse_int]
+        print(f"2. Recherche avec INT {test_annemasse_int} : {len(res_int)} lignes.")
+    except:
+        print(f"2. Recherche avec INT : ERREUR DE TYPE")
 
-# On affiche toutes les lignes trouvées pour cette commune
-print(df_bagnols[colonnes_a_voir].to_string())
+    # 3. Test avec Espaces
+    res_space = df[df['code_res'] == test_annemasse_space]
+    print(f"3. Recherche avec STRING + ESPACES '{test_annemasse_space}' : {len(res_space)} lignes.")
+
+    # --- SIMULATION DE LA LISTE (Comme dans l'appli) ---
+    print(f"\n--- SIMULATION DU FILTRAGE DE L'APPLI ---")
+    
+    # On simule une liste 'communes_in_poly' qui viendrait de gdf_cities
+    # Si gdf_cities a lu les codes comme des nombres, on aura ça :
+    communes_in_poly_FAUX = [74012, 74015] 
+    communes_in_poly_VRAI = ["74012", "74015"]
+
+    filtrage_ko = df[df['code_res'].isin(communes_in_poly_FAUX)]
+    filtrage_ok = df[df['code_res'].isin(communes_in_poly_VRAI)]
+
+    print(f"Filtrage avec liste d'ENTIERS : {len(filtrage_ko)} lignes (Si 0, c'est le problème !)")
+    print(f"Filtrage avec liste de STRINGS : {len(filtrage_ok)} lignes (Si >0, c'est la solution !)")
+
+    if len(filtrage_ko) == 0 and len(filtrage_ok) > 0:
+        print("\nPROBLÈME IDENTIFIÉ : L'application essaie de filtrer avec des NOMBRES alors que le Parquet contient du TEXTE.")
+        print("SOLUTION : Il faut forcer 'communes_in_poly' en string dans flux_mobilite_source.py.")
+
+# Exécution
+diagnostiquer_probleme_filtrage(file_travail)

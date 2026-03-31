@@ -1,13 +1,14 @@
 from PyQt6.QtCore import QThread, pyqtSignal
 import os
-from logger_config import logger
+import shutil
+import sys
 import requests
+from logger_config import logger
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
 
-
 class CollectorWorker(QThread):
-    step_progress_signal = pyqtSignal(int, int) # (valeur_actuelle, valeur_totale)
+    step_progress_signal = pyqtSignal(int, int)
     finished_signal = pyqtSignal(bool, str)
 
     def __init__(self, parent, data_source_instance, export_dir, bbox_obj, options_obj):
@@ -28,8 +29,6 @@ class CollectorWorker(QThread):
         try:
             logger.info(f"\n[SOURCE] {self.data_source.nom_source}")
             collect_options_with_log = self.options_obj.copy() if self.options_obj is not None else {}
-            
-            # MAGIQUE : On passe directement le logger à la source !
             collect_options_with_log["log_callback"] = logger.info 
             collect_options_with_log["progress_callback"] = self.step_progress_signal.emit
             collect_options_with_log["is_cancelled_callback"] = self.is_cancelled
@@ -41,14 +40,11 @@ class CollectorWorker(QThread):
                 self.finished_signal.emit(False, "Collecte annulée par l'utilisateur.")
             else:
                 self.finished_signal.emit(succes, message_global)
-                
         except Exception as e:
-            # logger.exception enregistre automatiquement l'erreur ET le traceback dans app.log !
             logger.exception(f"Erreur critique durant la collecte de {self.data_source.nom_source}")
             self.finished_signal.emit(False, f"Erreur critique: {e}")
 
 class SourceValidatorWorker(QThread):
-    # Signaux: nom_source, succes (bool), message
     validation_result_signal = pyqtSignal(str, bool, str)
     finished_signal = pyqtSignal()
 
@@ -59,11 +55,10 @@ class SourceValidatorWorker(QThread):
     def run(self):
         for source in self.sources:
             try:
-                # On appelle la méthode valider_lien de chaque source
                 success, message = source.valider_lien()
                 self.validation_result_signal.emit(source.nom_source, success, message)
             except Exception as e:
-                self.validation_result_signal.emit(source.nom_source, False, f"Erreur critique lors de la vérification : {e}")
+                self.validation_result_signal.emit(source.nom_source, False, f"Erreur critique : {e}")
         self.finished_signal.emit()
 
 class UpdaterWorker(QThread):
@@ -77,139 +72,95 @@ class UpdaterWorker(QThread):
         self.destination_path = destination_path
 
     def run(self):
-        import shutil
-        import sys
-        import os
-        
         try:
             logger.info(f"Démarrage de la mise à jour pour {self.source_nom}...")
             recipe_type = self.recipe.get("type")
             
-            # On récupère le dossier cible (uniquement si c'est un chemin unique, ex: BPE ou Filosofi)
+            # Définition du target_dir
             if isinstance(self.destination_path, str):
                 target_dir = os.path.dirname(self.destination_path)
-                os.makedirs(target_dir, exist_ok=True)
+            else:
+                first_path = list(self.destination_path.values())[0]
+                target_dir = os.path.dirname(first_path)
+            
+            os.makedirs(target_dir, exist_ok=True)
 
+            # --- CAS 1 : SIMPLE COPY ---
             if recipe_type == "simple_copy":
-                
-                # --- NOUVEAU : GESTION DES FICHIERS MULTIPLES (Ex: Flux Mobilité) ---
                 if isinstance(self.destination_path, dict):
-                    logger.info("Mise à jour multiple détectée...")
-                    
-                    # On associe chaque fichier sélectionné par l'utilisateur à sa destination
                     for i, (cle, dest_file) in enumerate(self.destination_path.items()):
                         src_file = self.selected_files_paths[i]
-                        target_dir = os.path.dirname(dest_file)
-                        os.makedirs(target_dir, exist_ok=True)
-                        
                         if os.path.abspath(src_file) != os.path.abspath(dest_file):
-                            logger.info(f"Copie de {os.path.basename(src_file)} vers {target_dir}...")
                             shutil.copy2(src_file, dest_file)
-                        else:
-                            logger.info(f"Le fichier '{os.path.basename(dest_file)}' est déjà à jour.")
-                            
-                    self.finished_signal.emit(True, "Tous les fichiers ont été mis à jour avec succès !")
-
-                # --- ANCIENNE LOGIQUE : UN SEUL FICHIER (Ex: BPE) ---
+                    self.finished_signal.emit(True, "Mise à jour multiple réussie.")
                 else:
                     src_file = self.selected_files_paths[0]
-                    target_dir = os.path.dirname(self.destination_path)
-                    os.makedirs(target_dir, exist_ok=True)
-                    
-                    if os.path.abspath(src_file) == os.path.abspath(self.destination_path):
-                        logger.info("Le fichier est déjà au bon endroit sur le réseau. Copie ignorée.")
-                    else:
-                        logger.info(f"Copie du fichier en cours vers {target_dir}...")
+                    if os.path.abspath(src_file) != os.path.abspath(self.destination_path):
                         shutil.copy2(src_file, self.destination_path)
-                        
-                    self.finished_signal.emit(True, "Fichier validé et mis à jour avec succès sur le réseau.")
+                    self.finished_signal.emit(True, "Fichier mis à jour.")
 
+            # --- CAS 2 : PREPROCESSING ---
             elif recipe_type == "preprocessing":
                 logger.info("Vérification des fichiers bruts...")
-                
                 fichiers_copies = []
-
                 for src_file in self.selected_files_paths:
                     dest_file = os.path.join(target_dir, os.path.basename(src_file))
                     fichiers_copies.append(dest_file)
-                    
-                    # --- NOUVEAU : On ne copie que si c'est nécessaire ---
                     if os.path.abspath(src_file) != os.path.abspath(dest_file):
-                        logger.info(f"Copie de {os.path.basename(src_file)} vers le serveur...")
                         shutil.copy2(src_file, dest_file)
-                    else:
-                        logger.info(f"'{os.path.basename(src_file)}' est déjà sur le serveur. Copie ignorée.")
                 
                 script_name = self.recipe.get("script_to_run")
-                logger.info("Fichiers prêts. Lancement du prétraitement (~5 à 10 min)...")
+                logger.info(f"Lancement du prétraitement : {script_name}")
                 
-                # Lancement dynamique du bon script
-                if script_name == "prepare_bpe_local_to_network":
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
-                    
-                    from preparation_donnees import prepare_bpe, prepare_filosofi
-                    import importlib
-                    importlib.reload(prepare_bpe) # Recharge le script au cas où tu l'as modifié
+                # Ajout du dossier préparation au path
+                prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
+                if prep_dir not in sys.path: sys.path.append(prep_dir)
+                import importlib
 
-                    # On identifie qui est qui grâce aux extensions
-                    fichier_parquet = next((f for f in fichiers_copies if f.endswith('.parquet')), None)
-                    fichier_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
-                    fichier_excel = next((f for f in fichiers_copies if f.endswith('.xlsx')), None)
-                    
-                    # On lance la machine en lui donnant les 3 fichiers exacts
-                    prepare_bpe.prepare_bpe_local_to_network(fichier_parquet, fichier_csv, fichier_excel)
+                if script_name == "prepare_flux_mobilite":
+                    from preparation_donnees import prepare_flux_mobilite
+                    sources = {"travail": fichiers_copies[0], "etude": fichiers_copies[1]}
+                    prepare_flux_mobilite.executer_mise_a_jour(sources, self.destination_path)
 
-                
+                elif script_name == "prepare_bpe_local_to_network":
+                    from preparation_donnees import prepare_bpe
+                    importlib.reload(prepare_bpe)
+                    f_parquet = next((f for f in fichiers_copies if f.endswith('.parquet')), None)
+                    f_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
+                    f_excel = next((f for f in fichiers_copies if f.endswith('.xlsx')), None)
+                    prepare_bpe.prepare_bpe_local_to_network(f_parquet, f_csv, f_excel)
+
                 elif script_name == "prepare_filosofi":
                     from preparation_donnees import prepare_filosofi
-                    import importlib
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
                     importlib.reload(prepare_filosofi)
-                    prepare_filosofi.executer_mise_a_jour(dest_file)
+                    prepare_filosofi.executer_mise_a_jour(fichiers_copies[0])
 
                 elif script_name == "prepare_bnac":
                     from preparation_donnees import prepare_bnac
-                    import importlib
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
                     importlib.reload(prepare_bnac)
-                    prepare_bnac.executer_mise_a_jour(dest_file)
+                    prepare_bnac.executer_mise_a_jour(fichiers_copies[0])
                 
                 elif script_name == "prepare_carte_scolaire":
                     from preparation_donnees import prepare_carte_scolaire
-                    import importlib
-                    prep_dir = os.path.join(BASE_DIR, 'preparation_donnees')
-                    if prep_dir not in sys.path: sys.path.append(prep_dir)
                     importlib.reload(prepare_carte_scolaire)
-
-                    # Identification des fichiers par leur extension
-                    fichier_parquet = next((f for f in fichiers_copies if f.endswith(('.parquet', '.geoparquet'))), None)
-                    fichier_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
-
-                    if not fichier_parquet or not fichier_csv:
-                        raise ValueError("Fichiers manquants : Veuillez fournir le fichier Parquet ET le fichier CSV.")
-
-                    # Lancement du script
-                    prepare_carte_scolaire.executer_mise_a_jour(fichier_parquet, fichier_csv)
+                    f_parquet = next((f for f in fichiers_copies if f.endswith(('.parquet', '.geoparquet'))), None)
+                    f_csv = next((f for f in fichiers_copies if f.endswith('.csv')), None)
+                    if not f_parquet or not f_csv:
+                        raise ValueError("Fichiers Parquet ou CSV manquants.")
+                    prepare_carte_scolaire.executer_mise_a_jour(f_parquet, f_csv)
                 
-                self.finished_signal.emit(True, "Prétraitement terminé et base consolidée mise à jour avec succès.")
+                self.finished_signal.emit(True, "Prétraitement terminé avec succès.")
             
             else:
                 self.finished_signal.emit(False, f"Type de recette inconnu : {recipe_type}")
 
         except PermissionError:
-            self.finished_signal.emit(False, "Un fichier est bloqué. Fermez Excel, QGIS ou tout autre logiciel utilisant ces données, puis réessayez.")
+            self.finished_signal.emit(False, "Fichier bloqué. Fermez Excel ou QGIS.")
         except Exception as e:
-            self.finished_signal.emit(False, f"Erreur critique lors de la mise à jour : {e}") 
+            logger.exception("Erreur lors de la mise à jour")
+            self.finished_signal.emit(False, f"Erreur : {e}")
 
 class IgnFetcherWorker(QThread):
-    """
-    Worker en arrière-plan chargé d'aller chercher la géométrie HD sur l'API de l'IGN
-    sans bloquer l'interface utilisateur.
-    """
-    # Ce signal renvoie : (Succès: bool, Données_GeoJSON: dict)
     result_signal = pyqtSignal(bool, dict)
 
     def __init__(self, tipo, code_recherche, parent=None):
@@ -221,26 +172,18 @@ class IgnFetcherWorker(QThread):
         try:
             layer_name = 'BDTOPO_V3:commune' if self.tipo == 'Commune' else 'BDTOPO_V3:epci'
             filter_prop = 'code_insee' if self.tipo == 'Commune' else 'code_siren'
-
             params = {
-                'SERVICE': 'WFS',
-                'VERSION': '2.0.0',
-                'REQUEST': 'GetFeature',
-                'TYPENAMES': layer_name,
-                'OUTPUTFORMAT': 'application/json',
-                'CQL_FILTER': f"{filter_prop}='{self.code_recherche}'",
-                'SRSNAME': 'EPSG:4326'
+                'SERVICE': 'WFS', 'VERSION': '2.0.0', 'REQUEST': 'GetFeature',
+                'TYPENAMES': layer_name, 'OUTPUTFORMAT': 'application/json',
+                'CQL_FILTER': f"{filter_prop}='{self.code_recherche}'", 'SRSNAME': 'EPSG:4326'
             }
-
             response = requests.get("https://data.geopf.fr/wfs/ows", params=params, timeout=10)
             response.raise_for_status()
             data = response.json()
-
             if data.get('features'):
-                # On envoie la première feature trouvée
                 self.result_signal.emit(True, data['features'][0])
             else:
                 self.result_signal.emit(False, {})
         except Exception as e:
-            logger.error(f"Erreur API IGN en arrière-plan: {e}")
+            logger.error(f"Erreur API IGN : {e}")
             self.result_signal.emit(False, {})
