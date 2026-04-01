@@ -14,13 +14,13 @@
 ### Composition intercommunale (EPCI 2025)
 - **Fichier :** `epcicom2025.csv`
 - **Utilité :** Associe chaque commune à son EPCI. Utilisé pour agréger les données à l'échelle métropolitaine et boucher les trous des libellés manquants.
-- **Lien source :** Base "Intercommunalité" du COG Insee : https://www.insee.fr/fr/information/2560452 (ou base BANATIC).
+- **Lien source :** 
 - **Mise à jour :** 02/04/2026
 
 ### Historique et fusions de communes
 - **Fichier :** `com_matching-code_2025.csv`
-- **Utilité :** Traduit les anciens codes INSEE vers la géographie 2025 (gestion des communes nouvelles et fusions). Vital pour éviter les erreurs sur les anciennes bases de données de l'INSEE.
-- **Lien source :** Fichier "Historique des communes" du COG Insee : https://www.insee.fr/fr/information/2560452
+- **Utilité :** Traduit les anciens codes INSEE vers la géographie 2025 (gestion des communes nouvelles et fusions de communes). 
+- **Lien source :** 
 - **Mise à jour :** 02/04/2026
 
 ### Dictionnaire de recherche cartographique
