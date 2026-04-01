@@ -109,8 +109,7 @@ def executer_mise_a_jour(sources_brutes, destinations_finales):
     @param sources_brutes: dict {'travail': path_csv, 'etude': path_csv}
     @param destinations_finales: dict {'travail': path_parquet, 'etude': path_parquet}
     """
-    base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    assets_dir = os.path.join(base_dir, 'assets')
+    assets_dir = r"P:\BiblioTechnique\MOBILITE\_Data\_Enrichissement"
     
     f_fusions = os.path.join(assets_dir, 'com_matching-code_2025.csv')
     f_epci = os.path.join(assets_dir, 'epcicom2025.csv')

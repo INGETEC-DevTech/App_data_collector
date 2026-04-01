@@ -95,7 +95,7 @@ class FluxMobiliteSource(SourceDeDonneesBase):
             return False, "Aucun type de flux n'a été coché."
 
         # Chargement des référentiels (une seule fois)
-        assets_dir = os.path.join(project_root, 'assets')
+        assets_dir = r"P:\BiblioTechnique\MOBILITE\_Data\_Enrichissement"
         path_epci = os.path.join(assets_dir, 'epcicom2025.csv')
         path_cities = os.path.join(assets_dir, 'communes-france-2025.csv')
 
