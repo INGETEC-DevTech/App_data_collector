@@ -170,9 +170,9 @@ FILOSOFI_SOURCE_CONFIG = {
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "SOCIO-ECO",
     "local_file_config": {
-        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg",
-        "native_crs": "EPSG:2154",
-        "layer_name": "carreaux_200m_met"
+        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg",
+        "native_crs": "EPSG:4326",
+        "layer_name": "carreaux_200m_france_entiere"
     },
     "update_recipe": {
         "type": "preprocessing",

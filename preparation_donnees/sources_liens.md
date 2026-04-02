@@ -71,9 +71,9 @@
 - **Mise à jour :** Automatique
 
 ### Dispositif Fichier localisé social et fiscal - Filosofi (Insee)
-- **Lien source :** https://www.insee.fr/fr/statistiques/4176290?sommaire=4176305 (Fichier `.zip` des carreaux de 200m)
-- **Préparation (`prepare_filosofi.py`) :** Extraction en cascade (ZIP puis 7z) et isolation du fichier GeoPackage de la France métropolitaine (à modifier pour prendre les autres)
-- **Fichier généré :** `carreaux_200m_met.gpkg`
+- **Lien source :** https://www.insee.fr/fr/statistiques/4176290?sommaire=4176305 (Fichier `.zip - Geopackage` des carreaux de 200m)
+- **Préparation (`prepare_filosofi.py`) :** Extraction en cascade (ZIP puis 7z) et fusion des fichiers GeoPackage de la France métropolitaine et de la Martinique / Réunion
+- **Fichier généré :** `carreaux_200m_france_entiere.gpkg`
 - **Dossier de stockage :** `P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019`
 - **Mise à jour :** 02/04/2025
 

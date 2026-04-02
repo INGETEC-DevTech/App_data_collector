@@ -234,8 +234,7 @@ class MainWindow(QMainWindow):
 
         # Chargement des noms des communes/epci
         try:
-            chemin_dico = r"P:\BiblioTechnique\MOBILITE\_Data\_Enrichissement\territoires_dico.json"
-            with open(chemin_dico, "r", encoding="utf-8") as f:
+            with open("assets/territoires_dico.json", "r", encoding="utf-8") as f:
                 self.territoires_data = json.load(f)
         except Exception as e:
             logger.error(f"Fichier territoires_dico.json introuvable sur le réseau. Veuillez lancer une mise à jour. Erreur: {e}")
