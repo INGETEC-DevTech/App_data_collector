@@ -93,8 +93,24 @@ class SireneSource(SourceDeDonneesBase):
         if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
             return False, "Périmètre ou coordonnées introuvables."
         
+        # Récupération du CRS dynamique
+        target_crs = perimetre_selection_objet.get("crs", "EPSG:2154")
+        logger.debug(f"Requête API SIRENE préparée pour le système de coordonnées : {target_crs}")
+        
         min_x, min_y, max_x, max_y = perimetre_selection_objet["value"]
-        query = f"coordonneeLambertAbscisseEtablissement:[{min_x} TO {max_x}] AND coordonneeLambertOrdonneeEtablissement:[{min_y} TO {max_y}]"
+        # La BBox est déjà projetée dans le target_crs, on l'injecte direct !
+
+        # query = f"coordonneeLambertAbscisseEtablissement:[{min_x} TO {max_x}] AND coordonneeLambertOrdonneeEtablissement:[{min_y} TO {max_y}]"
+        # --- OPTIMISATION MAJEURE : Filtrage côté API ---
+        # On demande à l'INSEE de filtrer elle-même les entreprises fermées (A) 
+        # et les auto-entrepreneurs (catégorie > 2000) pour diviser le nombre de pages par 3 !
+        query = (
+            f"coordonneeLambertAbscisseEtablissement:[{min_x} TO {max_x}] "
+            f"AND coordonneeLambertOrdonneeEtablissement:[{min_y} TO {max_y}] "
+            f"AND etatAdministratifUniteLegale:A "
+            f"AND categorieJuridiqueUniteLegale:[2001 TO 9999]"
+        )
+
         fields = "siren,nic,siret,dateCreationEtablissement,trancheEffectifsEtablissement,anneeEffectifsEtablissement,denominationUniteLegale,activitePrincipaleUniteLegale,categorieEntreprise,categorieJuridiqueUniteLegale,codePostalEtablissement,libelleCommuneEtablissement,coordonneeLambertAbscisseEtablissement,coordonneeLambertOrdonneeEtablissement,etatAdministratifUniteLegale"
         
         nom_fichier = "sirene_etablissements"
@@ -102,10 +118,12 @@ class SireneSource(SourceDeDonneesBase):
         
         cursor, page = "*", 1
         total_final_sauvegarde = 0
-        total_theorique = 0 # 2. Variable pour le maximum de la barre
-        first_chunk = True
+        total_theorique = 0 # Variable pour le maximum de la barre
+        
+        # --- NOUVEAU : Liste pour stocker les résultats en RAM ---
+        gdfs_en_attente = []
 
-        # Dictionnaires de mapping (identiques à votre version)
+        # Dictionnaires de mapping
         effectifs_map_tranche = {
             '00': '0 salarié', '01': '1 ou 2 salariés', '02': '3 à 5 salariés',
             '03': '6 à 9 salariés', '11': '10 à 19 salariés', '12': '20 à 49 salariés',
@@ -124,7 +142,7 @@ class SireneSource(SourceDeDonneesBase):
                 msg = response_data.get("fault", {}).get("message", "Erreur API") if response_data else "Échec requête."
                 return False, f"Erreur API SIRENE: {msg}"
 
-            # 3. Récupération du total théorique lors de la première page
+            # Récupération du total théorique lors de la première page
             if page == 1:
                 total_theorique = response_data.get("header", {}).get("total", 0)
 
@@ -161,38 +179,47 @@ class SireneSource(SourceDeDonneesBase):
                 df_chunk['trancheNombreEmploye'] = df_chunk['codeTranche'].map(effectifs_map_tranche)
                 df_chunk = df_chunk[df_chunk['nombreEmploye'].fillna(0) > 0].copy()
 
-            # --- ÉCRITURE DU CHUNK SI NON VIDE ---
+            # --- VÉRIFICATION DU CHUNK SI NON VIDE ---
             if not df_chunk.empty:
                 col_x, col_y = 'coordonneeLambertAbscisseEtablissement', 'coordonneeLambertOrdonneeEtablissement'
                 df_geo = df_chunk.dropna(subset=[col_x, col_y]).copy()
-                # ... (conversion et création gdf_chunk) ...
                 
                 if not df_geo.empty:
-                    gdf_chunk = gpd.GeoDataFrame(df_geo, geometry=gpd.points_from_xy(df_geo[col_x], df_geo[col_y]), crs="EPSG:2154")
+                    # On utilise le target_crs dynamique
+                    gdf_chunk = gpd.GeoDataFrame(df_geo, geometry=gpd.points_from_xy(df_geo[col_x], df_geo[col_y]), crs=target_crs)
 
-                    # --- DÉBUT DU BLOC DE FILTRAGE PAR POLYGONE ---
-                    mask_2154 = perimetre_selection_objet.get("polygon")
-                    if mask_2154 is not None and not gdf_chunk.empty:
-                        # On ne garde que les points strictement à l'intérieur
-                        gdf_chunk = gdf_chunk[gdf_chunk.geometry.within(mask_2154)].copy()
-                    # --- FIN DU BLOC DE FILTRAGE ---
+                    # Filtrage par polygone (mask_poly)
+                    mask_poly = perimetre_selection_objet.get("polygon")
+                    if mask_poly is not None and not gdf_chunk.empty:
+                        gdf_chunk = gdf_chunk[gdf_chunk.geometry.within(mask_poly)].copy()
 
-                    write_mode = 'w' if first_chunk else 'a'
-                    gdf_chunk.to_file(chemin_gpkg, driver="GPKG", engine="pyogrio", mode=write_mode)
-                    
-                    # 4. Mise à jour de la progression
-                    # Note : on utilise ici le compteur total d'établissements reçus (page * 1000)
-                    # car le filtrage réduit le nombre final, ce qui ferait "reculer" la barre.
-                    total_recu_estime = page * 1000
-                    if progress_callback and total_theorique > 0:
-                        # On s'assure de ne pas dépasser le total théorique
-                        progress_callback(min(total_recu_estime, total_theorique), total_theorique)
-                    
-                    total_final_sauvegarde += len(gdf_chunk)
-                    first_chunk = False
+                    # --- NOUVEAU : On stocke en mémoire au lieu d'écrire sur le disque ---
+                    if not gdf_chunk.empty:
+                        gdfs_en_attente.append(gdf_chunk)
+                        total_final_sauvegarde += len(gdf_chunk)
 
-            logger.debug(f"Page {page} traitée.")
+            # Mise à jour de la progression visuelle
+            total_recu_estime = page * 1000
+            if progress_callback and total_theorique > 0:
+                progress_callback(min(total_recu_estime, total_theorique), total_theorique)
+
+            logger.debug(f"Page {page} traitée en mémoire.")
             page += 1
             if not (cursor := response_data.get("header", {}).get("curseurSuivant")): break
         
+        # --- NOUVEAU : ÉCRITURE FINALE UNIQUE SUR LE DISQUE ---
+        if gdfs_en_attente:
+            logger.info(f"Création du fichier GeoPackage avec {total_final_sauvegarde} établissements...")
+            # On fusionne tous les petits tableaux en un seul tableau global
+            gdf_final = pd.concat(gdfs_en_attente, ignore_index=True)
+            
+            # Sécurité pour s'assurer que Pandas n'a pas perdu le type spatial
+            if not isinstance(gdf_final, gpd.GeoDataFrame):
+                gdf_final = gpd.GeoDataFrame(gdf_final, geometry='geometry', crs=target_crs)
+                
+            # Une seule écriture ultra-rapide
+            gdf_final.to_file(chemin_gpkg, driver="GPKG", engine="pyogrio")
+        else:
+            logger.info("Aucun établissement ne correspond aux critères sur cette zone.")
+
         return True, f"{total_final_sauvegarde} établissements sauvegardés avec succès."
