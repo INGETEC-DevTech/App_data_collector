@@ -18,9 +18,10 @@ class FilosofiSource(SourceDeDonneesBase):
     def __init__(self, config: dict):
         super().__init__(config)
         file_conf = self.config.get("local_file_config", {})
-        self.filepath = file_conf.get("path")
-        self.native_crs = file_conf.get("native_crs")
-        self.layer_name = file_conf.get("layer_name")
+        # On charge le dictionnaire complet des zones
+        self.fichiers_par_zone = file_conf.get("fichiers_par_zone", {})
+        self.filepath = None # Sera défini à la volée
+        self.native_crs = None # Sera défini à la volée
 
     @property
     def supports_update(self) -> bool:
@@ -28,11 +29,11 @@ class FilosofiSource(SourceDeDonneesBase):
         return True
 
     def valider_lien(self):
-        if not self.filepath:
-            return False, "Chemin du fichier Filosofi non configuré."
-        if os.path.exists(self.filepath):
-            return True, f"Fichier Filosofi trouvé : {self.filepath}"
-        return False, "Fichier local introuvable."
+        # On vérifie au moins que le fichier principal (métropole) est accessible
+        chemin_metropole = self.fichiers_par_zone.get("metropole", {}).get("path")
+        if chemin_metropole and os.path.exists(chemin_metropole):
+            return True, "Fichiers Filosofi trouvés et configurés."
+        return False, "Fichiers Filosofi introuvables sur le réseau."
 
     def get_parametres_specifiques_ui(self):
         """Pas d'options de configuration spécifiques pour cette source."""
@@ -47,16 +48,32 @@ class FilosofiSource(SourceDeDonneesBase):
         progress_callback = options_specifiques.get("progress_callback")
         t_debut_collecte = time.perf_counter()
 
-        is_valid, message = self.valider_lien()
-        if not is_valid:
-            logger.error(message)
-            return False, message
-        
-        # On vérifie juste qu'on a bien reçu un périmètre et ses coordonnées (value)
+        # On vérifie qu'on a bien reçu un périmètre et ses coordonnées
         if not perimetre_selection_objet or "value" not in perimetre_selection_objet:
             message = "Périmètre ou coordonnées introuvables."
             logger.error(message)
             return False, message
+
+        # --- LECTURE DU ROUTAGE SPATIAL ---
+        zone_geo = perimetre_selection_objet.get("zone_geo", "metropole")
+        
+        # self.fichiers_par_zone a été chargé dans le __init__ depuis config.py
+        config_zone = self.fichiers_par_zone.get(zone_geo)
+
+        if not config_zone:
+            message = f"La zone géographique '{zone_geo}' n'est pas couverte par Filosofi dans la configuration."
+            logger.error(message)
+            return False, message
+        
+        # Affectation dynamique des propriétés pour cette collecte précise
+        self.filepath = config_zone.get("path")
+        self.native_crs = config_zone.get("crs")
+
+        if not self.filepath or not os.path.exists(self.filepath):
+            message = f"Fichier local introuvable pour la zone {zone_geo} : {self.filepath}"
+            logger.error(message)
+            return False, message
+        # ----------------------------------------------
 
         try:
             # Initialisation de la barre à 0%
@@ -110,7 +127,9 @@ class FilosofiSource(SourceDeDonneesBase):
             logger.debug(f"{nb_entites_filtrees} carreaux FilosoFI trouvés.")
 
             if nb_entites_filtrees > 0:
-                output_crs = "EPSG:2154"
+                # On utilise le CRS dynamique défini par l'utilisateur/le système ---
+                output_crs = perimetre_selection_objet.get("crs", self.native_crs)
+                
                 if gdf_filtre.crs.to_string().upper() != output_crs.upper():
                     logger.debug(f"Reprojection vers {output_crs}...")
                     gdf_filtre = gdf_filtre.to_crs(output_crs)

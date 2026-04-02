@@ -160,7 +160,7 @@ BNAC_SOURCE_CONFIG = {
 }
 
 # ------------------------------------------------------------------------------
-# Source: Filosofi (Fichier Local)
+# Source: Filosofi (Fichiers Locaux Multi-Zones)
 # Fichier: filosofi_source.py -> Classe: FilosofiSource
 # ------------------------------------------------------------------------------
 FILOSOFI_SOURCE_CONFIG = {
@@ -170,9 +170,20 @@ FILOSOFI_SOURCE_CONFIG = {
     "categorie": "DESCRIPTION DU TERRITOIRE",
     "export_subdirectory": "SOCIO-ECO",
     "local_file_config": {
-        "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg",
-        "native_crs": "EPSG:4326",
-        "layer_name": "carreaux_200m_france_entiere"
+        "fichiers_par_zone": {
+            "metropole": {
+                "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\Filosofi2015_carreaux_200m_metropole.gpkg",
+                "crs": "EPSG:2154"
+            },
+            "antilles": {
+                "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\Filosofi2015_carreaux_200m_reg02.gpkg",
+                "crs": "EPSG:5490"
+            },
+            "reunion": {
+                "path": r"P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\Filosofi2015_carreaux_200m_reg04.gpkg",
+                "crs": "EPSG:2975"
+            }
+        }
     },
     "update_recipe": {
         "type": "preprocessing",

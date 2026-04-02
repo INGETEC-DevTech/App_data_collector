@@ -31,7 +31,7 @@ class CompleterIntelligent(QCompleter):
         return [""]
     
 # --- AJOUT : Fonction utilitaire pour récupérer la géométrie précise ---
-def recuperer_geometrie_precise_ign(type_territoire: str, code_territoire: str):
+def recuperer_geometrie_precise_ign(type_territoire: str, code_territoire: str, crs_cible: str = "EPSG:2154"):
     """
     Récupère la géométrie précise (Polygone) d'une commune ou d'un EPCI
     directement depuis le WFS de l'IGN (BD TOPO).
@@ -56,30 +56,48 @@ def recuperer_geometrie_precise_ign(type_territoire: str, code_territoire: str):
         return None
 
     params = {
-        'SERVICE': 'WFS',
-        'VERSION': '2.0.0',
-        'REQUEST': 'GetFeature',
-        'TYPENAMES': typename,
-        'OUTPUTFORMAT': 'application/json',
+        'SERVICE': 'WFS', 'VERSION': '2.0.0', 'REQUEST': 'GetFeature',
+        'TYPENAMES': typename, 'OUTPUTFORMAT': 'application/json',
         'CQL_FILTER': cql_filter,
-        'SRSNAME': 'EPSG:2154' # On demande explicitement du Lambert 93
+        'SRSNAME': crs_cible
     }
 
     try:
         response = requests.get(wfs_url, params=params, timeout=30)
         response.raise_for_status()
-        
         data = response.json()
         features = data.get('features', [])
         
         if features:
-            # On utilise GeoPandas pour convertir proprement le GeoJSON en objet géométrique
-            gdf = geopandas.GeoDataFrame.from_features(features, crs="EPSG:2154")
+            # <-- MODIFICATION ICI : On passe le CRS dynamiquement
+            gdf = geopandas.GeoDataFrame.from_features(features, crs=crs_cible) 
             if not gdf.empty:
-                poly = gdf.geometry.iloc[0]
-                return poly
-            
+                return gdf.geometry.iloc[0]
+                
     except Exception as e:
-        logger.error(f"Erreur WFS IGN (Géométrie précise) : {e}")
+        logger.error(f"Erreur WFS IGN (Géométrie précise) CRS {crs_cible}: {e}")
     
     return None
+
+def determiner_contexte_spatial(code_insee=None, longitude=None) -> tuple[str, str]:
+    """
+    Routeur spatial : Détermine le CRS local et la zone géographique.
+    Peut router via un code INSEE (mode Précis) ou une longitude WGS84 (mode Rectangle).
+    Retourne (CRS, zone_geo)
+    """
+    if code_insee:
+        code_dept = code_insee[:3] if code_insee.startswith('97') else code_insee[:2]
+        if code_dept in ['971', '972']: return "EPSG:5490", "antilles"
+        elif code_dept == '973': return "EPSG:2972", "guyane"
+        elif code_dept == '974': return "EPSG:2975", "reunion"
+        elif code_dept == '976': return "EPSG:4471", "mayotte"
+        else: return "EPSG:2154", "metropole"
+    
+    if longitude is not None:
+        if -65 < longitude < -59: return "EPSG:5490", "antilles"
+        elif -55 < longitude < -51: return "EPSG:2972", "guyane"
+        elif 55 < longitude < 56: return "EPSG:2975", "reunion"
+        elif 45 < longitude < 46: return "EPSG:4471", "mayotte"
+        else: return "EPSG:2154", "metropole"
+        
+    return "EPSG:2154", "metropole" # Fallback par défaut

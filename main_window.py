@@ -14,7 +14,7 @@ from map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
 from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker, IgnFetcherWorker
-from utils import CompleterIntelligent, recuperer_geometrie_precise_ign
+from utils import CompleterIntelligent, recuperer_geometrie_precise_ign, determiner_contexte_spatial
 
 from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
@@ -408,7 +408,11 @@ class MainWindow(QMainWindow):
                 tipo = self.search_overlay.type_select.currentText()
                 logger.info(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
                 
-                geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code)
+                # On détermine le CRS cible
+                crs_cible, _ = determiner_contexte_spatial(code_insee=self.current_territory_code)
+                self.crs_edit.setText(crs_cible) # On met à jour l'interface secrète
+                
+                geom_precise = recuperer_geometrie_precise_ign(tipo, self.current_territory_code, crs_cible=crs_cible)
                 
                 if geom_precise:
                     # NOUVEAU : On stocke dans une variable dédiée à la collecte !
@@ -635,18 +639,28 @@ class MainWindow(QMainWindow):
             if poly_to_send is not None:
                 type_selection = self.search_overlay.type_select.currentText().lower()
 
-            # --- Reste de ta logique de projection (Lambert 93) ---
+            # --- NOUVEAU : Récupération du contexte complet ---
+            crs_cible = self.crs_edit.text() # C'est le CRS défini dynamiquement juste avant !
+            
+            # Pour la zone_geo, on tente par INSEE, sinon on prend le centre GPS du polygone
+            if self.current_territory_code:
+                _, zone_geo = determiner_contexte_spatial(code_insee=self.current_territory_code)
+            elif poly_to_send:
+                _, zone_geo = determiner_contexte_spatial(longitude=poly_to_send.centroid.x)
+            else:
+                zone_geo = "metropole"
+
+            # Reprojection dynamique
             if poly_to_send:
-                # On s'assure que le polygone est en 2154
                 bounds = poly_to_send.bounds
                 if max(abs(bounds[0]), abs(bounds[2])) < 180: # Si c'est du GPS (WGS84)
-                    project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
+                    project = pyproj.Transformer.from_crs("EPSG:4326", crs_cible, always_xy=True).transform
                     poly_to_send = transform(project, poly_to_send)
                 
                 new_bounds = poly_to_send.bounds
                 val_min_x, val_min_y, val_max_x, val_max_y = new_bounds
             else:
-                # Lecture directe des champs de texte (coordonnées manuelles ou BBOX de la carte)
+                # Lecture directe des champs de texte
                 val_min_x = float(self.min_x_edit.text())
                 val_min_y = float(self.min_y_edit.text())
                 val_max_x = float(self.max_x_edit.text())
@@ -655,7 +669,8 @@ class MainWindow(QMainWindow):
             return {
                 "type": type_selection,
                 "value": [val_min_x, val_min_y, val_max_x, val_max_y],
-                "crs": "EPSG:2154",
+                "crs": crs_cible,          # <-- DYNAMIQUE
+                "zone_geo": zone_geo,      # <-- NOUVEAU : Passé à Filosofi !
                 "polygon": poly_to_send
             }
         except Exception as e:
@@ -673,6 +688,9 @@ class MainWindow(QMainWindow):
 
     def on_bbox_drawn_on_map(self, min_lng, min_lat, max_lng, max_lat):
         try:
+            crs_cible, _ = determiner_contexte_spatial(longitude=min_lng)
+            self.crs_edit.setText(crs_cible) # Mise à jour cruciale
+
             target_crs = self.crs_edit.text()
             if not target_crs: logger.error("Erreur: CRS non défini pour la reprojection."); return
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
@@ -720,7 +738,7 @@ class MainWindow(QMainWindow):
 
     def _update_bbox_ui(self, geom_4326):
         """Projette le polygone et met à jour les champs de texte de la Bounding Box."""
-        project = pyproj.Transformer.from_crs("EPSG:4326", "EPSG:2154", always_xy=True).transform
+        project = pyproj.Transformer.from_crs("EPSG:4326", self.crs_edit.text(), always_xy=True).transform
         geom_2154 = transform(project, geom_4326)
         bounds_2154 = geom_2154.bounds
 

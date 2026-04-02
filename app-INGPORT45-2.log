@@ -1,0 +1,1983 @@
+2026-03-27 14:47:09 - INFO - =========================================
+2026-03-27 14:47:09 - INFO - Démarrage de l'application...
+2026-03-27 14:47:09 - INFO - =========================================
+2026-03-27 14:47:13 - WARNING - Fichier HD introuvable : assets/communes.geojson
+2026-03-27 14:47:13 - WARNING - Fichier HD introuvable : assets/epci.geojson
+2026-03-27 14:47:13 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 14:47:15 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 14:47:15 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 14:47:15 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 14:47:15 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 14:47:16 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 14:47:17 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 14:47:17 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 14:47:17 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 14:47:18 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 14:47:18 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 14:49:55 - INFO - Mise à jour annulée par l'utilisateur.
+2026-03-27 15:13:13 - INFO - Récupération de la géométrie haute précision pour EPCI 200046977...
+2026-03-27 15:13:14 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-27 15:13:14 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-27 15:13:14 - INFO - 
+[SOURCE] Entreprises (SIRENE - INSEE)
+2026-03-27 15:13:16 - DEBUG - Page 1 traitée.
+2026-03-27 15:13:17 - DEBUG - Page 2 traitée.
+2026-03-27 15:13:19 - DEBUG - Page 3 traitée.
+2026-03-27 15:13:21 - DEBUG - Page 4 traitée.
+2026-03-27 15:13:23 - DEBUG - Page 5 traitée.
+2026-03-27 15:13:26 - DEBUG - Page 6 traitée.
+2026-03-27 15:13:28 - DEBUG - Page 7 traitée.
+2026-03-27 15:13:30 - DEBUG - Page 8 traitée.
+2026-03-27 15:13:32 - DEBUG - Page 9 traitée.
+2026-03-27 15:13:34 - DEBUG - Page 10 traitée.
+2026-03-27 15:13:35 - DEBUG - Page 11 traitée.
+2026-03-27 15:13:38 - DEBUG - Page 12 traitée.
+2026-03-27 15:13:40 - DEBUG - Page 13 traitée.
+2026-03-27 15:13:42 - DEBUG - Page 14 traitée.
+2026-03-27 15:13:44 - DEBUG - Page 15 traitée.
+2026-03-27 15:13:46 - DEBUG - Page 16 traitée.
+2026-03-27 15:13:48 - DEBUG - Page 17 traitée.
+2026-03-27 15:13:50 - DEBUG - Page 18 traitée.
+2026-03-27 15:13:52 - DEBUG - Page 19 traitée.
+2026-03-27 15:13:54 - DEBUG - Page 20 traitée.
+2026-03-27 15:13:56 - DEBUG - Page 21 traitée.
+2026-03-27 15:13:57 - DEBUG - Page 22 traitée.
+2026-03-27 15:14:00 - DEBUG - Page 23 traitée.
+2026-03-27 15:14:02 - DEBUG - Page 24 traitée.
+2026-03-27 15:14:03 - DEBUG - Page 25 traitée.
+2026-03-27 15:14:06 - DEBUG - Page 26 traitée.
+2026-03-27 15:14:07 - DEBUG - Page 27 traitée.
+2026-03-27 15:14:10 - DEBUG - Page 28 traitée.
+2026-03-27 15:14:12 - DEBUG - Page 29 traitée.
+2026-03-27 15:14:14 - DEBUG - Page 30 traitée.
+2026-03-27 15:14:16 - DEBUG - Page 31 traitée.
+2026-03-27 15:14:18 - DEBUG - Page 32 traitée.
+2026-03-27 15:14:20 - DEBUG - Page 33 traitée.
+2026-03-27 15:14:22 - DEBUG - Page 34 traitée.
+2026-03-27 15:14:24 - DEBUG - Page 35 traitée.
+2026-03-27 15:14:25 - DEBUG - Page 36 traitée.
+2026-03-27 15:14:28 - DEBUG - Page 37 traitée.
+2026-03-27 15:14:29 - DEBUG - Page 38 traitée.
+2026-03-27 15:14:32 - DEBUG - Page 39 traitée.
+2026-03-27 15:14:32 - WARNING - ARRÊT IMMÉDIAT EN COURS...
+2026-03-27 15:14:32 - WARNING - === COLLECTE ANNULÉE ===
+2026-03-27 15:17:29 - INFO - =========================================
+2026-03-27 15:17:54 - INFO - =========================================
+2026-03-27 15:17:54 - INFO - Démarrage de l'application...
+2026-03-27 15:17:54 - INFO - =========================================
+2026-03-27 15:18:07 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 15:18:09 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 15:18:10 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 15:18:10 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 15:18:10 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 15:18:11 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 15:18:11 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 15:18:11 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 15:18:11 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 15:18:13 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 15:18:13 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 16:28:15 - INFO - =========================================
+2026-03-27 16:28:15 - INFO - Démarrage de l'application...
+2026-03-27 16:28:15 - INFO - =========================================
+2026-03-27 16:28:22 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 16:28:24 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 16:28:24 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 16:28:24 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 16:28:24 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 16:28:25 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 16:28:25 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 16:28:25 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 16:28:25 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 16:28:26 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 16:28:26 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 16:41:53 - INFO - =========================================
+2026-03-27 16:41:53 - INFO - Démarrage de l'application...
+2026-03-27 16:41:53 - INFO - =========================================
+2026-03-27 16:41:59 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 16:42:00 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 16:42:00 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 16:42:00 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 16:42:00 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 16:42:02 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 16:42:02 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 16:42:02 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 16:42:02 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 16:42:03 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 16:42:03 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 16:48:50 - INFO - =========================================
+2026-03-27 16:48:50 - INFO - Démarrage de l'application...
+2026-03-27 16:48:50 - INFO - =========================================
+2026-03-27 16:48:55 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 16:48:57 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 16:48:57 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 16:48:57 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 16:48:57 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 16:48:58 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 16:48:58 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 16:48:58 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 16:48:58 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 16:48:59 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 16:48:59 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 16:49:06 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:51:33 - INFO - =========================================
+2026-03-27 16:51:33 - INFO - Démarrage de l'application...
+2026-03-27 16:51:33 - INFO - =========================================
+2026-03-27 16:51:39 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 16:51:40 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 16:51:40 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 16:51:40 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 16:51:40 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 16:51:41 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 16:51:41 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 16:51:41 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 16:51:42 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 16:51:42 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 16:51:42 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 16:51:48 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:51:51 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-03-27 16:51:54 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:52:00 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:52:05 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:52:13 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 16:52:25 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 17:04:25 - INFO - =========================================
+2026-03-27 17:04:25 - INFO - Démarrage de l'application...
+2026-03-27 17:04:25 - INFO - =========================================
+2026-03-27 17:05:36 - INFO - =========================================
+2026-03-27 17:05:36 - INFO - Démarrage de l'application...
+2026-03-27 17:05:36 - INFO - =========================================
+2026-03-27 17:05:42 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-27 17:05:43 - DEBUG - BD TOPO (IGN) : OK
+2026-03-27 17:05:43 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-27 17:05:43 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-27 17:05:43 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-27 17:05:45 - DEBUG - Cadastre (IGN) : OK
+2026-03-27 17:05:45 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-27 17:05:45 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-27 17:05:45 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-27 17:05:45 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-27 17:05:45 - INFO - Toutes les sources sont opérationnelles.
+2026-03-27 17:05:52 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 17:05:56 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 17:05:59 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-27 17:06:04 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 09:58:59 - INFO - =========================================
+2026-03-30 09:58:59 - INFO - Démarrage de l'application...
+2026-03-30 09:58:59 - INFO - =========================================
+2026-03-30 09:59:07 - INFO - =========================================
+2026-03-30 09:59:07 - INFO - Démarrage de l'application...
+2026-03-30 09:59:07 - INFO - =========================================
+2026-03-30 10:00:20 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 10:00:22 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 10:00:22 - ERROR - [Aménagements cyclables (BNAC - data.gouv.fr)] : Fichier local introuvable.
+2026-03-30 10:00:22 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 10:00:22 - ERROR - [Equipements (BPE - INSEE)] : Fichier(s) local/locaux introuvable(s).
+2026-03-30 10:00:23 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 10:00:23 - ERROR - [Carte scolaire (data.gouv.fr)] : Fichiers Carte Scolaire introuvables sur le réseau.
+2026-03-30 10:00:23 - ERROR - [Données socio-économiques carroyées (FiLoSoFi - INSEE)] : Fichier local introuvable.
+2026-03-30 10:00:23 - ERROR - [Flux de Mobilité (INSEE)] : Fichier(s) local/locaux introuvable(s) (travail, etude).
+2026-03-30 10:00:24 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 10:00:24 - WARNING - Vérification terminée : 5 source(s) indisponible(s).
+2026-03-30 10:00:43 - INFO - =========================================
+2026-03-30 10:00:43 - INFO - Démarrage de l'application...
+2026-03-30 10:00:43 - INFO - =========================================
+2026-03-30 10:00:51 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 10:00:56 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 10:00:56 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 10:00:56 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 10:00:56 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 10:00:58 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 10:00:58 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 10:00:58 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 10:00:58 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 10:00:58 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 10:00:58 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 10:58:24 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:26 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-03-30 10:58:32 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:35 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:44 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:45 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:46 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:47 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:48 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:49 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:49 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:50 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:50 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:51 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:52 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:52 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 10:58:53 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:08:30 - INFO - =========================================
+2026-03-30 11:08:30 - INFO - Démarrage de l'application...
+2026-03-30 11:08:30 - INFO - =========================================
+2026-03-30 11:08:38 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:08:39 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:08:39 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:08:39 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:08:39 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:08:41 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:08:41 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:08:41 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:08:41 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:08:42 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:08:42 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 11:08:43 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:08:47 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:17:51 - INFO - =========================================
+2026-03-30 11:17:51 - INFO - Démarrage de l'application...
+2026-03-30 11:17:51 - INFO - =========================================
+2026-03-30 11:17:57 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:17:59 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:17:59 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:17:59 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:17:59 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:18:00 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:18:00 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:18:00 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:18:00 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:18:01 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:18:01 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 11:19:23 - INFO - =========================================
+2026-03-30 11:19:23 - INFO - Démarrage de l'application...
+2026-03-30 11:19:23 - INFO - =========================================
+2026-03-30 11:19:28 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:19:30 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:19:30 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:19:30 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:19:30 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:19:33 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:19:36 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:19:41 - ERROR - [Cadastre (IGN)] : WFS: Service distant (API/WFS) inaccessible. | Enrichissement PM disponible.
+2026-03-30 11:19:41 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:19:41 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:19:41 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:19:42 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:19:42 - WARNING - Vérification terminée : 1 source(s) indisponible(s).
+2026-03-30 11:19:51 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:19:52 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:19:54 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-03-30 11:19:58 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:20:09 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-03-30 11:20:17 - INFO - =========================================
+2026-03-30 11:20:17 - INFO - Démarrage de l'application...
+2026-03-30 11:20:17 - INFO - =========================================
+2026-03-30 11:20:23 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:20:24 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:20:24 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:20:24 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:20:24 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:20:26 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:20:26 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:20:26 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:20:26 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:20:27 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:20:27 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 11:20:27 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:23:13 - INFO - =========================================
+2026-03-30 11:23:13 - INFO - Démarrage de l'application...
+2026-03-30 11:23:13 - INFO - =========================================
+2026-03-30 11:23:18 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:23:19 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:23:20 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:23:20 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:23:20 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:23:21 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:23:21 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:23:21 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:23:21 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:23:22 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:23:22 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 11:23:23 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:23:26 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:23:33 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:23:34 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:23:37 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-03-30 11:23:44 - INFO - =========================================
+2026-03-30 11:23:44 - INFO - Démarrage de l'application...
+2026-03-30 11:23:44 - INFO - =========================================
+2026-03-30 11:23:49 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:23:51 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:23:51 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:23:51 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:23:51 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:23:55 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:23:55 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:23:55 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:23:55 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:23:55 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:23:55 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 11:24:12 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 11:24:21 - DEBUG - Configuration pour 'BD TOPO (IGN)' mise à jour.
+2026-03-30 11:24:33 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 11:24:33 - INFO - 
+[SOURCE] BD TOPO (IGN)
+2026-03-30 11:24:33 - INFO - Estimation du volume des données à télécharger...
+2026-03-30 11:24:35 - DEBUG - Aucune entité trouvée pour arrondissement_municipal, ignorée.
+2026-03-30 11:24:42 - DEBUG - Aucune entité trouvée pour commune_associee_ou_deleguee, ignorée.
+2026-03-30 11:24:46 - DEBUG - Aucune entité trouvée pour condominium, ignorée.
+2026-03-30 11:25:05 - DEBUG - Aucune entité trouvée pour limite_terre_mer, ignorée.
+2026-03-30 11:25:30 - DEBUG - Aucune entité trouvée pour transport_par_cable, ignorée.
+2026-03-30 11:25:38 - DEBUG - Aucune entité trouvée pour zone_d_estran, ignorée.
+2026-03-30 11:25:40 - INFO - Volume total identifié (estimé) : 198036 entités.
+2026-03-30 11:32:09 - INFO -   -> [OK] 198036 entités sauvegardées avec succès.
+2026-03-30 11:32:09 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 11:52:50 - INFO - =========================================
+2026-03-30 11:52:50 - INFO - Démarrage de l'application...
+2026-03-30 11:52:50 - INFO - =========================================
+2026-03-30 11:52:56 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 11:52:58 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 11:52:58 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 11:52:58 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 11:52:58 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 11:52:59 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 11:52:59 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 11:52:59 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 11:52:59 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 11:53:00 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 11:53:00 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 12:07:38 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 12:07:47 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 12:07:48 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 12:07:48 - DEBUG - Extraction des Points Collèges...
+2026-03-30 12:07:48 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 12:07:50 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 12:07:56 - INFO -   -> [OK] 5 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 12:07:56 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 14:45:33 - INFO - =========================================
+2026-03-30 14:45:33 - INFO - Démarrage de l'application...
+2026-03-30 14:45:33 - INFO - =========================================
+2026-03-30 14:45:42 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 14:45:44 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 14:45:44 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 14:45:44 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 14:45:44 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 14:45:47 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 14:45:47 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 14:45:47 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 14:45:47 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 14:45:48 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 14:45:48 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 14:45:53 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 14:45:59 - WARNING - Action impossible : Veuillez cocher au moins une source de données à collecter.
+2026-03-30 14:46:04 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 14:46:04 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 14:46:04 - DEBUG - Extraction des Points Collèges...
+2026-03-30 14:46:05 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 14:46:08 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 14:46:14 - INFO -   -> [OK] 5 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 14:46:14 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 14:49:30 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 14:49:33 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 14:49:33 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 14:49:33 - DEBUG - Extraction des Points Collèges...
+2026-03-30 14:49:34 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 14:49:35 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 14:49:42 - INFO -   -> [OK] 7 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 14:49:42 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 14:50:49 - INFO - =========================================
+2026-03-30 14:50:49 - INFO - Démarrage de l'application...
+2026-03-30 14:50:49 - INFO - =========================================
+2026-03-30 14:50:55 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 14:50:56 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 14:50:56 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 14:50:56 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 14:50:56 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 14:50:58 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 14:50:58 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 14:50:58 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 14:50:58 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 14:50:59 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 14:50:59 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 15:04:12 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 15:04:21 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 15:04:21 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 15:04:21 - DEBUG - Extraction des Points Collèges...
+2026-03-30 15:04:21 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 15:04:25 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 15:04:32 - INFO -   -> [OK] 5 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 15:04:32 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 15:07:55 - INFO - =========================================
+2026-03-30 15:07:55 - INFO - Démarrage de l'application...
+2026-03-30 15:07:55 - INFO - =========================================
+2026-03-30 15:08:01 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 15:08:03 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 15:08:03 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 15:08:03 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 15:08:03 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 15:08:04 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 15:08:05 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 15:08:05 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 15:08:05 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 15:08:06 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 15:08:06 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 15:08:14 - INFO - Démarrage de la mise à jour pour Carte scolaire (data.gouv.fr)...
+2026-03-30 15:08:14 - INFO - Vérification des fichiers bruts...
+2026-03-30 15:08:14 - INFO - Copie de fr-en-carte-scolaire-colleges-publics (1).parquet vers le serveur...
+2026-03-30 15:08:19 - INFO - Copie de fr-en-annuaire-education (1).csv vers le serveur...
+2026-03-30 15:08:34 - INFO - Fichiers prêts. Lancement du prétraitement (~5 à 10 min)...
+2026-03-30 15:08:34 - INFO - --- Démarrage de la préparation de la Carte Scolaire ---
+2026-03-30 15:08:34 - INFO - 1/4 Lecture des rues et secteurs (Parquet)...
+2026-03-30 15:08:36 - INFO - 2/4 Lecture de l'annuaire (CSV)...
+2026-03-30 15:08:43 - INFO - 3/4 Création de la couche des Collèges (Points)...
+2026-03-30 15:08:43 - INFO - Export des points vers le GeoPackage...
+2026-03-30 15:08:51 - INFO - 4/4 Préparation des dictionnaires (Rues et Statuts Communaux)...
+2026-03-30 15:15:43 - INFO - Calcul des affectations communales (Concaténation)...
+2026-03-30 15:16:45 - INFO - Nettoyage des fichiers sources bruts...
+2026-03-30 15:16:45 - INFO - Mise à jour de la Carte Scolaire terminée avec succès !
+2026-03-30 15:16:45 - INFO - SUCCÈS : Prétraitement terminé et base consolidée mise à jour avec succès.
+2026-03-30 15:20:32 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 15:20:42 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 15:20:42 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 15:20:42 - DEBUG - Extraction des Points Collèges...
+2026-03-30 15:20:43 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 15:20:45 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 15:20:52 - INFO -   -> [OK] 5 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 15:20:52 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 15:32:56 - INFO - =========================================
+2026-03-30 15:32:56 - INFO - Démarrage de l'application...
+2026-03-30 15:32:56 - INFO - =========================================
+2026-03-30 15:33:02 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 15:33:03 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 15:33:03 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 15:33:03 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 15:33:04 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 15:33:05 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 15:33:05 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 15:33:05 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 15:33:05 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 15:33:06 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 15:33:06 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 15:33:14 - INFO - Démarrage de la mise à jour pour Carte scolaire (data.gouv.fr)...
+2026-03-30 15:33:14 - INFO - Vérification des fichiers bruts...
+2026-03-30 15:33:14 - INFO - Copie de fr-en-carte-scolaire-colleges-publics (1).parquet vers le serveur...
+2026-03-30 15:33:20 - INFO - Copie de fr-en-annuaire-education (1).csv vers le serveur...
+2026-03-30 15:33:35 - INFO - Fichiers prêts. Lancement du prétraitement (~5 à 10 min)...
+2026-03-30 15:33:35 - INFO - --- Démarrage de la préparation de la Carte Scolaire ---
+2026-03-30 15:33:35 - INFO - 1/4 Lecture des rues et secteurs (Parquet)...
+2026-03-30 15:33:37 - INFO - 2/4 Lecture de l'annuaire (CSV)...
+2026-03-30 15:33:43 - INFO - 3/4 Création de la couche des Collèges (Points)...
+2026-03-30 15:33:43 - INFO - Export des points vers le GeoPackage...
+2026-03-30 15:33:52 - INFO - 4/4 Préparation des dictionnaires (Rues et Statuts Communaux)...
+2026-03-30 15:40:51 - INFO - Calcul des affectations communales (Concaténation)...
+2026-03-30 15:41:27 - INFO - Nettoyage des fichiers sources bruts...
+2026-03-30 15:41:34 - INFO - Mise à jour de la Carte Scolaire terminée avec succès !
+2026-03-30 15:41:34 - INFO - SUCCÈS : Prétraitement terminé et base consolidée mise à jour avec succès.
+2026-03-30 15:42:03 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 15:42:13 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 15:42:13 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 15:42:13 - DEBUG - Extraction des Points Collèges...
+2026-03-30 15:42:13 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 15:42:15 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 15:42:23 - INFO -   -> [OK] 6 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 15:42:23 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 15:46:39 - INFO - =========================================
+2026-03-30 15:46:39 - INFO - Démarrage de l'application...
+2026-03-30 15:46:39 - INFO - =========================================
+2026-03-30 15:46:46 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 15:46:47 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 15:46:47 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 15:46:47 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 15:46:48 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 15:46:49 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 15:46:49 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 15:46:49 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 15:46:49 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 15:46:50 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 15:46:50 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 15:47:01 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 15:47:36 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-30 15:47:36 - INFO - 
+[SOURCE] Carte scolaire (data.gouv.fr)
+2026-03-30 15:47:36 - DEBUG - Extraction des Points Collèges...
+2026-03-30 15:47:37 - DEBUG - Téléchargement des limites HD (BD TOPO IGN) et jointure...
+2026-03-30 15:47:38 - DEBUG - Extraction du Dictionnaire des Rues (CSV)...
+2026-03-30 15:47:46 - INFO -   -> [OK] 1 collèges et les secteurs extraits avec succès (BD TOPO).
+2026-03-30 15:47:46 - INFO - === COLLECTE TERMINÉE ===
+2026-03-30 16:23:41 - INFO - =========================================
+2026-03-30 16:23:41 - INFO - Démarrage de l'application...
+2026-03-30 16:23:41 - INFO - =========================================
+2026-03-30 16:23:47 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 16:23:53 - INFO - Interrogation de l'IGN pour Abbans-Dessus (25002)...
+2026-03-30 16:23:54 - INFO - ✅ Contour IGN reçu en 1.08 secondes !
+2026-03-30 16:23:58 - ERROR - [BD TOPO (IGN)] : Service distant (API/WFS) inaccessible.
+2026-03-30 16:23:58 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 16:23:58 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 16:23:58 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 16:24:00 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 16:24:00 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 16:24:00 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 16:24:00 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 16:24:01 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 16:24:01 - WARNING - Vérification terminée : 1 source(s) indisponible(s).
+2026-03-30 16:24:01 - INFO - Interrogation de l'IGN pour CA CIVIS (Communauté Intercommunale des Villes Solidaires) (249740077)...
+2026-03-30 16:24:03 - INFO - ✅ Contour IGN reçu en 1.28 secondes !
+2026-03-30 16:24:15 - INFO - Interrogation de l'IGN pour CA de Forbach Porte de France (245700372)...
+2026-03-30 16:24:16 - INFO - ✅ Contour IGN reçu en 1.24 secondes !
+2026-03-30 16:24:44 - INFO - Interrogation de l'IGN pour CC de Vezouze en Piémont (200069433)...
+2026-03-30 16:24:45 - INFO - ✅ Contour IGN reçu en 1.15 secondes !
+2026-03-30 16:24:51 - INFO - Interrogation de l'IGN pour Ramous (64462)...
+2026-03-30 16:24:53 - INFO - ✅ Contour IGN reçu en 1.48 secondes !
+2026-03-30 16:24:57 - INFO - Interrogation de l'IGN pour Irai (61208)...
+2026-03-30 16:24:58 - INFO - ✅ Contour IGN reçu en 0.69 secondes !
+2026-03-30 16:25:01 - INFO - Interrogation de l'IGN pour Morsbronn-les-Bains (67303)...
+2026-03-30 16:25:02 - INFO - ✅ Contour IGN reçu en 0.79 secondes !
+2026-03-30 16:27:39 - INFO - Interrogation de l'IGN pour Gélannes (10164)...
+2026-03-30 16:27:40 - INFO - ✅ Contour IGN reçu en 1.01 secondes !
+2026-03-30 16:28:12 - INFO - Interrogation de l'IGN pour Lyon (69123)...
+2026-03-30 16:28:12 - INFO - ✅ Contour IGN reçu en 0.82 secondes !
+2026-03-30 16:44:28 - INFO - =========================================
+2026-03-30 16:44:28 - INFO - Démarrage de l'application...
+2026-03-30 16:44:28 - INFO - =========================================
+2026-03-30 16:44:36 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 16:44:37 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 16:44:37 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 16:44:37 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 16:44:37 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 16:44:39 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 16:44:39 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 16:44:39 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 16:44:39 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 16:44:40 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 16:44:40 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 16:44:43 - INFO - Affichage rapide de Lyon. Téléchargement du contour HD précis en cours...
+2026-03-30 16:44:43 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:44:44 - INFO - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-30 16:44:44 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:44:49 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:44:55 - INFO - Affichage rapide de Paris. Téléchargement du contour HD précis en cours...
+2026-03-30 16:44:55 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:44:56 - INFO - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-30 16:44:56 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:44:59 - INFO - Affichage rapide de Parigné. Téléchargement du contour HD précis en cours...
+2026-03-30 16:45:00 - INFO - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-30 16:45:15 - INFO - =========================================
+2026-03-30 16:45:15 - INFO - Démarrage de l'application...
+2026-03-30 16:45:15 - INFO - =========================================
+2026-03-30 16:45:20 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 16:45:22 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 16:45:22 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 16:45:22 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 16:45:22 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 16:45:23 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 16:45:23 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 16:45:23 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 16:45:23 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 16:45:24 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 16:45:24 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 16:45:36 - INFO - Affichage rapide de Lyon. Téléchargement du contour HD précis en cours...
+2026-03-30 16:45:36 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:45:37 - INFO - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-30 16:45:37 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:53:39 - INFO - =========================================
+2026-03-30 16:53:39 - INFO - Démarrage de l'application...
+2026-03-30 16:53:39 - INFO - =========================================
+2026-03-30 16:53:46 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 16:53:47 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 16:53:47 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 16:53:47 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 16:53:47 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 16:53:48 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 16:53:48 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 16:53:49 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 16:53:49 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 16:53:50 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 16:53:50 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 16:53:53 - INFO - Affichage rapide de Lyon. Téléchargement du contour HD précis en cours...
+2026-03-30 16:53:54 - INFO - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-30 16:53:57 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:53:58 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:53:59 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 16:54:02 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-03-30 17:01:21 - INFO - =========================================
+2026-03-30 17:01:21 - INFO - Démarrage de l'application...
+2026-03-30 17:01:21 - INFO - =========================================
+2026-03-30 17:01:25 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 17:01:27 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 17:01:27 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 17:01:27 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 17:01:27 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 17:01:29 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 17:01:29 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 17:01:29 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 17:01:29 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 17:01:37 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 17:01:37 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 17:03:23 - INFO - =========================================
+2026-03-30 17:03:23 - INFO - Démarrage de l'application...
+2026-03-30 17:03:23 - INFO - =========================================
+2026-03-30 17:03:27 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-30 17:03:29 - DEBUG - BD TOPO (IGN) : OK
+2026-03-30 17:03:29 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-30 17:03:29 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-30 17:03:29 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-30 17:03:31 - DEBUG - Cadastre (IGN) : OK
+2026-03-30 17:03:31 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-30 17:03:31 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-30 17:03:31 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-30 17:03:32 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-30 17:03:32 - INFO - Toutes les sources sont opérationnelles.
+2026-03-30 17:03:33 - DEBUG - Affichage rapide de Maxent. Téléchargement du contour HD précis en cours...
+2026-03-30 17:03:34 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 09:41:37 - INFO - =========================================
+2026-03-31 09:41:37 - INFO - Démarrage de l'application...
+2026-03-31 09:41:37 - INFO - =========================================
+2026-03-31 09:41:45 - INFO - =========================================
+2026-03-31 09:41:45 - INFO - Démarrage de l'application...
+2026-03-31 09:41:45 - INFO - =========================================
+2026-03-31 09:42:12 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 09:42:14 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 09:42:14 - ERROR - [Aménagements cyclables (BNAC - data.gouv.fr)] : Fichier local introuvable.
+2026-03-31 09:42:14 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 09:42:14 - ERROR - [Equipements (BPE - INSEE)] : Fichier(s) local/locaux introuvable(s).
+2026-03-31 09:42:16 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 09:42:16 - ERROR - [Carte scolaire (data.gouv.fr)] : Fichiers Carte Scolaire introuvables sur le réseau.
+2026-03-31 09:42:16 - ERROR - [Données socio-économiques carroyées (FiLoSoFi - INSEE)] : Fichier local introuvable.
+2026-03-31 09:42:16 - ERROR - [Flux de Mobilité (INSEE)] : Fichier(s) local/locaux introuvable(s) (travail, etude).
+2026-03-31 09:42:17 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 09:42:17 - WARNING - Vérification terminée : 5 source(s) indisponible(s).
+2026-03-31 09:43:55 - INFO - =========================================
+2026-03-31 09:43:55 - INFO - Démarrage de l'application...
+2026-03-31 09:43:55 - INFO - =========================================
+2026-03-31 09:44:00 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 09:44:01 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 09:44:01 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 09:44:01 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 09:44:01 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 09:44:03 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 09:44:03 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 09:44:03 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 09:44:03 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 09:44:04 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 09:44:04 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 09:44:10 - INFO - Mise à jour annulée par l'utilisateur.
+2026-03-31 09:52:31 - INFO - =========================================
+2026-03-31 09:52:31 - INFO - Démarrage de l'application...
+2026-03-31 09:52:31 - INFO - =========================================
+2026-03-31 09:52:35 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 09:52:36 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 09:52:37 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 09:52:37 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 09:52:37 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 09:52:38 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 09:52:38 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 09:52:38 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 09:52:38 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 09:56:31 - INFO - =========================================
+2026-03-31 09:56:31 - INFO - Démarrage de l'application...
+2026-03-31 09:56:31 - INFO - =========================================
+2026-03-31 09:56:35 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 09:56:38 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 09:56:38 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 09:56:38 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 09:56:38 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 09:56:39 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 09:56:39 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 09:56:39 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 09:56:40 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 09:56:41 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 09:56:41 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 09:58:29 - INFO - =========================================
+2026-03-31 09:58:29 - INFO - Démarrage de l'application...
+2026-03-31 09:58:29 - INFO - =========================================
+2026-03-31 09:58:33 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 09:58:36 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 09:58:36 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 09:58:36 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 09:58:36 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 09:58:37 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 09:58:37 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 09:58:37 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 09:58:37 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 09:58:38 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 09:58:38 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 09:58:41 - INFO - Centrage sur Oze. Téléchargement de la frontière exacte en cours...
+2026-03-31 09:58:42 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 09:58:52 - INFO - Centrage sur Ozerailles. Téléchargement de la frontière exacte en cours...
+2026-03-31 09:58:53 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:02:41 - INFO - =========================================
+2026-03-31 10:02:41 - INFO - Démarrage de l'application...
+2026-03-31 10:02:41 - INFO - =========================================
+2026-03-31 10:02:46 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 10:02:48 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 10:02:48 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 10:02:48 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 10:02:48 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 10:02:49 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 10:02:49 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 10:02:49 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 10:02:49 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 10:02:50 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 10:02:50 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 10:04:07 - INFO - =========================================
+2026-03-31 10:04:07 - INFO - Démarrage de l'application...
+2026-03-31 10:04:07 - INFO - =========================================
+2026-03-31 10:04:11 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 10:04:13 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 10:04:13 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 10:04:13 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 10:04:13 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 10:04:14 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 10:04:14 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 10:04:14 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 10:04:14 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 10:04:15 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 10:04:15 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 10:04:19 - INFO - Centrage sur Abbaretz. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:04:19 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:04:29 - INFO - Centrage sur Saint-Germain-le-Vieux. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:04:30 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:04:42 - INFO - Centrage sur Saint-Gilles-Croix-de-Vie. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:04:43 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:05:42 - INFO - =========================================
+2026-03-31 10:05:42 - INFO - Démarrage de l'application...
+2026-03-31 10:05:42 - INFO - =========================================
+2026-03-31 10:05:45 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 10:05:47 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 10:05:47 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 10:05:47 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 10:05:47 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 10:05:48 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 10:05:48 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 10:05:48 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 10:05:48 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 10:05:49 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 10:05:49 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 10:05:52 - INFO - Centrage sur Mortefontaine-en-Thelle. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:05:53 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:05:59 - INFO - Centrage sur Réguisheim. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:06:00 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:06:05 - INFO - Centrage sur Saint-Méard-de-Gurçon. Téléchargement de la frontière exacte en cours...
+2026-03-31 10:06:06 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 10:36:39 - INFO - =========================================
+2026-03-31 10:36:39 - INFO - Démarrage de l'application...
+2026-03-31 10:36:39 - INFO - =========================================
+2026-03-31 10:36:43 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 10:36:45 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 10:36:45 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 10:36:45 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 10:36:45 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 10:36:46 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 10:36:46 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 10:36:47 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 10:36:47 - ERROR - [Flux de Mobilité (INSEE)] : Fichier(s) local/locaux introuvable(s) (travail, etude).
+2026-03-31 10:36:47 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 10:36:47 - WARNING - Vérification terminée : 1 source(s) indisponible(s).
+2026-03-31 10:37:22 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 10:37:22 - INFO - Vérification des fichiers bruts...
+2026-03-31 10:37:22 - ERROR - ÉCHEC : Erreur critique lors de la mise à jour : cannot access local variable 'target_dir' where it is not associated with a value
+2026-03-31 10:37:22 - WARNING - -> Si le format du fichier INSEE a changé, contactez un expert.
+2026-03-31 11:27:52 - INFO - =========================================
+2026-03-31 11:27:52 - INFO - Démarrage de l'application...
+2026-03-31 11:27:52 - INFO - =========================================
+2026-03-31 11:27:57 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 11:27:59 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 11:27:59 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 11:27:59 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 11:28:00 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 11:28:01 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 11:28:01 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 11:28:01 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 11:28:02 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 11:28:03 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 11:28:03 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 11:28:39 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 11:28:39 - INFO - Vérification des fichiers bruts...
+2026-03-31 11:28:39 - ERROR - ÉCHEC : Erreur critique lors de la mise à jour : cannot access local variable 'target_dir' where it is not associated with a value
+2026-03-31 11:28:39 - WARNING - -> Si le format du fichier INSEE a changé, contactez un expert.
+2026-03-31 11:38:00 - INFO - =========================================
+2026-03-31 11:38:00 - INFO - Démarrage de l'application...
+2026-03-31 11:38:00 - INFO - =========================================
+2026-03-31 11:38:05 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 11:38:07 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 11:38:07 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 11:38:07 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 11:38:07 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 11:38:08 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 11:38:08 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 11:38:08 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 11:38:08 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 11:38:09 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 11:38:09 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 11:38:52 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 11:38:52 - INFO - Vérification des fichiers bruts...
+2026-03-31 11:38:52 - INFO - Fichiers prêts. Lancement du prétraitement... (~5-10 min)
+2026-03-31 11:38:52 - INFO - Prétraitement des flux travail...
+2026-03-31 11:47:06 - INFO - Fichier travail nettoyé et sauvegardé.
+2026-03-31 11:47:06 - INFO - Prétraitement des flux etude...
+2026-03-31 11:49:59 - INFO - Fichier etude nettoyé et sauvegardé.
+2026-03-31 11:49:59 - INFO - SUCCÈS : Prétraitement terminé et base consolidée mise à jour avec succès.
+2026-03-31 12:02:49 - INFO - =========================================
+2026-03-31 12:02:49 - INFO - Démarrage de l'application...
+2026-03-31 12:02:49 - INFO - =========================================
+2026-03-31 12:02:55 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 12:02:57 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 12:02:57 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 12:02:57 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 12:02:57 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 12:02:59 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 12:02:59 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 12:02:59 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 12:02:59 - ERROR - [Flux de Mobilité (INSEE)] : Fichier(s) local/locaux introuvable(s) (travail, etude).
+2026-03-31 12:03:00 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 12:03:00 - WARNING - Vérification terminée : 1 source(s) indisponible(s).
+2026-03-31 12:03:21 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 12:03:21 - INFO - Vérification des fichiers bruts...
+2026-03-31 12:03:21 - INFO - Fichiers prêts. Lancement du prétraitement... (~5-10 min)
+2026-03-31 12:03:21 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 12:03:22 - ERROR - ÉCHEC : Erreur critique lors de la mise à jour : Usecols do not match columns, columns expected but not found: ['CODGEO', 'DCLT', 'NBFLUX_C20_ACTOCC15P']
+2026-03-31 12:03:22 - WARNING - -> Si le format du fichier INSEE a changé, contactez un expert.
+2026-03-31 12:08:31 - INFO - =========================================
+2026-03-31 12:08:31 - INFO - Démarrage de l'application...
+2026-03-31 12:08:31 - INFO - =========================================
+2026-03-31 12:08:36 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 12:08:37 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 12:08:37 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 12:08:37 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 12:08:38 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 12:08:39 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 12:08:39 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 12:08:39 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 12:08:39 - ERROR - [Flux de Mobilité (INSEE)] : Fichier(s) local/locaux introuvable(s) (travail, etude).
+2026-03-31 12:08:40 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 12:08:40 - WARNING - Vérification terminée : 1 source(s) indisponible(s).
+2026-03-31 12:08:51 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 12:08:51 - INFO - Vérification des fichiers bruts...
+2026-03-31 12:08:51 - INFO - Copie de base-flux-mobilite-domicile-lieu-travail-2020.csv vers le serveur...
+2026-03-31 12:10:18 - INFO - Copie de base-flux-mobilite-domicile-lieu-etude-2020.csv vers le serveur...
+2026-03-31 12:10:54 - INFO - Fichiers prêts. Lancement du prétraitement... (~5-10 min)
+2026-03-31 12:10:54 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 12:11:43 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet
+2026-03-31 12:11:43 - INFO - Traitement de base-flux-mobilite-domicile-lieu-etude-2020.csv en cours...
+2026-03-31 12:12:07 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet
+2026-03-31 12:12:07 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 12:13:02 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet
+2026-03-31 12:13:02 - INFO - Traitement de base-flux-mobilite-domicile-lieu-etude-2020.csv en cours...
+2026-03-31 12:13:25 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet
+2026-03-31 12:13:25 - INFO - SUCCÈS : Prétraitement terminé et base consolidée mise à jour avec succès.
+2026-03-31 13:36:09 - INFO - =========================================
+2026-03-31 13:36:09 - INFO - Démarrage de l'application...
+2026-03-31 13:36:09 - INFO - =========================================
+2026-03-31 13:36:15 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 13:36:18 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 13:36:18 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 13:36:18 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 13:36:18 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 13:36:19 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 13:36:20 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 13:36:20 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 13:36:20 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 13:36:21 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 13:36:21 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 13:36:36 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 13:36:36 - INFO - Vérification des fichiers bruts...
+2026-03-31 13:36:36 - INFO - Lancement du prétraitement : prepare_flux_mobilite
+2026-03-31 13:36:36 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 13:37:36 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet
+2026-03-31 13:37:36 - INFO - Traitement de base-flux-mobilite-domicile-lieu-etude-2020.csv en cours...
+2026-03-31 13:38:01 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet
+2026-03-31 13:38:01 - INFO - SUCCÈS : Prétraitement terminé avec succès.
+2026-03-31 13:40:06 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 13:40:07 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 13:41:25 - INFO - Récupération de la géométrie haute précision pour Commune 74012...
+2026-03-31 13:41:25 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 13:41:25 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 13:41:25 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 13:41:25 - DEBUG - Chargement des référentiels géographiques...
+2026-03-31 13:41:26 - INFO - Zone d'étude définie : 1 commune(s) concernée(s).
+2026-03-31 13:41:26 - DEBUG - Traitement des flux : TRAVAIL
+2026-03-31 13:41:28 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 171, in collecter_donnees
+    flux_df = pd.read_csv(filepath, encoding='utf-8-sig', delimiter=';', dtype=str)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 300, in _read
+    parser = TextFileReader(filepath_or_buffer, **kwds)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1645, in __init__
+    self._engine = self._make_engine(f, self.engine)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1922, in _make_engine
+    return mapping[engine](f, **self.options)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 95, in __init__
+    self._reader = parsers.TextReader(src, **kwds)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 568, in pandas._libs.parsers.TextReader.__cinit__
+  File "pandas/_libs/parsers.pyx", line 657, in pandas._libs.parsers.TextReader._get_header
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2076, in pandas._libs.parsers.raise_parser_error
+  File "C:\Users\AGO\AppData\Local\Programs\Python\Python312\Lib\codecs.py", line 322, in decode
+    (result, consumed) = self._buffer_decode(data, self.errors, final)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\AppData\Local\Programs\Python\Python312\Lib\encodings\utf_8_sig.py", line 69, in _buffer_decode
+    return codecs.utf_8_decode(input, errors, final)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeDecodeError: 'utf-8' codec can't decode byte 0xc4 in position 11: invalid continuation byte
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 173, in collecter_donnees
+    flux_df = pd.read_csv(filepath, encoding='latin1', delimiter=';', dtype=str)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 873, in read_csv
+    return _read(filepath_or_buffer, kwds)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 306, in _read
+    return parser.read(nrows)
+           ^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\readers.py", line 1947, in read
+    ) = self._engine.read(  # type: ignore[attr-defined]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\io\parsers\c_parser_wrapper.py", line 215, in read
+    chunks = self._reader.read_low_memory(nrows)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/parsers.pyx", line 832, in pandas._libs.parsers.TextReader.read_low_memory
+  File "pandas/_libs/parsers.pyx", line 897, in pandas._libs.parsers.TextReader._read_rows
+  File "pandas/_libs/parsers.pyx", line 868, in pandas._libs.parsers.TextReader._tokenize_rows
+  File "pandas/_libs/parsers.pyx", line 885, in pandas._libs.parsers.TextReader._check_tokenize_status
+  File "pandas/_libs/parsers.pyx", line 2084, in pandas._libs.parsers.raise_parser_error
+pandas.errors.ParserError: Error tokenizing data. C error: Expected 1 fields in line 120, saw 15
+
+2026-03-31 13:41:28 - ERROR -   -> [ERREUR] Erreur critique: Error tokenizing data. C error: Expected 1 fields in line 120, saw 15
+
+2026-03-31 13:41:28 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 13:50:11 - INFO - =========================================
+2026-03-31 13:50:11 - INFO - Démarrage de l'application...
+2026-03-31 13:50:11 - INFO - =========================================
+2026-03-31 13:50:16 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 13:50:18 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 13:50:18 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 13:50:18 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 13:50:18 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 13:50:19 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 13:50:19 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 13:50:19 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 13:50:19 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 13:50:20 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 13:50:20 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 13:50:24 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 13:50:25 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 13:50:36 - INFO - Récupération de la géométrie haute précision pour Commune 74012...
+2026-03-31 13:50:37 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 13:50:37 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 13:50:37 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 13:50:38 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 13:50:38 - DEBUG - Traitement : TRAVAIL
+2026-03-31 13:50:40 - DEBUG - Traitement : ETUDE
+2026-03-31 13:50:42 - DEBUG - Collecte terminée en 4.43s.
+2026-03-31 13:50:42 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 13:50:42 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 13:51:47 - DEBUG - Centrage sur Illkirch-Graffenstaden. Téléchargement de la frontière exacte en cours...
+2026-03-31 13:51:48 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 14:28:40 - INFO - =========================================
+2026-03-31 14:28:40 - INFO - Démarrage de l'application...
+2026-03-31 14:28:40 - INFO - =========================================
+2026-03-31 14:28:44 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 14:28:46 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 14:28:46 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 14:28:46 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 14:28:46 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 14:28:47 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 14:28:47 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 14:28:47 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 14:28:47 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 14:28:48 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 14:28:48 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 14:28:50 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 14:28:51 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 14:29:04 - INFO - Récupération de la géométrie haute précision pour Commune 74012...
+2026-03-31 14:29:05 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 14:29:05 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 14:29:05 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 14:29:06 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 14:29:06 - DEBUG - Traitement : TRAVAIL
+2026-03-31 14:29:08 - DEBUG - Traitement : ETUDE
+2026-03-31 14:29:10 - DEBUG - Collecte terminée en 4.60s.
+2026-03-31 14:29:10 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 14:29:10 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 14:33:49 - INFO - =========================================
+2026-03-31 14:33:49 - INFO - Démarrage de l'application...
+2026-03-31 14:33:49 - INFO - =========================================
+2026-03-31 14:33:53 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 14:33:54 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 14:33:55 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 14:33:55 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 14:33:55 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 14:33:56 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 14:33:56 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 14:33:56 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 14:33:56 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 14:33:57 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 14:33:57 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 14:34:09 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 14:34:09 - INFO - Vérification des fichiers bruts...
+2026-03-31 14:34:09 - INFO - Lancement du prétraitement : prepare_flux_mobilite
+2026-03-31 14:34:09 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 14:35:07 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet
+2026-03-31 14:35:07 - INFO - Traitement de base-flux-mobilite-domicile-lieu-etude-2020.csv en cours...
+2026-03-31 14:35:32 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet
+2026-03-31 14:35:32 - INFO - SUCCÈS : Prétraitement terminé avec succès.
+2026-03-31 14:36:10 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 14:36:11 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 14:36:18 - INFO - Récupération de la géométrie haute précision pour Commune 74012...
+2026-03-31 14:36:19 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 14:36:19 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 14:36:19 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 14:36:20 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 14:36:20 - DEBUG - Traitement : TRAVAIL
+2026-03-31 14:36:22 - DEBUG - Traitement : ETUDE
+2026-03-31 14:36:23 - DEBUG - Collecte terminée en 4.30s.
+2026-03-31 14:36:23 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 14:36:23 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 14:49:35 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 14:49:40 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 14:49:48 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 14:49:49 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 14:49:49 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 14:49:49 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 14:49:49 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 14:49:49 - DEBUG - Traitement : TRAVAIL
+2026-03-31 14:49:52 - DEBUG - Traitement : ETUDE
+2026-03-31 14:49:54 - DEBUG - Collecte terminée en 5.20s.
+2026-03-31 14:49:54 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 14:49:54 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:09:30 - INFO - =========================================
+2026-03-31 15:09:30 - INFO - Démarrage de l'application...
+2026-03-31 15:09:30 - INFO - =========================================
+2026-03-31 15:09:33 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:09:35 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:09:35 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:09:35 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:09:35 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:09:37 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:09:37 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:09:37 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:09:37 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:09:38 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:09:38 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:09:53 - INFO - Démarrage de la mise à jour pour Flux de Mobilité (INSEE)...
+2026-03-31 15:09:53 - INFO - Vérification des fichiers bruts...
+2026-03-31 15:09:53 - INFO - Lancement du prétraitement : prepare_flux_mobilite
+2026-03-31 15:09:53 - INFO - Traitement de base-flux-mobilite-domicile-lieu-travail-2020.csv en cours...
+2026-03-31 15:10:54 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-travail-2020.parquet
+2026-03-31 15:10:54 - INFO - Traitement de base-flux-mobilite-domicile-lieu-etude-2020.csv en cours...
+2026-03-31 15:11:17 - INFO - Fichier généré : P:\BiblioTechnique\MOBILITE\_Data\Flux Mobilite\base-flux-mobilite-domicile-lieu-etude-2020.parquet
+2026-03-31 15:11:17 - INFO - SUCCÈS : Prétraitement terminé avec succès.
+2026-03-31 15:17:07 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:17:08 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:17:10 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:17:11 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:17:11 - WARNING - Veuillez choisir un dossier d'exportation.
+2026-03-31 15:17:22 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:17:24 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:17:24 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:17:24 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:17:25 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:17:25 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:17:27 - DEBUG - Traitement : ETUDE
+2026-03-31 15:17:28 - DEBUG - Collecte terminée en 3.12s.
+2026-03-31 15:17:28 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:17:28 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:18:45 - INFO - =========================================
+2026-03-31 15:18:45 - INFO - Démarrage de l'application...
+2026-03-31 15:18:45 - INFO - =========================================
+2026-03-31 15:18:49 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:18:51 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:18:51 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:18:51 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:18:51 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:18:52 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:18:52 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:18:52 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:18:52 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:18:53 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:18:53 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:18:56 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:18:57 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:19:04 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:19:05 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:19:05 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:19:05 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:19:05 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:19:05 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:19:07 - DEBUG - Traitement : ETUDE
+2026-03-31 15:19:08 - DEBUG - Collecte terminée en 3.13s.
+2026-03-31 15:19:08 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:19:08 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:19:25 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:19:26 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:19:26 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:19:26 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:19:27 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:19:27 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:19:28 - DEBUG - Traitement : ETUDE
+2026-03-31 15:19:29 - DEBUG - Collecte terminée en 3.08s.
+2026-03-31 15:19:29 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:19:29 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:22:24 - INFO - =========================================
+2026-03-31 15:22:24 - INFO - Démarrage de l'application...
+2026-03-31 15:22:24 - INFO - =========================================
+2026-03-31 15:22:28 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:22:30 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:22:30 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:22:30 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:22:30 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:22:32 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:22:32 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:22:32 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:22:32 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:22:33 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:22:33 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:22:34 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:22:35 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:22:40 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:22:40 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:22:40 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:22:40 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:22:41 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:22:41 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:22:43 - DEBUG - Traitement : ETUDE
+2026-03-31 15:22:44 - DEBUG - Collecte terminée en 3.28s.
+2026-03-31 15:22:44 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:22:44 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:25:45 - INFO - =========================================
+2026-03-31 15:25:45 - INFO - Démarrage de l'application...
+2026-03-31 15:25:45 - INFO - =========================================
+2026-03-31 15:25:49 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:25:50 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:25:50 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:25:50 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:25:51 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:25:52 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:25:52 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:25:52 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:25:52 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:25:53 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:25:53 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:25:55 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:25:56 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:26:02 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:26:03 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:26:03 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:26:03 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:26:03 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:26:03 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:26:05 - DEBUG - Traitement : ETUDE
+2026-03-31 15:26:06 - DEBUG - Collecte terminée en 3.21s.
+2026-03-31 15:26:06 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:26:06 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:29:20 - INFO - =========================================
+2026-03-31 15:29:20 - INFO - Démarrage de l'application...
+2026-03-31 15:29:20 - INFO - =========================================
+2026-03-31 15:29:24 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:29:26 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:29:26 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:29:26 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:29:26 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:29:27 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:29:27 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:29:27 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:29:27 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:29:28 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:29:28 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:29:29 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:29:30 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:29:39 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:29:40 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:29:40 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:29:40 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:29:40 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:29:40 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:29:42 - DEBUG - Traitement : ETUDE
+2026-03-31 15:29:43 - DEBUG - Collecte terminée en 3.28s.
+2026-03-31 15:29:43 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:29:43 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:46:32 - INFO - =========================================
+2026-03-31 15:46:32 - INFO - Démarrage de l'application...
+2026-03-31 15:46:32 - INFO - =========================================
+2026-03-31 15:46:36 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:46:39 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:46:39 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:46:39 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:46:39 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:46:40 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:46:40 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:46:40 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:46:41 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:46:41 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:46:41 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:46:45 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:46:48 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:46:48 - DEBUG - Configuration pour 'Flux de Mobilité (INSEE)' mise à jour.
+2026-03-31 15:46:53 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:46:54 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:46:54 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:46:54 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:46:54 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:46:54 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:46:56 - DEBUG - Traitement : ETUDE
+2026-03-31 15:46:57 - DEBUG - Collecte terminée en 3.27s.
+2026-03-31 15:46:57 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:46:57 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:49:34 - INFO - =========================================
+2026-03-31 15:49:34 - INFO - Démarrage de l'application...
+2026-03-31 15:49:34 - INFO - =========================================
+2026-03-31 15:49:38 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:49:39 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:49:39 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:49:39 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:49:39 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:49:41 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:49:41 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:49:41 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:49:41 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:49:41 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:49:41 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:49:42 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:49:43 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:49:49 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:49:49 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:49:49 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:49:49 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:49:50 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:49:50 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:49:52 - DEBUG - Traitement : ETUDE
+2026-03-31 15:49:53 - DEBUG - Collecte terminée en 3.33s.
+2026-03-31 15:49:53 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:49:53 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:51:46 - INFO - =========================================
+2026-03-31 15:51:46 - INFO - Démarrage de l'application...
+2026-03-31 15:51:46 - INFO - =========================================
+2026-03-31 15:51:50 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:51:52 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:51:52 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:51:52 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:51:52 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:51:53 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:51:53 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:51:53 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:51:54 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:51:54 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:51:54 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:51:57 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:51:58 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:52:04 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:52:05 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:52:05 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:52:05 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:52:05 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:52:05 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:52:08 - DEBUG - Traitement : ETUDE
+2026-03-31 15:52:10 - DEBUG - Collecte terminée en 5.57s.
+2026-03-31 15:52:10 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:52:10 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 15:58:42 - INFO - =========================================
+2026-03-31 15:58:42 - INFO - Démarrage de l'application...
+2026-03-31 15:58:42 - INFO - =========================================
+2026-03-31 15:58:46 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 15:58:51 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 15:58:55 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 15:58:55 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 15:58:55 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 15:58:55 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 15:58:55 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 15:58:56 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 15:58:56 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 15:58:56 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 15:58:56 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 15:58:57 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 15:58:57 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 15:58:57 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 15:58:58 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 15:58:58 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 15:58:58 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 15:58:59 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 15:58:59 - DEBUG - Traitement : TRAVAIL
+2026-03-31 15:59:05 - DEBUG - Traitement : ETUDE
+2026-03-31 15:59:08 - DEBUG - Collecte terminée en 9.75s.
+2026-03-31 15:59:08 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 15:59:08 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:00:24 - INFO - =========================================
+2026-03-31 16:00:24 - INFO - Démarrage de l'application...
+2026-03-31 16:00:24 - INFO - =========================================
+2026-03-31 16:00:28 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:00:30 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:00:30 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:00:30 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:00:30 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:00:31 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:00:31 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:00:31 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:00:31 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:00:32 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:00:32 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:00:33 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:00:39 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:00:40 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:00:42 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:00:42 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:00:42 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:00:42 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:00:42 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:00:47 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'nom_res_x'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 221, in collecter_donnees
+    df_geo['nom_res'] = df_geo['nom_res'].fillna(df_geo['nom_res_x'])
+                                                 ~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'nom_res_x'
+2026-03-31 16:00:47 - ERROR -   -> [ERREUR] Erreur critique: 'nom_res_x'
+2026-03-31 16:00:47 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:03:17 - INFO - =========================================
+2026-03-31 16:03:17 - INFO - Démarrage de l'application...
+2026-03-31 16:03:17 - INFO - =========================================
+2026-03-31 16:03:21 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:03:22 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:03:23 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:03:23 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:03:23 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:03:24 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:03:24 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:03:24 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:03:24 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:03:25 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:03:25 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:03:27 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:03:28 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:03:38 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:03:39 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:03:39 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:03:39 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:03:39 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:03:39 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:03:45 - DEBUG - Traitement : ETUDE
+2026-03-31 16:03:49 - DEBUG - Collecte terminée en 10.41s.
+2026-03-31 16:03:49 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 16:03:49 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:07:45 - INFO - =========================================
+2026-03-31 16:07:45 - INFO - Démarrage de l'application...
+2026-03-31 16:07:45 - INFO - =========================================
+2026-03-31 16:07:49 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:07:53 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:07:54 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:07:59 - ERROR - [BD TOPO (IGN)] : Service distant (API/WFS) inaccessible.
+2026-03-31 16:07:59 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:07:59 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:07:59 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:08:07 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:08:08 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:08:08 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:08:08 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:08:08 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:08:08 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:08:10 - ERROR - [Cadastre (IGN)] : WFS: Service distant (API/WFS) inaccessible. | Enrichissement PM disponible.
+2026-03-31 16:08:11 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:08:11 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:08:11 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:08:12 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:08:12 - WARNING - Vérification terminée : 2 source(s) indisponible(s).
+2026-03-31 16:08:13 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'nom_res_x'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 221, in collecter_donnees
+    df_geo['nom_res'] = df_geo['nom_res'].fillna(df_geo['nom_res_x'])
+                                                 ~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'nom_res_x'
+2026-03-31 16:08:13 - ERROR -   -> [ERREUR] Erreur critique: 'nom_res_x'
+2026-03-31 16:08:13 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:08:21 - INFO - =========================================
+2026-03-31 16:08:21 - INFO - Démarrage de l'application...
+2026-03-31 16:08:21 - INFO - =========================================
+2026-03-31 16:08:25 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:08:27 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:08:27 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:08:27 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:08:27 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:08:28 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:08:28 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:08:29 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:08:29 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:08:30 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:08:30 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:08:31 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:08:32 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:08:37 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:08:38 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:08:38 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:08:38 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:08:39 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:08:39 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:08:43 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'nom_res_x'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 221, in collecter_donnees
+    df_geo['nom_res'] = df_geo['nom_res'].fillna(df_geo['nom_res_x'])
+                                                 ~~~~~~^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'nom_res_x'
+2026-03-31 16:08:43 - ERROR -   -> [ERREUR] Erreur critique: 'nom_res_x'
+2026-03-31 16:08:43 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:12:30 - INFO - =========================================
+2026-03-31 16:12:30 - INFO - Démarrage de l'application...
+2026-03-31 16:12:30 - INFO - =========================================
+2026-03-31 16:12:34 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:12:36 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:12:36 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:12:36 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:12:36 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:12:38 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:12:38 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:12:38 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:12:38 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:12:39 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:12:39 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:12:39 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:12:40 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:12:45 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:12:46 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:12:46 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:12:46 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:12:46 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:12:46 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:12:50 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3641, in get_loc
+    return self._engine.get_loc(casted_key)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "pandas/_libs/index.pyx", line 168, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/index.pyx", line 197, in pandas._libs.index.IndexEngine.get_loc
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7668, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File "pandas/_libs/hashtable_class_helper.pxi", line 7676, in pandas._libs.hashtable.PyObjectHashTable.get_item
+KeyError: 'nom_ref_res'
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 194, in collecter_donnees
+    df_geo['nom_res_final'] = df_geo['nom_ref_res'].fillna(df_geo['nom_parquet_res'])
+                              ~~~~~~^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\frame.py", line 4378, in __getitem__
+    indexer = self.columns.get_loc(key)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 3648, in get_loc
+    raise KeyError(key) from err
+KeyError: 'nom_ref_res'
+2026-03-31 16:12:50 - ERROR -   -> [ERREUR] Erreur critique: 'nom_ref_res'
+2026-03-31 16:12:50 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:13:51 - INFO - =========================================
+2026-03-31 16:13:51 - INFO - Démarrage de l'application...
+2026-03-31 16:13:51 - INFO - =========================================
+2026-03-31 16:13:55 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:13:57 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:13:57 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:13:57 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:13:57 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:13:58 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:13:58 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:13:58 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:13:58 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:13:59 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:13:59 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:14:02 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:14:03 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:14:07 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:14:08 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:14:08 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:14:08 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:14:08 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:14:08 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:14:16 - DEBUG - Traitement : ETUDE
+2026-03-31 16:14:20 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+    ^^^^^^^^^^^^^^^^^^^^^^
+TypeError: cannot unpack non-iterable NoneType object
+2026-03-31 16:14:20 - ERROR -   -> [ERREUR] Erreur critique: cannot unpack non-iterable NoneType object
+2026-03-31 16:14:20 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:15:18 - INFO - =========================================
+2026-03-31 16:15:18 - INFO - Démarrage de l'application...
+2026-03-31 16:15:18 - INFO - =========================================
+2026-03-31 16:15:22 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:15:24 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:15:24 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:15:24 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:15:24 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:15:26 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:15:26 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:15:26 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:15:26 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:15:26 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:15:26 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:15:27 - DEBUG - Centrage sur Lyons-la-Forêt. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:15:28 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:15:31 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:15:32 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:15:36 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:15:37 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:15:37 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:15:37 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:15:38 - INFO - Zone d'étude : 1 commune(s).
+2026-03-31 16:15:38 - DEBUG - Traitement : TRAVAIL
+2026-03-31 16:15:44 - DEBUG - Traitement : ETUDE
+2026-03-31 16:15:48 - DEBUG - Collecte terminée en 10.55s.
+2026-03-31 16:15:48 - INFO -   -> [OK] Fichiers de flux sauvegardés avec succès.
+2026-03-31 16:15:48 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:27:59 - INFO - =========================================
+2026-03-31 16:27:59 - INFO - Démarrage de l'application...
+2026-03-31 16:27:59 - INFO - =========================================
+2026-03-31 16:28:02 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:28:04 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:28:04 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:28:04 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:28:04 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:28:05 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:28:05 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:28:05 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:28:05 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:28:06 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:28:06 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:28:07 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:28:08 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:28:13 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:28:14 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:28:14 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:28:14 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:28:19 - ERROR - Erreur critique durant la collecte de Flux de Mobilité (INSEE)
+Traceback (most recent call last):
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\workers.py", line 36, in run
+    succes, message_global = self.data_source.collecter_donnees(
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\data_sources\flux_mobilite_source.py", line 153, in collecter_donnees
+    df_orig_ref = df_cities[['insee', 'nom', 'latitude', 'longitude']].rename(
+                  ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\frame.py", line 4384, in __getitem__
+    indexer = self.columns._get_indexer_strict(key, "columns")[1]
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 6302, in _get_indexer_strict
+    self._raise_if_missing(keyarr, indexer, axis_name)
+  File "c:\Users\AGO\OneDrive - ingetec\Mobilité - Documents\5. Logiciels-Data\1. DevTech\25-000_Mobilité Data Collector\mobilité_datacollector\venv\Lib\site-packages\pandas\core\indexes\base.py", line 6355, in _raise_if_missing
+    raise KeyError(f"{not_found} not in index")
+KeyError: "['nom'] not in index"
+2026-03-31 16:28:19 - ERROR -   -> [ERREUR] Erreur critique: "['nom'] not in index"
+2026-03-31 16:28:19 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:35:51 - INFO - =========================================
+2026-03-31 16:35:51 - INFO - Démarrage de l'application...
+2026-03-31 16:35:51 - INFO - =========================================
+2026-03-31 16:35:55 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:35:57 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:35:57 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:35:57 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:35:57 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:35:59 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:35:59 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:35:59 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:35:59 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:36:00 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:36:00 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:36:02 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:36:03 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:36:09 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:36:10 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:36:10 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:36:10 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:36:10 - DEBUG - Chargement des référentiels géographiques...
+2026-03-31 16:36:11 - INFO - Mode PLM Strict activé. Conservation du détail par arrondissement pour 69123.
+2026-03-31 16:36:18 - DEBUG - Collecte globale terminée en 7.58s.
+2026-03-31 16:36:18 - INFO -   -> [OK] Fichiers de flux (Excel et Géométries) sauvegardés avec succès.
+2026-03-31 16:36:18 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:39:41 - INFO - =========================================
+2026-03-31 16:39:41 - INFO - Démarrage de l'application...
+2026-03-31 16:39:41 - INFO - =========================================
+2026-03-31 16:39:45 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:39:47 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:39:47 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:39:47 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:39:47 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:39:48 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:39:49 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:39:49 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:39:49 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:39:50 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:39:50 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:39:51 - DEBUG - Centrage sur Lyon. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:39:54 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:40:00 - INFO - Récupération de la géométrie haute précision pour Commune 69123...
+2026-03-31 16:40:01 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:40:01 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:40:01 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:40:01 - DEBUG - Chargement des référentiels géographiques...
+2026-03-31 16:40:01 - INFO - Mode PLM Strict activé. Conservation du détail par arrondissement pour 69123.
+2026-03-31 16:40:09 - DEBUG - Collecte globale terminée en 8.69s.
+2026-03-31 16:40:09 - INFO -   -> [OK] Fichiers de flux (Excel et Géométries) sauvegardés avec succès.
+2026-03-31 16:40:09 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:40:56 - DEBUG - Centrage sur Marseille. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:40:59 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:41:08 - INFO - Récupération de la géométrie haute précision pour Commune 13055...
+2026-03-31 16:41:09 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:41:09 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:41:09 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:41:09 - DEBUG - Chargement des référentiels géographiques...
+2026-03-31 16:41:10 - INFO - Mode PLM Strict activé. Conservation du détail par arrondissement pour 13055.
+2026-03-31 16:41:17 - DEBUG - Collecte globale terminée en 7.95s.
+2026-03-31 16:41:17 - INFO -   -> [OK] Fichiers de flux (Excel et Géométries) sauvegardés avec succès.
+2026-03-31 16:41:17 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:42:41 - INFO - =========================================
+2026-03-31 16:42:41 - INFO - Démarrage de l'application...
+2026-03-31 16:42:41 - INFO - =========================================
+2026-03-31 16:42:46 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:42:49 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:42:49 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:42:49 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:42:49 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:42:51 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:42:51 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:42:51 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:42:51 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:42:52 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:42:52 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:42:52 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:42:52 - ERROR - Erreur API IGN : 502 Server Error: Bad Gateway for url: https://data.geopf.fr/wfs/ows?SERVICE=WFS&VERSION=2.0.0&REQUEST=GetFeature&TYPENAMES=BDTOPO_V3%3Acommune&OUTPUTFORMAT=application%2Fjson&CQL_FILTER=code_insee%3D%2774012%27&SRSNAME=EPSG%3A4326
+2026-03-31 16:42:52 - WARNING - Échec du téléchargement HD. Le contour simplifié est conservé.
+2026-03-31 16:43:05 - INFO - =========================================
+2026-03-31 16:43:05 - INFO - Démarrage de l'application...
+2026-03-31 16:43:05 - INFO - =========================================
+2026-03-31 16:43:09 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:43:11 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:43:11 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:43:11 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:43:11 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:43:13 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:43:13 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:43:13 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:43:13 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:43:14 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:43:14 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:43:15 - DEBUG - Centrage sur Annemasse. Téléchargement de la frontière exacte en cours...
+2026-03-31 16:43:16 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-03-31 16:43:24 - INFO - Récupération de la géométrie haute précision pour Commune 74012...
+2026-03-31 16:43:25 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-03-31 16:43:25 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-03-31 16:43:25 - INFO - 
+[SOURCE] Flux de Mobilité (INSEE)
+2026-03-31 16:43:25 - DEBUG - Chargement des référentiels géographiques...
+2026-03-31 16:43:26 - DEBUG - Zone d'étude définie : 1 commune(s). Agrégation du PLM activée.
+2026-03-31 16:44:01 - DEBUG - Collecte globale terminée en 35.56s.
+2026-03-31 16:44:01 - INFO -   -> [OK] Fichiers de flux (Excel et Géométries) sauvegardés avec succès.
+2026-03-31 16:44:01 - INFO - === COLLECTE TERMINÉE ===
+2026-03-31 16:54:53 - INFO - =========================================
+2026-03-31 16:54:53 - INFO - Démarrage de l'application...
+2026-03-31 16:54:53 - INFO - =========================================
+2026-03-31 16:54:57 - INFO - Vérification de l'état des sources de données en cours...
+2026-03-31 16:54:59 - DEBUG - BD TOPO (IGN) : OK
+2026-03-31 16:54:59 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-03-31 16:54:59 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-03-31 16:54:59 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-03-31 16:55:00 - DEBUG - Cadastre (IGN) : OK
+2026-03-31 16:55:00 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-03-31 16:55:00 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-03-31 16:55:00 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-03-31 16:55:01 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-03-31 16:55:01 - INFO - Toutes les sources sont opérationnelles.
+2026-03-31 16:55:04 - INFO - Mise à jour annulée par l'utilisateur.
+2026-04-01 10:19:32 - INFO - =========================================
+2026-04-01 10:19:32 - INFO - Démarrage de l'application...
+2026-04-01 10:19:32 - INFO - =========================================
+2026-04-01 10:19:38 - INFO - =========================================
+2026-04-01 10:19:38 - INFO - Démarrage de l'application...
+2026-04-01 10:19:38 - INFO - =========================================
+2026-04-01 10:19:43 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-01 10:19:45 - DEBUG - BD TOPO (IGN) : OK
+2026-04-01 10:19:45 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-01 10:19:45 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-01 10:19:46 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-01 10:19:47 - DEBUG - Cadastre (IGN) : OK
+2026-04-01 10:19:47 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-01 10:19:48 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-01 10:19:48 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-01 10:19:49 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-01 10:19:49 - INFO - Toutes les sources sont opérationnelles.
+2026-04-01 10:19:55 - DEBUG - Centrage sur Pomérols. Téléchargement de la frontière exacte en cours...
+2026-04-01 10:19:55 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-04-01 16:34:34 - INFO - =========================================
+2026-04-01 16:34:34 - INFO - Démarrage de l'application...
+2026-04-01 16:34:34 - INFO - =========================================
+2026-04-01 16:34:42 - ERROR - Fichier territoires_dico.json introuvable sur le réseau. Veuillez lancer une mise à jour. Erreur: [Errno 2] No such file or directory: 'P:\\BiblioTechnique\\MOBILITE\\_Data\\_Enrichissement\\territoires_dico.json'
+2026-04-01 16:34:42 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-01 16:34:45 - DEBUG - BD TOPO (IGN) : OK
+2026-04-01 16:34:45 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-01 16:34:45 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-01 16:34:45 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-01 16:34:47 - DEBUG - Cadastre (IGN) : OK
+2026-04-01 16:34:47 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-01 16:34:47 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-01 16:34:47 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-01 16:34:48 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-01 16:34:48 - INFO - Toutes les sources sont opérationnelles.
+2026-04-01 16:36:12 - INFO - =========================================
+2026-04-01 16:36:12 - INFO - Démarrage de l'application...
+2026-04-01 16:36:12 - INFO - =========================================
+2026-04-01 16:36:17 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-01 16:36:19 - DEBUG - BD TOPO (IGN) : OK
+2026-04-01 16:36:19 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-01 16:36:19 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-01 16:36:19 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-01 16:36:32 - INFO - =========================================
+2026-04-01 16:36:32 - INFO - Démarrage de l'application...
+2026-04-01 16:36:32 - INFO - =========================================
+2026-04-01 16:36:36 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-01 16:36:37 - DEBUG - BD TOPO (IGN) : OK
+2026-04-01 16:36:37 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-01 16:36:37 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-01 16:36:38 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-01 16:36:39 - DEBUG - Cadastre (IGN) : OK
+2026-04-01 16:36:39 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-01 16:36:39 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-01 16:36:39 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-01 16:36:40 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-01 16:36:40 - INFO - Toutes les sources sont opérationnelles.
+2026-04-01 16:38:00 - DEBUG - Centrage sur Fort-de-France. Téléchargement de la frontière exacte en cours...
+2026-04-01 16:38:01 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-04-01 16:38:25 - INFO - Mise à jour annulée par l'utilisateur.
+2026-04-01 16:43:06 - INFO - Démarrage de la mise à jour pour Données socio-économiques carroyées (FiLoSoFi - INSEE)...
+2026-04-01 16:43:06 - INFO - Vérification des fichiers bruts...
+2026-04-01 16:44:19 - INFO - Lancement du prétraitement : prepare_filosofi
+2026-04-01 16:55:41 - INFO - SUCCÈS : Prétraitement terminé avec succès.
+2026-04-01 16:56:19 - INFO - Récupération de la géométrie haute précision pour Commune 97209...
+2026-04-01 16:56:20 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-04-01 16:56:20 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 16:56:20 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 16:56:20 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg...
+2026-04-01 16:56:20 - DEBUG - Couche détectée automatiquement : 'Filosofi2015_carreaux_200m_metropole'
+2026-04-01 16:56:21 - DEBUG - 0 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 16:56:21 - DEBUG - 0 carreaux FilosoFI trouvés.
+2026-04-01 16:56:21 - INFO - Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 16:56:21 - INFO -   -> [OK] Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 16:56:21 - INFO - === COLLECTE TERMINÉE ===
+2026-04-01 16:56:27 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 16:56:29 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 16:56:31 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 16:56:35 - INFO - Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).
+2026-04-01 16:56:35 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 16:56:35 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 16:56:35 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_met.gpkg...
+2026-04-01 16:56:35 - DEBUG - Couche détectée automatiquement : 'Filosofi2015_carreaux_200m_metropole'
+2026-04-01 16:56:36 - DEBUG - 0 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 16:56:36 - DEBUG - 0 carreaux FilosoFI trouvés.
+2026-04-01 16:56:36 - INFO - Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 16:56:36 - INFO -   -> [OK] Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 16:56:36 - INFO - === COLLECTE TERMINÉE ===
+2026-04-01 17:01:36 - INFO - =========================================
+2026-04-01 17:01:36 - INFO - Démarrage de l'application...
+2026-04-01 17:01:36 - INFO - =========================================
+2026-04-01 17:01:41 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-01 17:01:42 - DEBUG - BD TOPO (IGN) : OK
+2026-04-01 17:01:42 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-01 17:01:42 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-01 17:01:42 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-01 17:01:44 - DEBUG - Cadastre (IGN) : OK
+2026-04-01 17:01:44 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-01 17:01:44 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-01 17:01:44 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-01 17:01:45 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-01 17:01:45 - INFO - Toutes les sources sont opérationnelles.
+2026-04-01 17:01:56 - DEBUG - Centrage sur Fort-de-France. Téléchargement de la frontière exacte en cours...
+2026-04-01 17:01:57 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-04-01 17:02:08 - INFO - Récupération de la géométrie haute précision pour Commune 97209...
+2026-04-01 17:02:09 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-04-01 17:02:09 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 17:02:09 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 17:02:09 - DEBUG - Reprojection de la BBOX de sélection vers EPSG:4326...
+2026-04-01 17:02:09 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg...
+2026-04-01 17:02:09 - DEBUG - Couche détectée automatiquement : 'carreaux_200m_france_entiere'
+2026-04-01 17:02:16 - DEBUG - Filtrage spatial précis des carreaux FiLoSoFi...
+2026-04-01 17:02:16 - DEBUG - 0 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 17:02:16 - DEBUG - 0 carreaux FilosoFI trouvés.
+2026-04-01 17:02:16 - INFO - Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 17:02:16 - INFO -   -> [OK] Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 17:02:16 - INFO - === COLLECTE TERMINÉE ===
+2026-04-01 17:02:24 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 17:02:31 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-04-01 17:02:35 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 17:02:38 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 17:02:38 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 17:02:38 - DEBUG - Reprojection de la BBOX de sélection vers EPSG:4326...
+2026-04-01 17:02:38 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg...
+2026-04-01 17:02:38 - DEBUG - Couche détectée automatiquement : 'carreaux_200m_france_entiere'
+2026-04-01 17:03:05 - DEBUG - 11199 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 17:03:05 - DEBUG - 11199 carreaux FilosoFI trouvés.
+2026-04-01 17:03:05 - DEBUG - Reprojection vers EPSG:2154...
+2026-04-01 17:03:05 - DEBUG - Sauvegarde de 11199 carreaux vers C:/Users/AGO/OneDrive - ingetec/Mobilité - Documents/5. Logiciels-Data/1. DevTech/25-000_Mobilité Data Collector/test_destination\SOCIO-ECO\filosofi.gpkg...
+2026-04-01 17:03:05 - DEBUG - Collecte Données socio-économiques carroyées (FiLoSoFi - INSEE) terminée en 27.70 sec.
+2026-04-01 17:03:05 - INFO -   -> [OK] 11199 carreaux sauvegardés avec succès.
+2026-04-01 17:03:05 - INFO - === COLLECTE TERMINÉE ===
+2026-04-01 17:03:51 - INFO - Sélection effacée. Prêt pour une nouvelle recherche.
+2026-04-01 17:03:59 - DEBUG - Centrage sur Fort-de-France. Téléchargement de la frontière exacte en cours...
+2026-04-01 17:04:02 - DEBUG - Contour HD reçu ! Ajustement de la carte en cours...
+2026-04-01 17:04:06 - INFO - Récupération de la géométrie haute précision pour Commune 97209...
+2026-04-01 17:04:07 - INFO - Géométrie précise récupérée et appliquée au filtre.
+2026-04-01 17:04:07 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 17:04:07 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 17:04:07 - DEBUG - Reprojection de la BBOX de sélection vers EPSG:4326...
+2026-04-01 17:04:07 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg...
+2026-04-01 17:04:07 - DEBUG - Couche détectée automatiquement : 'carreaux_200m_france_entiere'
+2026-04-01 17:04:14 - DEBUG - Filtrage spatial précis des carreaux FiLoSoFi...
+2026-04-01 17:04:14 - DEBUG - 0 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 17:04:14 - DEBUG - 0 carreaux FilosoFI trouvés.
+2026-04-01 17:04:14 - INFO - Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 17:04:14 - INFO -   -> [OK] Aucun carreau FilosoFI trouvé dans la sélection.
+2026-04-01 17:04:14 - INFO - === COLLECTE TERMINÉE ===
+2026-04-01 17:04:21 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
+2026-04-01 17:04:23 - INFO - Mode Rectangle activé : utilisation de l'emprise rectangulaire personnalisée (IGN ignoré).
+2026-04-01 17:04:23 - INFO - === DÉBUT DE LA COLLECTE (1 source(s)) ===
+2026-04-01 17:04:23 - INFO - 
+[SOURCE] Données socio-économiques carroyées (FiLoSoFi - INSEE)
+2026-04-01 17:04:23 - DEBUG - Reprojection de la BBOX de sélection vers EPSG:4326...
+2026-04-01 17:04:23 - DEBUG - Lecture filtrée du GeoPackage : P:\BiblioTechnique\MOBILITE\_Data\Filosofi - Carroyage INSEE 2019\carreaux_200m_france_entiere.gpkg...
+2026-04-01 17:04:23 - DEBUG - Couche détectée automatiquement : 'carreaux_200m_france_entiere'
+2026-04-01 17:04:25 - DEBUG - 3456 carreaux trouvés. Préparation de la sauvegarde...
+2026-04-01 17:04:25 - DEBUG - 3456 carreaux FilosoFI trouvés.
+2026-04-01 17:04:25 - DEBUG - Reprojection vers EPSG:2154...
+2026-04-01 17:04:25 - DEBUG - Sauvegarde de 3456 carreaux vers C:/Users/AGO/OneDrive - ingetec/Mobilité - Documents/5. Logiciels-Data/1. DevTech/25-000_Mobilité Data Collector/test_destination\SOCIO-ECO\filosofi.gpkg...
+2026-04-01 17:04:25 - DEBUG - Collecte Données socio-économiques carroyées (FiLoSoFi - INSEE) terminée en 2.25 sec.
+2026-04-01 17:04:25 - INFO -   -> [OK] 3456 carreaux sauvegardés avec succès.
+2026-04-01 17:04:25 - INFO - === COLLECTE TERMINÉE ===
+2026-04-02 11:16:33 - INFO - =========================================
+2026-04-02 11:16:33 - INFO - Démarrage de l'application...
+2026-04-02 11:16:33 - INFO - =========================================
+2026-04-02 11:16:39 - INFO - =========================================
+2026-04-02 11:16:39 - INFO - Démarrage de l'application...
+2026-04-02 11:16:39 - INFO - =========================================
+2026-04-02 11:16:45 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-02 11:16:48 - DEBUG - BD TOPO (IGN) : OK
+2026-04-02 11:16:48 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-02 11:16:48 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-02 11:16:48 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-02 11:16:50 - DEBUG - Cadastre (IGN) : OK
+2026-04-02 11:16:51 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-02 11:16:51 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-02 11:16:51 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-02 11:16:52 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-02 11:16:52 - INFO - Toutes les sources sont opérationnelles.
+2026-04-02 11:25:06 - INFO - =========================================
+2026-04-02 11:25:06 - INFO - Démarrage de l'application...
+2026-04-02 11:25:06 - INFO - =========================================
+2026-04-02 11:25:09 - ERROR - Fichier territoires_dico.json introuvable sur le réseau. Veuillez lancer une mise à jour. Erreur: [Errno 2] No such file or directory: 'assets/territoires_dico.json'
+2026-04-02 11:25:09 - INFO - Vérification de l'état des sources de données en cours...
+2026-04-02 11:25:11 - DEBUG - BD TOPO (IGN) : OK
+2026-04-02 11:25:11 - DEBUG - Aménagements cyclables (BNAC - data.gouv.fr) : OK
+2026-04-02 11:25:11 - DEBUG - Lieux de covoiturage (BNLC - data.gouv.fr) : OK
+2026-04-02 11:25:11 - DEBUG - Equipements (BPE - INSEE) : OK
+2026-04-02 11:25:12 - DEBUG - Cadastre (IGN) : OK
+2026-04-02 11:25:12 - DEBUG - Carte scolaire (data.gouv.fr) : OK
+2026-04-02 11:25:12 - DEBUG - Données socio-économiques carroyées (FiLoSoFi - INSEE) : OK
+2026-04-02 11:25:12 - DEBUG - Flux de Mobilité (INSEE) : OK
+2026-04-02 11:25:13 - DEBUG - Entreprises (SIRENE - INSEE) : OK
+2026-04-02 11:25:13 - INFO - Toutes les sources sont opérationnelles.
+2026-04-02 11:35:57 - DEBUG - Périmètre mis à jour. Vous pouvez lancer la collecte.
