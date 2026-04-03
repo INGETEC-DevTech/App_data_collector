@@ -84,7 +84,7 @@ class OverlaySearchWidget(QFrame):
         # Style spécifique pour le bouton Modifier (pour gérer l'icône, l'état coché et grisé)
         self.btn_modifier.setStyleSheet("""
             QPushButton {
-                background-color: #34495e; /* Couleur de base comme les autres */
+                background-color: #95a5a6; /* Couleur de base comme les autres */
                 border: 1px solid #2c3e50;
                 border-radius: 4px; /* On copie l'arrondi de 4px de la poubelle */
             }

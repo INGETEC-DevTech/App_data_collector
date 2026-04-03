@@ -99,25 +99,35 @@ var selectionContour = null;
             // via le bouton carré de la barre d'outil à gauche (s'il n'est pas caché).
             leafletMapInstance.on('draw:created', function(e) {
                 if (e.layerType === 'rectangle') {
-                    if (lastDrawnRectangle) { 
-                        try { 
-                            if(lastDrawnRectangle.editing) lastDrawnRectangle.editing.disable();
-                            leafletMapInstance.removeLayer(lastDrawnRectangle); 
-                        } catch(err){} 
+                    // On efface l'ancien rectangle si existant
+                    if (lastDrawnRectangle) {
+                        try {
+                            if (lastDrawnRectangle.editing) lastDrawnRectangle.editing.disable();
+                            leafletMapInstance.removeLayer(lastDrawnRectangle);
+                        } catch(err) {}
                     }
-                    leafletMapInstance.addLayer(e.layer);
-                    lastDrawnRectangle = e.layer;
                     
-                    // On attache l'écouteur à ce nouveau rectangle manuel
-                    lastDrawnRectangle.on('edit', function() {
-                        if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(lastDrawnRectangle.toGeoJSON())); }
-                    });
+                    // --- NOUVEAU : On efface aussi l'ancienne sélection précise (commune) ! ---
+                    if (window.selectionContour) {
+                        leafletMapInstance.removeLayer(window.selectionContour);
+                        window.selectionContour = null;
+                    }
+                    // --------------------------------------------------------------------------
 
+                    lastDrawnRectangle = e.layer;
+                    leafletMapInstance.addLayer(lastDrawnRectangle);
+                    
+                    // On active l'édition et on prévient Python
+                    lastDrawnRectangle.editing.enable();
+                    if (window.pyHandler && window.pyHandler.update_edit_button_state) { 
+                        window.pyHandler.update_edit_button_state(true); 
+                    }
                     if (window.pyHandler) { window.pyHandler.receive_bbox(JSON.stringify(e.layer.toGeoJSON())); }
                 }
             });
 
             // CLIC SUR LA CARTE POUR VALIDER
+            /*
             leafletMapInstance.on('click', function(e) {
                 // Si on a un rectangle et qu'il est en cours d'édition (les poignées sont visibles)
                 if (lastDrawnRectangle && lastDrawnRectangle.editing && lastDrawnRectangle.editing.enabled()) {
@@ -130,7 +140,7 @@ var selectionContour = null;
                     }
                 }
             });
-
+            */
             leafletMapInstance._draw_events_attached = true;
         }
     } 

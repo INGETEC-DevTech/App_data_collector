@@ -295,6 +295,8 @@ class MainWindow(QMainWindow):
 
         # 4. Si on a une géométrie en mémoire, on l'envoie à Leaflet pour la redessiner
         if self.selected_polygon_geometry:
+            if not is_precise:
+                self.dessin_automatique = True
             geojson_dict = geometry.mapping(self.selected_polygon_geometry)
             # On utilise le manager
             self.map_manager.run_js_draw(geojson_dict, is_precise, False)
@@ -397,6 +399,20 @@ class MainWindow(QMainWindow):
             logger.warning("Veuillez d'abord définir un périmètre.")
             return
         
+        # --- SÉCURITÉ ANTI-OUBLI (MODIFICATION)---
+        # Si le crayon est encore coché, l'utilisateur a oublié de valider sa modification
+        if self.search_overlay.btn_modifier.isChecked():
+            from PyQt6.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self,
+                "Modification en cours",
+                "Vous êtes actuellement en train de modifier la zone de sélection.\n\n"
+                "Veuillez valider votre modification avant de lancer la collecte.\n\n"
+                "(Icone de validation en vert dans la petite fenêtre en haut de carte)"
+            )
+            return  # On stoppe immédiatement la fonction, la collecte ne se lance pas.
+        # ------------------------------------------------------
+
         # On regarde quel mode est actif
         is_precise = self.search_overlay.btn_precise.isChecked()
         
@@ -688,20 +704,48 @@ class MainWindow(QMainWindow):
 
     def on_bbox_drawn_on_map(self, min_lng, min_lat, max_lng, max_lat):
         try:
+            # --- Nettoyage de la mémoire "Précise" ---
+            is_auto = getattr(self, 'dessin_automatique', False)
+            en_cours_de_modification = self.search_overlay.btn_modifier.isChecked()
+            if is_auto:
+                # C'est un clic sur le bouton radio : on baisse le drapeau et on protège la mémoire !
+                self.dessin_automatique = False
+
+            elif not en_cours_de_modification:
+                # On ne fait le ménage QUE si on n'est pas en train de modifier et que c'est un tracé à la souris manuel!
+                self.selected_polygon_geometry = None
+                if hasattr(self, 'polygon_for_collection'):
+                    self.polygon_for_collection = None
+                self.current_territory_code = None
+                
+                self.search_overlay.territory_select.blockSignals(True)
+                self.search_overlay.territory_select.setCurrentIndex(0)
+                self.search_overlay.territory_select.setCurrentText("")
+                self.search_overlay.territory_select.blockSignals(False)
+                
+                self.search_overlay.btn_precise.setEnabled(False)
+            # ---------------------------------------------------
+
+            # --- Reste de ton code (ne change pas) ---
             crs_cible, _ = determiner_contexte_spatial(longitude=min_lng)
             self.crs_edit.setText(crs_cible) # Mise à jour cruciale
 
             target_crs = self.crs_edit.text()
             if not target_crs: logger.error("Erreur: CRS non défini pour la reprojection."); return
             bounds = gpd.GeoDataFrame([{'geometry':box(min_lng, min_lat, max_lng, max_lat)}], crs="EPSG:4326").to_crs(target_crs).total_bounds
-            self.min_x_edit.setText(f"{bounds[0]:.2f}"); self.min_y_edit.setText(f"{bounds[1]:.2f}"); self.max_x_edit.setText(f"{bounds[2]:.2f}"); self.max_y_edit.setText(f"{bounds[3]:.2f}")
+            
+            self.min_x_edit.setText(f"{bounds[0]:.2f}")
+            self.min_y_edit.setText(f"{bounds[1]:.2f}")
+            self.max_x_edit.setText(f"{bounds[2]:.2f}")
+            self.max_y_edit.setText(f"{bounds[3]:.2f}")
             self.perimeter_is_defined = True
 
             self.search_overlay.btn_rectangle.setChecked(True)
             self.search_overlay.btn_modifier.setEnabled(True)
 
             logger.debug("Périmètre mis à jour. Vous pouvez lancer la collecte.") 
-        except Exception as e: logger.error(f"Erreur reprojection BBOX: {e}")
+        except Exception as e: 
+            logger.error(f"Erreur reprojection BBOX: {e}")
 
     def _load_geojson_assets(self, filename):
         path = os.path.join(BASE_DIR, "assets", filename)
