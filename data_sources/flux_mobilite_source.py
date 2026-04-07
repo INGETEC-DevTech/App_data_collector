@@ -16,7 +16,7 @@ project_root = os.path.abspath(os.path.join(current_dir, '..'))
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
 from .base_source import SourceDeDonneesBase
-from logger_config import logger
+from core.logger_config import logger
 
 class FluxMobiliteSource(SourceDeDonneesBase):
     def __init__(self, config: dict):

@@ -4,7 +4,7 @@ import geopandas as gpd
 import pandas as pd
 from data_sources.base_source import SourceDeDonneesBase
 from pyproj import Transformer
-from logger_config import logger
+from core.logger_config import logger
 
 class CarteScolaireSource(SourceDeDonneesBase):
     def __init__(self, config: dict):

@@ -10,24 +10,24 @@ from PyQt6.QtGui import QIcon, QFontMetrics
 from PyQt6.QtWebEngineWidgets import QWebEngineView
 from datetime import datetime
 from shapely import geometry
-from map_handler import MapManager, FOLIUM_AVAILABLE
+from gui.map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
-from workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker, IgnFetcherWorker
-from utils import CompleterIntelligent, recuperer_geometrie_precise_ign, determiner_contexte_spatial
+from gui.workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker, IgnFetcherWorker
+from core.utils import CompleterIntelligent, recuperer_geometrie_precise_ign, determiner_contexte_spatial
 
-from gui_module import (OverlaySearchWidget, SourceListItemWidget, 
+from gui.gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
                         UpdateCenterDialog)
 import logging
-from logger_config import logger, log_emitter
+from core.logger_config import logger, log_emitter
 import pyproj
 from shapely.ops import transform
 import geopandas as gpd
 from shapely.geometry import box
 
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))     
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class MainWindow(QMainWindow):
     def __init__(self, loaded_data_sources: list[SourceDeDonneesBase], default_export_path: str | None = None):

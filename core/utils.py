@@ -4,7 +4,7 @@ from PyQt6.QtWidgets import QCompleter
 
 import requests
 import geopandas
-from logger_config import logger
+from core.logger_config import logger
 
 def nettoyer_texte(texte):
     if not texte: return ""

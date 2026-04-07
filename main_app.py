@@ -8,8 +8,8 @@ import re
 from PyQt6.QtWidgets import QApplication
 from PyQt6.QtGui import QFontDatabase
 
-import config
-from logger_config import logger
+import core.config as config
+from core.logger_config import logger
 
 logger.info("=========================================")
 logger.info("Démarrage de l'application...")
@@ -18,7 +18,7 @@ logger.info("=========================================")
 os.environ['QTWEBENGINE_REMOTE_DEBUGGING'] = '9223'
 
 from data_sources.base_source import SourceDeDonneesBase
-from main_window import MainWindow
+from gui.main_window import MainWindow
 
 def resource_path(relative_path):
     """ Retourne le chemin absolu vers la ressource, compatible PyInstaller """
@@ -76,7 +76,7 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
 
     BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-    style_path = os.path.join(BASE_DIR, "style.qss")
+    style_path = os.path.join(BASE_DIR, "assets/style.qss")
 
     # --- CHARGEMENT DE LA POLICE ---
     fonts_dir = os.path.join(BASE_DIR, "fonts")

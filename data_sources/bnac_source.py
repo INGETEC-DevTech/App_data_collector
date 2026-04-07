@@ -4,7 +4,7 @@ import os
 import geopandas as gpd
 from data_sources.base_source import SourceDeDonneesBase
 from pyproj import Transformer # Import indispensable pour la transformation de coordonnées
-from logger_config import logger
+from core.logger_config import logger
 
 class BnacSource(SourceDeDonneesBase):
     def __init__(self, config: dict):

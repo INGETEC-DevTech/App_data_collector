@@ -3,10 +3,10 @@
 import os, time, requests, geopandas as gpd, xml.etree.ElementTree as ET
 import pandas as pd
 from .base_source import SourceDeDonneesBase
-from logger_config import logger
+from core.logger_config import logger
 
 try:
-    from .enrichment_pm import enrich_parcels_with_pm_data
+    from .cadastre_enrichment_pm import enrich_parcels_with_pm_data
     ENRICHMENT_PM_AVAILABLE = True
 except ImportError:
     ENRICHMENT_PM_AVAILABLE = False

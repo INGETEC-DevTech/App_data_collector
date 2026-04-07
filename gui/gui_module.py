@@ -6,7 +6,8 @@ from PyQt6.QtWidgets import (QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QDi
                              QDialogButtonBox, QCheckBox, QScrollArea, QLabel, 
                              QComboBox, QFrame, QButtonGroup)
 from PyQt6.QtGui import QIcon
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 class OverlaySearchWidget(QFrame):
     """Petit panneau de recherche flottant au-dessus de la carte."""

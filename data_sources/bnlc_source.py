@@ -7,7 +7,7 @@ import pandas as pd
 import geopandas as gpd
 from pyproj import Transformer
 from data_sources.base_source import SourceDeDonneesBase
-from logger_config import logger
+from core.logger_config import logger
 
 class BnlcSource(SourceDeDonneesBase):
     def __init__(self, config: dict):

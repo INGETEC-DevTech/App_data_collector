@@ -1,7 +1,7 @@
 import os
 import pandas as pd
 import geopandas as gpd
-from logger_config import logger
+from core.logger_config import logger
 
 # --- DOSSIERS CIBLES SUR LE LECTEUR P:/ ---
 CARTE_SCOLAIRE_DIR = r"P:\BiblioTechnique\MOBILITE\_Data\Carte Scolaire"

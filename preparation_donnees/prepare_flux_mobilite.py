@@ -1,6 +1,6 @@
 import os
 import pandas as pd
-from logger_config import logger
+from core.logger_config import logger
 
 def appliquer_regles_metier(fichier_brut, fichier_fusions, fichier_epci, path_sortie, colonnes_a_renommer):
     """
