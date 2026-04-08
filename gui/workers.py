@@ -4,8 +4,10 @@ import shutil
 import sys
 import requests
 from core.logger_config import logger
+from core.utils import get_resource_path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = get_resource_path("")
 
 class CollectorWorker(QThread):
     step_progress_signal = pyqtSignal(int, int)

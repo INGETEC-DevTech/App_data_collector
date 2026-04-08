@@ -1,7 +1,8 @@
 import unicodedata
 from PyQt6.QtCore import QStringListModel
 from PyQt6.QtWidgets import QCompleter
-
+import sys
+import os
 import requests
 import geopandas
 from core.logger_config import logger
@@ -101,3 +102,14 @@ def determiner_contexte_spatial(code_insee=None, longitude=None) -> tuple[str, s
         else: return "EPSG:2154", "metropole"
         
     return "EPSG:2154", "metropole" # Fallback par défaut
+
+def get_resource_path(relative_path):
+    """ Gestion des chemins compatible avec le mode développement et l'exécutable """
+    if getattr(sys, 'frozen', False):
+        # Mode Exécutable : les fichiers sont dans le dossier _internal ou _MEIPASS
+        base_path = os.path.join(os.path.dirname(sys.executable), "_internal")
+    else:
+        # Mode Développement : on remonte à la racine du projet
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
+    
+    return os.path.join(base_path, relative_path)

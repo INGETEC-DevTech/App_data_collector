@@ -23,21 +23,25 @@ my_datas = [
     ('icons', 'icons'), 
     ('fonts', 'fonts'), 
     ('assets', 'assets'), 
-    ('data_sources', 'data_sources'), 
-    ('style.qss', '.')
+    ('data_sources', 'data_sources'),
+    ('preparation_donnees', 'preparation_donnees')
 ]
 datas += my_datas
 
 # Vos imports dynamiques et plugins cachés
 my_hiddenimports = [
     'data_sources.bd_topo_source',
-    'data_sources.cadastre_source',
     'data_sources.bnac_source',
-    'data_sources.filosofi_source',
-    'data_sources.sirene_source',
     'data_sources.bnlc_source',
     'data_sources.bpe_source',
-    # Dépendances système critiques
+    'data_sources.cadastre_enrichment_pm',
+    'data_sources.cadastre_source',
+    'data_sources.carte_scolaire_source',
+    'data_sources.filosofi_source',
+    'data_sources.flux_mobilite_source',
+    'data_sources.sirene_source',
+    
+    # Dépendances système critiques (déjà présentes mais conservées)
     'fiona.schema', 'fiona.crs', 'shapely', 'shapely.geometry', 'pyarrow.vendors'
 ]
 hiddenimports += my_hiddenimports

@@ -34,5 +34,6 @@ MOBILITE/
 
 # Les logs
 app.log
+.log
 
 test.py

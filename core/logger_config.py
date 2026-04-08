@@ -54,8 +54,17 @@ def setup_logger():
     ui_formatter = logging.Formatter('%(message)s')
 
     # --- CANAL 1 : FICHIER CACHÉ (app.log) ---
-    # Parfait pour le débogage. Il contiendra TOUT, même les DEBUG.
-    log_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'app.log')
+    # Détection intelligente du dossier racine (compatible PyInstaller)
+    if getattr(sys, 'frozen', False):
+        # Si le programme est compilé en .exe
+        base_dir = os.path.dirname(sys.executable)
+    else:
+        # Si le programme tourne en script Python classique (dev)
+        # On remonte d'un dossier (de 'core' vers la racine du projet)
+        base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    
+    # On place app.log à la racine du projet ou à côté du .exe
+    log_file = os.path.join(base_dir, 'app.log')
     file_handler = logging.FileHandler(log_file, encoding='utf-8')
     file_handler.setLevel(logging.DEBUG)
     file_handler.setFormatter(detailed_formatter)

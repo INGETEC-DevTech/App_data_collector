@@ -14,7 +14,7 @@ from gui.map_handler import MapManager, FOLIUM_AVAILABLE
 
 from data_sources.base_source import SourceDeDonneesBase
 from gui.workers import SourceValidatorWorker, CollectorWorker, UpdaterWorker, IgnFetcherWorker
-from core.utils import CompleterIntelligent, recuperer_geometrie_precise_ign, determiner_contexte_spatial
+from core.utils import CompleterIntelligent, recuperer_geometrie_precise_ign, determiner_contexte_spatial, get_resource_path
 
 from gui.gui_module import (OverlaySearchWidget, SourceListItemWidget, 
                         LayerSelectionDialog, GenericOptionsDialog,
@@ -123,7 +123,7 @@ class MainWindow(QMainWindow):
         export_layout = QHBoxLayout()
         export_title = QLabel("Dossier d'Exportation"); export_title.setObjectName("titleLabel")
         self.export_dir_button = QPushButton()
-        self.export_dir_button.setIcon(QIcon(os.path.join(BASE_DIR, 'icons', 'folder.svg')))
+        self.export_dir_button.setIcon(QIcon(get_resource_path("icons/folder.svg")))
         self.export_dir_button.clicked.connect(self.select_export_directory)
         export_layout.addWidget(export_title); export_layout.addStretch(); export_layout.addWidget(self.export_dir_button)
         top_layout.addLayout(export_layout)
@@ -139,7 +139,7 @@ class MainWindow(QMainWindow):
         # 1. Le bouton Lancer
         self.collect_button = QPushButton(" LANCER LA COLLECTE")
         self.collect_button.setObjectName("launchButton")
-        self.collect_button.setIcon(QIcon(os.path.join(BASE_DIR, 'icons', 'play.svg')))
+        self.collect_button.setIcon(QIcon(get_resource_path("icons/play.svg")))
         self.collect_button.clicked.connect(self.lancer_collecte_multiple)
         action_buttons_layout.addWidget(self.collect_button) # On l'ajoute à la ligne
         
@@ -202,7 +202,7 @@ class MainWindow(QMainWindow):
             self.map_manager.handler.edition_finished.connect(self.on_edition_finished_from_map)
             
             # On charge la logique JS quand la page est prête
-            js_path = os.path.join(BASE_DIR, 'assets', 'map_logic.js')
+            js_path = get_resource_path("assets/map_logic.js")
             self.map_view.loadFinished.connect(lambda: self.map_manager.load_js_logic(js_path))
             
             # Installation de l'Overlay
@@ -234,7 +234,8 @@ class MainWindow(QMainWindow):
 
         # Chargement des noms des communes/epci
         try:
-            with open("assets/territoires_dico.json", "r", encoding="utf-8") as f:
+            json_path = get_resource_path("assets/territoires_dico.json")
+            with open(json_path, "r", encoding="utf-8") as f:
                 self.territoires_data = json.load(f)
         except Exception as e:
             logger.error(f"Fichier territoires_dico.json introuvable sur le réseau. Veuillez lancer une mise à jour. Erreur: {e}")
@@ -422,7 +423,7 @@ class MainWindow(QMainWindow):
             if is_precise:
                 # --- MODE PRÉCIS ---
                 tipo = self.search_overlay.type_select.currentText()
-                logger.info(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
+                logger.debug(f"Récupération de la géométrie haute précision pour {tipo} {self.current_territory_code}...")
                 
                 # On détermine le CRS cible
                 crs_cible, _ = determiner_contexte_spatial(code_insee=self.current_territory_code)
@@ -433,7 +434,7 @@ class MainWindow(QMainWindow):
                 if geom_precise:
                     # NOUVEAU : On stocke dans une variable dédiée à la collecte !
                     self.polygon_for_collection = geom_precise 
-                    logger.info("Géométrie précise récupérée et appliquée au filtre.")
+                    logger.debug("Géométrie précise récupérée et appliquée au filtre.")
                 else:
                     logger.warning("Échec récupération précise. Utilisation du contour simplifié.")
                     # NOUVEAU : Copie de secours si l'IGN plante
@@ -699,7 +700,7 @@ class MainWindow(QMainWindow):
             return
 
         # On définit le chemin et on demande au manager de charger le fichier
-        js_path = os.path.join(BASE_DIR, 'assets', 'map_logic.js')
+        js_path = get_resource_path("assets/map_logic.js")
         self.map_manager.load_js_logic(js_path)
 
     def on_bbox_drawn_on_map(self, min_lng, min_lat, max_lng, max_lat):
@@ -746,16 +747,6 @@ class MainWindow(QMainWindow):
             logger.debug("Périmètre mis à jour. Vous pouvez lancer la collecte.") 
         except Exception as e: 
             logger.error(f"Erreur reprojection BBOX: {e}")
-
-    def _load_geojson_assets(self, filename):
-        path = os.path.join(BASE_DIR, "assets", filename)
-        if os.path.exists(path):
-            try:
-                with open(path, 'r', encoding='utf-8') as f:
-                    return json.load(f)
-            except Exception as e:
-                logger.error(f"Erreur de chargement de l'asset {filename}: {e}")
-        return None
 
     def _on_admin_type_changed(self, text):
         combo = self.search_overlay.territory_select
@@ -879,10 +870,10 @@ class MainWindow(QMainWindow):
             
         # Animation du bouton : Crayon (Gris) <-> Coche (Vert)
         if checked:
-            self.search_overlay.btn_modifier.setIcon(QIcon("icons/check.svg"))
+            self.search_overlay.btn_modifier.setIcon(QIcon(get_resource_path("icons/check.svg")))
             self.search_overlay.btn_modifier.setToolTip("Valider les modifications")
         else:
-            self.search_overlay.btn_modifier.setIcon(QIcon("icons/edit.svg"))
+            self.search_overlay.btn_modifier.setIcon(QIcon(get_resource_path("icons/edit.svg")))
             self.search_overlay.btn_modifier.setToolTip("Modifier la sélection")
 
     def on_edition_finished_from_map(self):

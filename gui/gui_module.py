@@ -6,8 +6,10 @@ from PyQt6.QtWidgets import (QPushButton, QVBoxLayout, QHBoxLayout, QWidget, QDi
                              QDialogButtonBox, QCheckBox, QScrollArea, QLabel, 
                              QComboBox, QFrame, QButtonGroup)
 from PyQt6.QtGui import QIcon
+from core.utils import get_resource_path
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+BASE_DIR = get_resource_path("")
 
 class OverlaySearchWidget(QFrame):
     """Petit panneau de recherche flottant au-dessus de la carte."""
@@ -76,7 +78,7 @@ class OverlaySearchWidget(QFrame):
 
         # Bouton : Modifier
         self.btn_modifier = QPushButton()
-        self.btn_modifier.setIcon(QIcon("icons/edit.svg"))
+        self.btn_modifier.setIcon(QIcon(os.path.join(BASE_DIR, "icons", "edit.svg")))
         self.btn_modifier.setCheckable(True)
         self.btn_modifier.setEnabled(False) # Désactivé par défaut (pas de rectangle au départ)
         self.btn_modifier.setFixedSize(30, 30)
@@ -104,7 +106,7 @@ class OverlaySearchWidget(QFrame):
 
         # Bouton "Poubelle"
         self.btn_effacer = QPushButton()
-        self.btn_effacer.setIcon(QIcon("icons/trash-can.svg"))
+        self.btn_effacer.setIcon(QIcon(os.path.join(BASE_DIR, "icons", "trash-can.svg")))
         self.btn_effacer.setToolTip("Effacer la sélection")
         self.btn_effacer.setFixedSize(30, 30) # Toujours un petit carré
         self.btn_effacer.setStyleSheet("""
